@@ -29,7 +29,7 @@ export const BottomNav = ({ className }: BottomNavProps) => {
   return (
     <nav className={cn(
       "h-14 bg-white border-t border-gray-200",
-      "md:hidden fixed bottom-0 left-0 right-0 px-10",
+      "md:hidden fixed bottom-0 left-0 right-0 px-10 ",
       className
     )}>
       <div className={cn(

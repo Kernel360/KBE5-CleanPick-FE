@@ -8,7 +8,7 @@ const Layout = () => {
     return (
         <div>
             <Outlet />
-            <BottomNav />
+            <BottomNav className="mt-[500px]" />
         </div>
     )
 }

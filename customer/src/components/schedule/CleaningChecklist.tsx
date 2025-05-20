@@ -1,0 +1,74 @@
+import React from 'react';
+
+interface ChecklistProps {
+  selectedItems: string[];
+  onToggleItem: (id: string) => void;
+}
+
+const checklistItems = [
+  { id: 'basic', label: '일반 청소 (전자제거, 바닥 청소)' },
+  { id: 'special', label: '특실 청소' },
+  { id: 'window', label: '주방 청소' },
+  { id: 'bathroom', label: '창문 청소' },
+  { id: 'kitchen', label: '가구 내부 청소' },
+];
+
+export const CleaningChecklist = ({ selectedItems, onToggleItem }: ChecklistProps) => {
+  return (
+    <div className="px-4 mt-6">
+      <h2 className="text-lg font-bold mb-4">청소 요구사항</h2>
+      <div className="space-y-3">
+        {checklistItems.map((item) => (
+          <label
+            key={item.id}
+            className="relative flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer group"
+          >
+            <div className="relative w-5 h-5">
+              <input
+                type="checkbox"
+                id={item.id}
+                checked={selectedItems.includes(item.id)}
+                onChange={() => onToggleItem(item.id)}
+                className="peer appearance-none w-5 h-5 border-2 border-primary rounded transition-colors cursor-pointer hover:border-primary/70"
+              />
+              <svg 
+                className="absolute inset-0 w-5 h-5 pointer-events-none opacity-0 peer-checked:opacity-100 text-primary transition-opacity"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path 
+                  d="M5.5 10L8.5 13L14.5 7"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <span className="text-sm text-gray-700 group-hover:text-gray-900">{item.label}</span>
+          </label>
+        ))}
+      </div>
+
+      <div className="mt-6">
+        <h3 className="text-sm font-medium mb-2">추가 요청사항</h3>
+        <textarea
+          placeholder="특별히 신경써야 할 부분이나 요청사항을 적어주세요..."
+          className="w-full h-24 p-3 border border-gray-200 rounded-lg resize-none text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+        />
+      </div>
+
+      <div className="mt-6  bg-gray-50 p-4 rounded-lg ">
+        <div className="flex justify-between items-center text-sm mt-2">
+          <span>예상 소요시간</span>
+          <span className="font-medium">4시간 30분</span>
+        </div>
+        <div className="flex justify-between items-center text-sm">
+          <span>예상 견적</span>
+          <span className="font-medium">100,000,000 원</span>
+        </div>
+      </div>
+    </div>
+  );
+}; 
