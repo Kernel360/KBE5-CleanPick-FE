@@ -8,6 +8,7 @@ export default {
       colors: {
         primary: {
           DEFAULT: '#4F46E5',
+          sub: '#6366F1',
         }
       }
     },
