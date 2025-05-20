@@ -3,6 +3,26 @@
 @tailwind utilities;
 
 @layer base {
+    :root {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    body {
+        height: 100%;
+        overflow-y: auto;
+        overscroll-behavior-y: none;
+        -webkit-overflow-scrolling: touch;
+        position: relative;
+    }
+
+    #root {
+        height: 100%;
+        overflow-y: auto;
+        overscroll-behavior-y: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
     li {
         @apply px-4;
     }
@@ -19,5 +39,10 @@
     }
     .scrollbar-hide::-webkit-scrollbar {
         display: none;
+    }
+
+    .no-bounce {
+        overscroll-behavior-y: none;
+        -webkit-overflow-scrolling: auto;
     }
 }

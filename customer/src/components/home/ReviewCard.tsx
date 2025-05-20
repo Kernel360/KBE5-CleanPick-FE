@@ -11,7 +11,7 @@ interface ReviewCardProps {
 
 export const ReviewCard = ({ user, date, content, rating }: ReviewCardProps) => {
   return (
-    <Card className="bg-gray-100 border-none">
+    <Card className="bg-gray-100 border-none mb-5">
       <CardContent className="p-4">
         <div className="flex justify-between items-center">
           <div className="text-xs font-bold">{user}</div>

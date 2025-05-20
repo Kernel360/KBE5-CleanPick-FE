@@ -13,6 +13,7 @@ const serviceList = [
   { icon: <TbAirConditioning className="text-primary" />, label: '에어컨 청소' },
   { icon: <GiCookingPot className="text-primary" />, label: '후드 청소' },
   { icon: <LuRefrigerator className="text-primary" />, label: '냉장고 청소' },
+  
 ];
 
 export const ServiceSection = () => {
@@ -64,7 +65,7 @@ export const ServiceSection = () => {
         {serviceList.map((service) => (
           <div 
             key={service.label} 
-            className="snap-center shrink-0"
+            className="snap-center shrink-0 "
             onDragStart={(e) => e.preventDefault()}
           >
             <ServiceCard {...service} />
