@@ -12,7 +12,8 @@ interface ManagerCardProps {
 export const ManagerCard = ({ name, initial, rating, service }: ManagerCardProps) => {
   return (
     <Card className={cn(
-      "flex-1 bg-gray-100 border-none",
+      "bg-gray-100 border-none",
+      "w-[110px] md:w-[220px]",
       "hover:bg-gray-200 transition-colors cursor-pointer"
     )}>
       <CardContent className={cn(

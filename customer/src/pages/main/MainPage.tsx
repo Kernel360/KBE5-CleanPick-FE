@@ -4,7 +4,7 @@ import { Banner } from '@/components/home/Banner';
 import { ServiceSection } from '@/components/home/ServiceSection';
 import { ManagerSection } from '@/components/home/ManagerSection';
 import { ReviewSection } from '@/components/home/ReviewSection';
-import { BottomNav } from '@/components/layout/BottomNav';
+
 
 const MainPage = () => {
   return (
@@ -17,7 +17,6 @@ const MainPage = () => {
       <ServiceSection />
       <ManagerSection />
       <ReviewSection />
-      <BottomNav />
     </div>
   );
 } 

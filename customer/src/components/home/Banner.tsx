@@ -8,7 +8,7 @@ export const Banner = () => {
 
   return (
     <div className={cn(
-      "bg-primary-sub text-white p-6",
+      "bg-primary-sub text-white p-6 mt-14",
       "flex flex-col items-start",
       "w-full",
       "rounded-b-xl"

@@ -8,30 +8,33 @@ interface NavItemProps {
   isActive?: boolean;
 }
 
-const NavItem = ({ icon, label, isActive }: NavItemProps) => {
+interface BottomNavProps {
+  className?: string;
+}
+
+const NavItem = ({ icon, label, isActive = false }: NavItemProps) => {
   return (
     <div className={cn(
-      "flex flex-col items-center text-xs",
-      isActive ? "text-indigo-600" : "text-gray-500",
-      "cursor-pointer transition-colors",
-      "flex-1"
+      "flex flex-col items-center",
+      "text-gray-500",
+      isActive && "text-primary"
     )}>
       {icon}
-      <div className="mt-0.5">{label}</div>
+      <span className="text-xs mt-1">{label}</span>
     </div>
   );
 };
 
-export const BottomNav = () => {
+export const BottomNav = ({ className }: BottomNavProps) => {
   return (
-    <div className={cn(
-      "fixed left-0 right-0 bottom-0 w-full",
-      "bg-white border-t border-gray-200",
-      "flex items-center h-14 z-10",
-      "px-4 md:px-8"
+    <nav className={cn(
+      "h-14 bg-white border-t border-gray-200",
+      "md:hidden fixed bottom-0 left-0 right-0 px-10",
+      className
     )}>
       <div className={cn(
-        "flex justify-between items-center w-full",
+        "flex justify-between items-center h-full",
+        "px-4 md:px-8",
         "max-w-7xl mx-auto"
       )}>
         <NavItem icon={<FaHome size={20} />} label="홈" isActive />
@@ -39,6 +42,6 @@ export const BottomNav = () => {
         <NavItem icon={<FaUserFriends size={20} />} label="매니저" />
         <NavItem icon={<FaRegUser size={20} />} label="내정보" />
       </div>
-    </div>
+    </nav>
   );
 }; 
