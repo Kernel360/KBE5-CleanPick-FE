@@ -13,12 +13,12 @@ const FindRequest = () => {
   const renderContent = () => {
     switch (activeTab) {
       case '신규 요청':
-        return <NewRequestSection />;
+        return <NewRequestSection  Section />;
       case '신청 요청':
         return <AppliedRequestSection />;
       case '수락된 요청':
         return <AcceptedRequestSection />;
-      case '완료됨':
+      case '완료된 요청':
         return <CompletedRequestSection />;
       default:
         return null;
@@ -32,7 +32,7 @@ const FindRequest = () => {
         <RequestTabs
           activeTab={activeTab}
           setActiveTab={setActiveTab}
-          tabs={['신규 요청', '신청 요청', '수락된 요청', '완료됨']}
+          tabs={['신규 요청', '신청 요청', '수락된 요청', '완료된 요청']}
         />
         {renderContent()}
       </main>

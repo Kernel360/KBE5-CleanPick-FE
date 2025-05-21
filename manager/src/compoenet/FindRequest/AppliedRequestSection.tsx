@@ -18,7 +18,6 @@ const AppliedRequestSection = () => {
         setFilter={setFilter}
         filters={['전체', '가정집 청소', '사무실 청소']}
         title="신청 요청"
-        showBack={true}
       />
       <div className="px-4 pt-4 flex flex-col gap-4">
         {filtered.length > 0 ? (

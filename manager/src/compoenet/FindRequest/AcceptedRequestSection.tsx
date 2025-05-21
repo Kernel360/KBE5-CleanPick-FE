@@ -5,10 +5,10 @@ import AcceptedRequestCard from './AcceptedRequestCard';
 
 const AcceptedRequestSection = () => {
   const [filter, setFilter] = useState('전체');
-  const { requests, handleToggleStatus } = useAcceptedRequests();
+  const { acceptedRequests, handleToggleStatus } = useAcceptedRequests();
 
-  const filtered = requests.filter((r) =>
-    filter === '전체' ? true : r.title === filter
+  const filtered = acceptedRequests.filter((r) =>
+    filter === '전체' ? true : r.title.includes(filter)
   );
 
   return (
@@ -17,7 +17,7 @@ const AcceptedRequestSection = () => {
         currentFilter={filter}
         setFilter={setFilter}
         filters={['전체', '가정집 청소', '사무실 청소']}
-        title="요청"
+        title="수락한 요청"
       />
       <div className="px-4 pt-4 flex flex-col gap-4">
         {filtered.length > 0 ? (
@@ -26,6 +26,7 @@ const AcceptedRequestSection = () => {
               key={req.id}
               request={req}
               onToggle={handleToggleStatus}
+              isCompleted={false}
             />
           ))
         ) : (

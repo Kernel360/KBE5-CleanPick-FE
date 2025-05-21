@@ -31,7 +31,7 @@ const NewRequestSection = () => {
         currentFilter={filter}
         setFilter={setFilter}
         filters={['전체', '직접요청', '랜덤매칭(정기)', '랜덤매칭(1회)']}
-        title="요청"
+        title="신규 요청"
       />
 
       <div className="px-4 pt-4 flex flex-col gap-4">

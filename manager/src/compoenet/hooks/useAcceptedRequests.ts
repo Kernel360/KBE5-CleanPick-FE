@@ -2,14 +2,14 @@ import { useState } from 'react';
 
 export type AcceptedRequest = {
   id: number;
-  title: '가정집 청소' | '사무실 청소';
+  title: string;
   date: string;
   address: string;
   customer: string;
   rating: number;
   duration: string;
   income: number;
-  status: '체크인전' | '체크인됨' | '완료됨';
+  status: '체크인 대기' | '체크아웃 대기' | '완료';
 };
 
 export const useAcceptedRequests = () => {
@@ -23,7 +23,7 @@ export const useAcceptedRequests = () => {
       rating: 4.8,
       duration: '2시간',
       income: 150000,
-      status: '체크인됨', // 빨간 버튼
+      status: '체크아웃 대기',
     },
     {
       id: 2,
@@ -34,7 +34,7 @@ export const useAcceptedRequests = () => {
       rating: 4.5,
       duration: '3시간',
       income: 250000,
-      status: '체크인전', // 파란 버튼
+      status: '체크인 대기',
     },
     {
       id: 3,
@@ -45,29 +45,45 @@ export const useAcceptedRequests = () => {
       rating: 5.0,
       duration: '2시간',
       income: 200000,
-      status: '체크인전',
+      status: '완료',
+    },
+    {
+      id: 4,
+      title: '에어컨 청소',
+      date: '6월 10일, 오전 10:00 - 12:00',
+      address: '비엔티안 시내, 123번지',
+      customer: '최유진',
+      rating: 4.2,
+      duration: '2시간',
+      income: 180000,
+      status: '완료',
+    },
+    {
+      id: 5,
+      title: '사무실 청소',
+      date: '6월 18일, 오후 4:00 - 6:00',
+      address: '비엔티안 남구, 654번지',
+      customer: '정현우',
+      rating: 4.6,
+      duration: '2시간',
+      income: 220000,
+      status: '체크인 대기',
     },
   ]);
 
   const handleToggleStatus = (id: number) => {
     setRequests((prev) =>
-      prev.map((req) =>
-        req.id === id
-          ? {
-              ...req,
-              status:
-                req.status === '체크인전'
-                  ? '체크인됨'
-                  : req.status === '체크인됨'
-                  ? '완료됨'
-                  : req.status,
-            }
-          : req
-      )
+      prev.map((r) => {
+        if (r.id !== id) return r;
+        if (r.status === '체크인 대기') return { ...r, status: '체크아웃 대기' };
+        if (r.status === '체크아웃 대기') return { ...r, status: '완료' };
+        return r;
+      })
     );
   };
 
-  const filtered = requests.filter((r) => r.status !== '완료됨');
+  const acceptedRequests = requests.filter((r) => r.status !== '완료');
+  const completedRequests = requests.filter((r) => r.status === '완료');
 
-  return { requests: filtered, handleToggleStatus };
+  return { requests, acceptedRequests, completedRequests, handleToggleStatus };
 };
