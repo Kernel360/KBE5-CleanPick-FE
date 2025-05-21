@@ -7,32 +7,43 @@ const NewRequestSection = () => {
   const [filter, setFilter] = useState('전체');
   const { requests, handleApply } = useNewRequests();
 
-  const filtered = requests.filter((item: any) =>
-    filter === '전체' ? true : item.matchType === filter
-  );
+  const filtered = requests.filter((item) => {
+    const isWaiting = item.status === '대기전';
+    if (!isWaiting) return false;
 
-  const getCardColor = (request: any) => {
-    if (request.matchType === '1:1') return 'bg-orange-400';
-    if (request.matchType === '신규' && request.isRecurring)
-      return 'bg-green-500';
-    return 'bg-gray-100';
-  };
+    switch (filter) {
+      case '전체':
+        return true;
+      case '직접요청':
+        return item.matchType === '1:1';
+      case '랜덤매칭(정기)':
+        return item.matchType === '신규' && item.isRecurring === true;
+      case '랜덤매칭(1회)':
+        return item.matchType === '신규' && item.isRecurring === false;
+      default:
+        return false;
+    }
+  });
 
   return (
     <div>
       <FilterTabs
         currentFilter={filter}
         setFilter={setFilter}
-        filters={['전체', '1:1', '신규']}
-        title="신규 요청"
-        showBack={true}
+        filters={['전체', '직접요청', '랜덤매칭(정기)', '랜덤매칭(1회)']}
+        title="요청"
       />
 
       <div className="px-4 pt-4 flex flex-col gap-4">
-        {filtered.map((req: any) => (
-          <RequestCard key={req.id} request={req} onApply={handleApply} />
-        ))}
-
+        {filtered.length > 0 ? (
+          filtered.map((req) => (
+            <RequestCard key={req.id} request={req} onApply={handleApply} />
+          ))
+        ) : (
+          <div className="text-gray-500 text-sm text-center mt-8">
+            표시할 요청이 없습니다.
+          </div>
+        )}
       </div>
     </div>
   );
