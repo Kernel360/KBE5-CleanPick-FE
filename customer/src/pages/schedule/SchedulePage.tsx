@@ -9,15 +9,18 @@ export const SchedulePage = () => {
     const navigate = useNavigate();
     const [currentPhase, setCurrentPhase] = useState(1);
     
-    // 서비스 선택 단계 상태
+    // 서비스 선택 단계 상태 (Phase 1)
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [totalTime, setTotalTime] = useState(0);
     const [selectedServiceType, setSelectedServiceType] = useState('');
     const [selectedItems, setSelectedItems] = useState<string[]>([]);
     
     // 일정 선택 단계 상태 (Phase 2)
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-    const [selectedTime, setSelectedTime] = useState('');
+    const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+    const [selectedHour, setSelectedHour] = useState<string>('');
+    const [selectedMinute, setSelectedMinute] = useState<string>('');
     const [location, setLocation] = useState('');
-    
+    const [detailAddress, setDetailAddress] = useState('');
     // 결제 단계 상태 (Phase 3)
     const [paymentMethod, setPaymentMethod] = useState('');
 
@@ -54,6 +57,10 @@ export const SchedulePage = () => {
                         onServiceTypeSelect={setSelectedServiceType}
                         selectedItems={selectedItems}
                         onToggleItem={handleToggleItem}
+                        totalPrice={totalPrice}
+                        setTotalPrice={setTotalPrice}
+                        totalTime={totalTime}
+                        setTotalTime={setTotalTime}
                     />
                 );
             case 2:
@@ -61,10 +68,14 @@ export const SchedulePage = () => {
                     <SchedulePhase
                         selectedDate={selectedDate}
                         onDateSelect={setSelectedDate}
-                        selectedTime={selectedTime}
-                        onTimeSelect={setSelectedTime}
+                        selectedHour={selectedHour}
+                        selectedMinute={selectedMinute}
+                        onHourSelect={setSelectedHour}
+                        onMinuteSelect={setSelectedMinute}
                         location={location}
                         onLocationChange={setLocation}
+                        detailAddress={detailAddress}
+                        onDetailAddressChange={setDetailAddress}
                     />
                 );
             case 3:
@@ -81,7 +92,14 @@ export const SchedulePage = () => {
             case 1:
                 return selectedServiceType && selectedItems.length > 0;
             case 2:
-                return selectedDate && selectedTime && location;
+                console.log('Phase 2 상태:', {
+                    selectedDate,
+                    selectedHour,
+                    selectedMinute,
+                    location,
+                    detailAddress,
+                });
+                return selectedDate && selectedHour && selectedMinute && location && detailAddress;
             default:
                 return false;
         }

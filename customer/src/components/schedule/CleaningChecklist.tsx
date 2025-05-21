@@ -3,17 +3,27 @@ import React from 'react';
 interface ChecklistProps {
   selectedItems: string[];
   onToggleItem: (id: string) => void;
+  totalPrice: number;
+  setTotalPrice: (price: number) => void;
+  totalTime: number;
+  setTotalTime: (time: number) => void;
 }
 
 const checklistItems = [
-  { id: 'basic', label: '일반 청소 (전자제거, 바닥 청소)' },
-  { id: 'special', label: '특실 청소' },
-  { id: 'window', label: '주방 청소' },
-  { id: 'bathroom', label: '창문 청소' },
-  { id: 'kitchen', label: '가구 내부 청소' },
+  { id: 'basic', label: '일반 청소 (전자제거, 바닥 청소)' , extra_price: 6000, extra_time: 5},
+  { id: 'special', label: '특실 청소' , extra_price: 60000, extra_time: 10},
+  { id: 'window', label: '주방 청소' , extra_price: 3000, extra_time: 10},
+  { id: 'bathroom', label: '창문 청소', extra_price: 30000, extra_time: 10 },
+  { id: 'kitchen', label: '가구 내부 청소', extra_price: 60000, extra_time: 10 },
 ];
 
-export const CleaningChecklist = ({ selectedItems, onToggleItem }: ChecklistProps) => {
+function calulateTime(time: number) {
+  const hour = Math.floor(time / 60);
+  const minute = Math.floor(time  % 60);
+  return `${hour}시간 ${minute}분`;
+}
+
+export const CleaningChecklist = ({ selectedItems, onToggleItem, setTotalPrice, setTotalTime, totalPrice, totalTime }: ChecklistProps) => {
   return (
     <div className="px-4 mt-6">
       <h2 className="text-lg font-bold mb-4">청소 요구사항</h2>
@@ -28,7 +38,23 @@ export const CleaningChecklist = ({ selectedItems, onToggleItem }: ChecklistProp
                 type="checkbox"
                 id={item.id}
                 checked={selectedItems.includes(item.id)}
-                onChange={() => onToggleItem(item.id)}
+                onChange={() => {
+                  const isSelected = selectedItems.includes(item.id);
+                  if (!isSelected) {
+                    // 체크 시: 가격과 시간 추가
+                    const newPrice = totalPrice + item.extra_price;
+                    const newTime = totalTime + item.extra_time;
+                    setTotalPrice(newPrice);
+                    setTotalTime(newTime);
+                  } else {
+                    // 체크 해제 시: 가격과 시간 차감
+                    const newPrice = totalPrice - item.extra_price;
+                    const newTime = totalTime - item.extra_time;
+                    setTotalPrice(newPrice);
+                    setTotalTime(newTime);
+                  }
+                  onToggleItem(item.id);
+                }}
                 className="peer appearance-none w-5 h-5 border-2 border-primary rounded transition-colors cursor-pointer hover:border-primary/70"
               />
               <svg 
@@ -62,11 +88,11 @@ export const CleaningChecklist = ({ selectedItems, onToggleItem }: ChecklistProp
       <div className="mt-6  bg-gray-50 p-4 rounded-lg ">
         <div className="flex justify-between items-center text-sm mt-2">
           <span>예상 소요시간</span>
-          <span className="font-medium">4시간 30분</span>
+          <span className="font-medium">{calulateTime(totalTime)}</span>
         </div>
         <div className="flex justify-between items-center text-sm">
           <span>예상 견적</span>
-          <span className="font-medium">100,000,000 원</span>
+          <span className="font-medium">{totalPrice} 원</span>
         </div>
       </div>
     </div>
