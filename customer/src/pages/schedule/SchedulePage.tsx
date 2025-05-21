@@ -4,6 +4,7 @@ import { ServicePhase } from '@/components/schedule/ServicePhase';
 import { SchedulePhase } from '@/components/schedule/SchedulePhase';
 import { Header } from "@/components/layout/Header";
 import { useNavigate } from "react-router-dom";
+import { PaymentPhase } from '@/components/schedule/PaymentPhase';  
 
 export const SchedulePage = () => {
     const navigate = useNavigate();
@@ -79,8 +80,16 @@ export const SchedulePage = () => {
                     />
                 );
             case 3:
-                // 추후 구현: 결제 컴포넌트
-                return <div>결제 단계</div>;
+                return (
+                    <PaymentPhase
+                        totalPrice={totalPrice}
+                        extraFee={0}
+                        serviceDate={selectedDate}
+                        serviceTime={`${selectedHour}:${selectedMinute}`}
+                        serviceAddress={location}
+                        serviceDuration={totalTime}
+                    />
+                );
             default:
                 return null;
         }
