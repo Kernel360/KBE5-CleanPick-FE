@@ -5,7 +5,7 @@ import FindRequest from '@/pages/FindRequest';
 import Schedule from '@/pages/Schedule';
 import MyPage from '@/pages/MyPage';  
 import IncomeList from '@/pages/IncomeList';
-import TodayList from '@/pages/TodayList';
+import ScheduleList from '@/pages/TodayList';
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         <Route path="/schedule" element={<Schedule />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/incomelist" element={<IncomeList />} />
-        <Route path="/todaylist" element={<TodayList />} />
+        <Route path="/todaylist" element={<ScheduleList />} />
       </Routes>
     </BrowserRouter>
   );

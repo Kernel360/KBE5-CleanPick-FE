@@ -12,7 +12,7 @@ const Income = () => {
         onClick={() => navigate('/incomelist')}
       >
         <div className="flex items-center gap-4">
-          <h2 className="text-lg font-semibold text-gray-800">수입 내역 </h2>
+          <h2 className="text-lg font-semibold text-gray-800">이번달 수입 내역</h2>
           <FaChevronRight className="text-gray-500" size={14} />
         </div>
       </div>

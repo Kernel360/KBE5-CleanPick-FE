@@ -1,57 +1,44 @@
-import { FaChevronRight, FaMapMarkerAlt, FaUser } from 'react-icons/fa';
+import { FaChevronRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import ScheduleCard from '@/compoenet/scheduleCard';
+import { useMemo } from 'react';
 
-const TodaySchedule = () => {
+const TodaySchedule = ({ schedules, handleStatusChange }) => {
   const navigate = useNavigate();
 
-  return (
+  const firstIncomplete = useMemo(
+    () => schedules.find((item) => item.status !== 'completed'),
+    [schedules]
+  );
 
+  return (
     <div className="px-4 py-6">
-      {/* Section Title */}
-      
-      <div className="flex items-center justify-between mb-4"
+      <div
+        className="flex items-center justify-between mb-4"
         onClick={() => navigate('/todaylist')}
       >
-        
-        <div className="flex items-center gap-4">
-          <h2 className="text-lg font-semibold text-gray-800">오늘 일정 </h2>
+        <div className="flex items-center gap-4 cursor-pointer">
+          <h2 className="text-lg font-semibold text-gray-800">오늘 일정</h2>
           <FaChevronRight className="text-gray-500" size={14} />
         </div>
-
       </div>
 
-      {/* Schedule Card */}
-      <div className="bg-white shadow rounded-xl p-4">
-        {/* Title + Time */}
-        <div className="mb-2">
-          <h3 className="font-bold text-base text-gray-800">Home Cleaning</h3>
-          <p className="text-sm text-gray-500">10:00 AM - 12:00 PM</p>
+      {firstIncomplete ? (
+        <ScheduleCard
+          title={firstIncomplete.title}
+          time={firstIncomplete.time}
+          address={firstIncomplete.address}
+          customer={firstIncomplete.customer}
+          rating={firstIncomplete.rating}
+          status={firstIncomplete.status}
+          onStatusChange={() => handleStatusChange(firstIncomplete.id)}
+        />
+      ) : (
+        <div className="text-center text-gray-500 bg-gray-50 rounded-xl py-8 shadow">
+          <p className="text-base">오늘 일정이 없습니다 😊</p>
         </div>
-
-        {/* Address */}
-        <div className="flex items-center text-sm text-gray-500 mb-1">
-          <FaMapMarkerAlt className="mr-2 text-gray-400" />
-          <span>123 Main Street, Vientiane</span>
-        </div>
-
-        {/* Customer */}
-        <div className="flex items-center text-sm text-gray-500 mb-4">
-          <FaUser className="mr-2 text-gray-400" />
-          <span>Customer: Kim (5.0 ★)</span>
-        </div>
-
-        {/* Buttons */}
-        <div className="flex gap-2">
-          <button className="flex-1 border border-gray-300 rounded-lg py-2 text-sm text-gray-700">
-            전화하기
-          </button>
-          <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg py-2 text-sm font-medium">
-            Check out
-          </button>
-        </div>
-      </div>
+      )}
     </div>
-    
   );
 };
 
