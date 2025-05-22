@@ -2,8 +2,10 @@ import React from 'react';
 import { FiUser } from 'react-icons/fi';
 import { FaRegBell } from "react-icons/fa6";
 import { cn } from '@/lib/utils';
+import { useNavigate } from 'react-router-dom';
 
 export const Header = () => {
+  const navigate = useNavigate();
   return (
     <header className={cn(
       "w-full bg-primary text-white cursor-pointer",
@@ -17,7 +19,7 @@ export const Header = () => {
         <div className="font-bold text-lg">클린픽</div>
         <div className="flex items-center space-x-3">
           <FaRegBell size={20} className="text-white cursor-pointer hover:text-gray-900" />
-          <FiUser size={24} className="text-white cursor-pointer hover:text-gray-900" />
+          <FiUser size={24} className="text-white cursor-pointer hover:text-gray-900" onClick={() => navigate('/mypage')} />
         </div>
       </div>
     </header>

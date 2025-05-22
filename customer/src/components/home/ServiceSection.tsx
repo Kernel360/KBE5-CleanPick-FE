@@ -8,12 +8,11 @@ import { GiCookingPot } from "react-icons/gi";
 import { LuRefrigerator } from "react-icons/lu";
 
 const serviceList = [
-  { icon: <LuHouse className="text-primary" />, label: '가정집 청소' },
-  { icon: <HiOutlineBuildingOffice2 className="text-primary" />, label: '사무실 청소' },
-  { icon: <TbAirConditioning className="text-primary" />, label: '에어컨 청소' },
-  { icon: <GiCookingPot className="text-primary" />, label: '후드 청소' },
-  { icon: <LuRefrigerator className="text-primary" />, label: '냉장고 청소' },
-  
+  { icon: <LuHouse className="text-primary" />, label: '가정집 청소', type: 'HOME' },
+  { icon: <HiOutlineBuildingOffice2 className="text-primary" />, label: '사무실 청소', type: 'OFFICE' },
+  { icon: <TbAirConditioning className="text-primary" />, label: '에어컨 청소', type: 'SPECIAL', optionId: 1 },
+  { icon: <GiCookingPot className="text-primary" />, label: '후드 청소', type: 'SPECIAL', optionId: 2 },
+  { icon: <LuRefrigerator className="text-primary" />, label: '냉장고 청소', type: 'SPECIAL', optionId: 3 },
 ];
 
 export const ServiceSection = () => {

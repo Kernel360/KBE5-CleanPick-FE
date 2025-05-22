@@ -29,10 +29,6 @@ export const Header = ({
     }
   };
 
-  const handleMyPageClick = () => {
-    navigate('/mypage');
-  };
-
   return (
     <header className={cn(
       "w-full bg-primary text-white",
@@ -65,10 +61,7 @@ export const Header = ({
             <button className="hover:text-gray-200 transition-colors bg-primary">
               <FaRegBell size={20} />
             </button>
-            <button 
-              onClick={handleMyPageClick}
-              className="hover:text-gray-200 transition-colors bg-primary"
-            >
+            <button className="hover:text-gray-200 transition-colors bg-primary">
               <FiUser size={24} />
             </button>
           </div>
