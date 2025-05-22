@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import FilterTabs from '../FilterTabs';
-import { useAcceptedRequests } from '@/compoenet/hooks/useAcceptedRequests';
+import { useAcceptedRequests } from '../hooks/useAcceptedRequests';
 import AcceptedRequestCard from './AcceptedRequestCard';
-import SortToggleButton from '../SortToggleButton'; // ✅ 
+import SortToggleButton from '../SortToggleButton';
 
 const CompletedRequestSection = () => {
   const [filter, setFilter] = useState('전체');

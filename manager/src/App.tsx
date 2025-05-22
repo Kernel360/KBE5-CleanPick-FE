@@ -8,6 +8,7 @@ import IncomeList from '@/pages/IncomeList';
 import ScheduleList from '@/pages/TodayList';
 import ProfileForm from '@/pages/ProfileForm';
 import Policy from '@/pages/Policy';
+import ProfileDetail from '@/pages/ProfileDetail';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/todaylist" element={<ScheduleList />} />
         <Route path="/profileform" element={<ProfileForm />} />
         <Route path="/policy" element={<Policy />} />
+        <Route path="/profileDetail" element={<ProfileDetail />} />
       </Routes>
     </BrowserRouter>
   );

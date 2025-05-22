@@ -1,5 +1,6 @@
 import { useUserProfile } from '@/compoenet/hooks/useUserProfile';
-
+import HeaderNav from '@/layer/NavHeader';
+import { useState } from 'react';
 const availableServices = ['가정집 청소', '사무실 청소', '특수 청소'];
 
 const ProfileForm = () => {
@@ -12,6 +13,8 @@ const ProfileForm = () => {
     updateAvailableDay,
   } = useUserProfile();
 
+  const [photo, setPhoto] = useState<string | null>(null);
+
   const handleServiceChange = (service: string) => {
     const exists = profile.services.includes(service);
     updateProfile({
@@ -21,8 +24,40 @@ const ProfileForm = () => {
     });
   };
 
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPhoto(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
-    <form className="space-y-6 p-[2rem]">
+    <form className="space-y-6 py-[4rem] px-[2rem]">
+      <HeaderNav title="프로필 수정" customBackPath="/myPage" />
+      {/* 프로필 사진 */}
+      <section className="flex flex-col items-center">
+        <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden text-3xl text-gray-500">
+          {photo ? (
+            <img src={photo} alt="프로필 사진" className="w-full h-full object-cover" />
+          ) : (
+            <span>👤</span>
+          )}
+        </div>
+        <label className="mt-2 text-indigo-600 text-sm cursor-pointer">
+          + 사진 업로드
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handlePhotoUpload}
+            className="hidden"
+          />
+        </label>
+      </section>
+
       {/* 기본 정보 */}
       <section>
         <h3 className="font-bold text-gray-800 mb-2">기본 정보</h3>

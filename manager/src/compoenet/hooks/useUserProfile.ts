@@ -7,6 +7,7 @@ export interface UserProfile {
   regions: string[];
   availableTime: { day: string; time: string }[];
   bio?: string;
+  photo?: string;
 }
 
 export const useUserProfile = () => {
@@ -19,7 +20,8 @@ export const useUserProfile = () => {
       { day: '월요일', time: '09:00 - 18:00' },
       { day: '화요일', time: '09:00 - 18:00' },
     ],
-    bio: '',
+    bio: '안녕하세요. 홍길동입니다. 청소 서비스를 제공합니다.',
+    photo: '',
   });
 
   const updateProfile = (updated: Partial<UserProfile>) => {
