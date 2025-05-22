@@ -1,7 +1,1 @@
-import React from 'react';
-
-const ManagerListPage = () => {
-  return <div>ManagerListPage</div>;
-};
-
-export default ManagerListPage;
+export { default as ManagerListPage } from './ManagerListPage';

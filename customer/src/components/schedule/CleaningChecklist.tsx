@@ -92,8 +92,8 @@ export const CleaningChecklist = ({
         />
       </div>
 
-      <div className="mt-6  bg-gray-50 p-4 rounded-lg ">
-        <div className="flex justify-between items-center text-sm mt-2">
+      <div className="mt-6 border border-blue-500  bg-blue-50 p-4 rounded-lg text-blue-700">
+        <div className="flex justify-between items-center text-sm ">
           <span>예상 소요시간</span>
           <span className="font-medium">{calulateTime(totalTime)}</span>
         </div>

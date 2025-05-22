@@ -66,9 +66,9 @@ export const PaymentInfo: React.FC<PaymentInfoProps> = ({
           </div>
         </div>
       </div>
-      <hr className="border-gray-300"/>
+     
       {/* 가격 정보 */}
-      <div className="p-4 rounded-lg space-y-3 mb-6">
+      <div className="p-4 rounded-lg space-y-3 mb-">
         
         
         {/* 선택된 옵션들 */}
@@ -80,7 +80,7 @@ export const PaymentInfo: React.FC<PaymentInfoProps> = ({
         ))}
 
         {/* 총액 */}
-        <div className="flex justify-between items-center font-bold text-lg pt-2 border-t border-gray-300">
+        <div className="flex justify-between items-center font-bold text-lg pt-2 border-t border-gray-300 ">
           <span>Total</span>
           <span className="text-primary">₩{(totalPrice).toLocaleString()}</span>
         </div>
