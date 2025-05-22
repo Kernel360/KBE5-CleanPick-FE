@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import {
   FaUser,
+  FaPencilAlt,
   FaFileAlt,
   FaCreditCard,
   FaBell,
@@ -11,6 +12,7 @@ import {
 
 const menus = [
   { icon: <FaUser />, label: '프로필 관리', href: '/profileform' },
+  { icon: <FaPencilAlt />, label: '나의 리뷰', href: '/reviewToUser' },
   { icon: <FaFileAlt />, label: '서류 등록 (준비중)' }, // 보류
   { icon: <FaCreditCard />, label: '수입 내역', href: '/incomeList' },
   { icon: <FaBell />, label: '알림 설정 (준비중)' }, // 보류
