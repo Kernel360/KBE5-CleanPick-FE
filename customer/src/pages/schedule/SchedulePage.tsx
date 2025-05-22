@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ProgressSteps } from '@/components/schedule/ProgressSteps';
 import { ServicePhase } from '@/components/schedule/ServicePhase';
 import { SchedulePhase } from '@/components/schedule/SchedulePhase';
 import { Header } from "@/components/layout/Header";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { PaymentPhase } from '@/components/schedule/PaymentPhase';  
 
 export interface CleaningOption {
-    id: string,
+    id: number,
     label: string,
     extra_price: number,
     extra_time: number,
@@ -15,6 +15,8 @@ export interface CleaningOption {
 
 export const SchedulePage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const selectedOption: number = location.state?.selectedOption;
     const [currentPhase, setCurrentPhase] = useState(1);
     
     // 서비스 선택 단계 상태 (Phase 1)
@@ -28,10 +30,22 @@ export const SchedulePage = () => {
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
     const [selectedHour, setSelectedHour] = useState<string>('');
     const [selectedMinute, setSelectedMinute] = useState<string>('');
-    const [location, setLocation] = useState('');
+    const [address, setAddress] = useState('');
     const [detailAddress, setDetailAddress] = useState('');
+
     // 결제 단계 상태 (Phase 3)
     const [paymentMethod, setPaymentMethod] = useState('');
+
+    // location state에서 선택된 서비스 타입 가져오기
+    useEffect(() => {
+        const state = location.state as { selectedService?: string; selectedOption?: number };
+        if (state?.selectedService) {
+            setSelectedServiceType(state.selectedService);
+            if (state.selectedOption) {
+                setSelectedItems([state.selectedOption.toString()]);
+            }
+        }
+    }, [location]);
 
     // 체크리스트 아이템 토글 핸들러
     const handleToggleItem = (id: string) => {
@@ -72,6 +86,7 @@ export const SchedulePage = () => {
                         setTotalTime={setTotalTime}
                         selectedOptions={selectedOptions}
                         setSelectedOptions={setSelectedOptions}
+                        selectedOption={selectedOption}
                     />
                 );
             case 2:
@@ -83,8 +98,8 @@ export const SchedulePage = () => {
                         selectedMinute={selectedMinute}
                         onHourSelect={setSelectedHour}
                         onMinuteSelect={setSelectedMinute}
-                        location={location}
-                        onLocationChange={setLocation}
+                        location={address}
+                        onLocationChange={setAddress}
                         detailAddress={detailAddress}
                         onDetailAddressChange={setDetailAddress}
                     />
@@ -97,7 +112,7 @@ export const SchedulePage = () => {
                         totalPrice={totalPrice}
                         serviceDate={selectedDate as Date}
                         serviceTime={`${selectedHour}:${selectedMinute}`}
-                        serviceAddress={location}
+                        serviceAddress={address}
                         serviceAddressDetail={detailAddress}
                         serviceDuration={totalTime}
                         paymentMethod={paymentMethod as 'cash' | 'card'}
@@ -115,14 +130,7 @@ export const SchedulePage = () => {
             case 1:
                 return selectedServiceType && selectedItems.length > 0;
             case 2:
-                console.log('Phase 2 상태:', {
-                    selectedDate,
-                    selectedHour,
-                    selectedMinute,
-                    location,
-                    detailAddress,
-                });
-                return selectedDate && selectedHour && selectedMinute && location && detailAddress;
+                return selectedDate && selectedHour && selectedMinute && address && detailAddress;
             default:
                 return false;
         }

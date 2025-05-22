@@ -9,15 +9,8 @@ interface ChecklistProps {
   totalTime: number;
   setTotalTime: (time: number) => void;
   setSelectedOptions: (options: CleaningOption[] | ((prev: CleaningOption[]) => CleaningOption[])) => void;
+  cleaningOptions: CleaningOption[];
 }
-
-const checklistItems: CleaningOption[] = [
-  { id: 'basic', label: '일반 청소 (전자제거, 바닥 청소)' , extra_price: 6000, extra_time: 5},
-  { id: 'special', label: '특실 청소' , extra_price: 60000, extra_time: 10},
-  { id: 'window', label: '주방 청소' , extra_price: 3000, extra_time: 10},
-  { id: 'bathroom', label: '창문 청소', extra_price: 30000, extra_time: 10 },
-  { id: 'kitchen', label: '가구 내부 청소', extra_price: 60000, extra_time: 10 },
-];
 
 function calulateTime(time: number) {
   const hour = Math.floor(time / 60);
@@ -25,12 +18,22 @@ function calulateTime(time: number) {
   return `${hour}시간 ${minute}분`;
 }
 
-export const CleaningChecklist = ({ selectedItems, onToggleItem, setTotalPrice, setTotalTime, totalPrice, totalTime, setSelectedOptions }: ChecklistProps) => {
+export const CleaningChecklist = ({ 
+  selectedItems, 
+  onToggleItem, 
+  setTotalPrice, 
+  setTotalTime, 
+  totalPrice, 
+  totalTime, 
+  setSelectedOptions,
+  cleaningOptions,
+}: ChecklistProps) => {
+
   return (
     <div className="px-4 mt-6">
       <h2 className="text-lg font-bold mb-4">청 소 요구사항</h2>
       <div className="space-y-3">
-        {checklistItems.map((item) => (
+        {cleaningOptions.map((item) => (
           <label
             key={item.id}
             className="relative flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer group"
@@ -38,10 +41,10 @@ export const CleaningChecklist = ({ selectedItems, onToggleItem, setTotalPrice, 
             <div className="relative w-5 h-5">
               <input
                 type="checkbox"
-                id={item.id}
-                checked={selectedItems.includes(item.id)}
+                id={item.id.toString()}
+                checked={selectedItems.includes(item.id.toString())}
                 onChange={() => {
-                  const isSelected = selectedItems.includes(item.id);
+                  const isSelected = selectedItems.includes(item.id.toString());
                   if (!isSelected) {
                     // 체크 시: 가격과 시간 추가
                     const newPrice = totalPrice + item.extra_price;
@@ -57,7 +60,7 @@ export const CleaningChecklist = ({ selectedItems, onToggleItem, setTotalPrice, 
                     setTotalTime(newTime);
                     setSelectedOptions((prev: CleaningOption[]) => prev.filter((option: CleaningOption) => option.id !== item.id));
                   }
-                  onToggleItem(item.id);
+                  onToggleItem(item.id.toString());
                 }}
                 className="peer appearance-none w-5 h-5 border-2 border-primary rounded transition-colors cursor-pointer hover:border-primary/70"
               />

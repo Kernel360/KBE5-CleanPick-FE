@@ -18,6 +18,16 @@ function calculateTime(time: number) {
   return `${hour} 시간 ${minute} 분`;
 }
 
+function convertServiceType(serviceType: string) {
+  if (serviceType === 'HOME') {
+    return '가정집 청소';
+  } else if (serviceType === 'OFFICE') {
+    return '사무실 청소';
+  } else if (serviceType === 'SPECIAL') {
+    return '특수 청소';
+  }
+}
+
 export const PaymentInfo: React.FC<PaymentInfoProps> = ({
   serviceType,
   serviceDate,
@@ -36,7 +46,7 @@ export const PaymentInfo: React.FC<PaymentInfoProps> = ({
       <div className="space-y-4 mb-6">
         <div className="flex justify-between items-center">
           <span className="text-gray-600">서비스 유형</span>
-          <span>{serviceType}</span>
+          <span>{convertServiceType(serviceType)}</span>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-gray-600">예약 날짜</span>
