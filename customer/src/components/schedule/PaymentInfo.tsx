@@ -1,4 +1,5 @@
 import React from 'react';
+import { CleaningOption } from '@/pages/schedule/SchedulePage';
 
 interface PaymentInfoProps {
   serviceType: string;
@@ -6,8 +7,9 @@ interface PaymentInfoProps {
   serviceTime: string;
   serviceDuration: number;
   serviceAddress: string;
+  serviceAddressDetail: string;
   totalPrice: number;
-  extraFee: number;
+  selectedOptions: CleaningOption[];
 }
 
 function calculateTime(time: number) {
@@ -22,11 +24,12 @@ export const PaymentInfo: React.FC<PaymentInfoProps> = ({
   serviceTime,
   serviceDuration,
   serviceAddress,
+  serviceAddressDetail,
   totalPrice,
-  extraFee,
+  selectedOptions = []
 }) => {
   return (
-    <div className="p-6 rounded-lg  bg-gray-100"> 
+    <div className="p-6 rounded-lg bg-gray-100"> 
       <h2 className="text-xl font-bold mb-6">예약 상세내역</h2>
       
       {/* 서비스 정보 */}
@@ -47,23 +50,29 @@ export const PaymentInfo: React.FC<PaymentInfoProps> = ({
         </div>
         <div className="flex justify-between items-center">
           <span className="text-gray-600">위치</span>
-          <span>{serviceAddress}</span>
+          <div className="text-right">
+            <div>{serviceAddress}</div>
+            <div className="text-md text-gray-500">{serviceAddressDetail}</div>
+          </div>
         </div>
       </div>
       <hr className="border-gray-300"/>
       {/* 가격 정보 */}
-      <div className=" p-4 rounded-lg space-y-3 mb-6">
-        <div className="flex justify-between items-center">
-          <span className="text-gray-600">예약금</span>
-          <span>₩{totalPrice.toLocaleString()}</span>
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-gray-600">수수료 or 추가 비용</span>
-          <span>₩{extraFee.toLocaleString()}</span>
-        </div>
-        <div className="flex justify-between items-center font-bold text-lg">
+      <div className="p-4 rounded-lg space-y-3 mb-6">
+        
+        
+        {/* 선택된 옵션들 */}
+        {selectedOptions.map((option) => (
+          <div key={option.id} className="flex justify-between items-center text-sm">
+            <span className="text-gray-600">{option.label}</span>
+            <span>₩{option.extra_price.toLocaleString()}</span>
+          </div>
+        ))}
+
+        {/* 총액 */}
+        <div className="flex justify-between items-center font-bold text-lg pt-2 border-t border-gray-300">
           <span>Total</span>
-          <span className="text-primary">₩{(totalPrice + extraFee).toLocaleString()}</span>
+          <span className="text-primary">₩{(totalPrice).toLocaleString()}</span>
         </div>
       </div>
     </div>

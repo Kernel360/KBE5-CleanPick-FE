@@ -6,6 +6,13 @@ import { Header } from "@/components/layout/Header";
 import { useNavigate } from "react-router-dom";
 import { PaymentPhase } from '@/components/schedule/PaymentPhase';  
 
+export interface CleaningOption {
+    id: string,
+    label: string,
+    extra_price: number,
+    extra_time: number,
+}
+
 export const SchedulePage = () => {
     const navigate = useNavigate();
     const [currentPhase, setCurrentPhase] = useState(1);
@@ -15,6 +22,7 @@ export const SchedulePage = () => {
     const [totalTime, setTotalTime] = useState(0);
     const [selectedServiceType, setSelectedServiceType] = useState('');
     const [selectedItems, setSelectedItems] = useState<string[]>([]);
+    const [selectedOptions, setSelectedOptions] = useState<CleaningOption[]>([]);
     
     // 일정 선택 단계 상태 (Phase 2)
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -62,6 +70,8 @@ export const SchedulePage = () => {
                         setTotalPrice={setTotalPrice}
                         totalTime={totalTime}
                         setTotalTime={setTotalTime}
+                        selectedOptions={selectedOptions}
+                        setSelectedOptions={setSelectedOptions}
                     />
                 );
             case 2:
@@ -82,12 +92,16 @@ export const SchedulePage = () => {
             case 3:
                 return (
                     <PaymentPhase
+                        selectedServiceType={selectedServiceType}
+                        selectedOptions={selectedOptions}
                         totalPrice={totalPrice}
-                        extraFee={0}
-                        serviceDate={selectedDate}
+                        serviceDate={selectedDate as Date}
                         serviceTime={`${selectedHour}:${selectedMinute}`}
                         serviceAddress={location}
+                        serviceAddressDetail={detailAddress}
                         serviceDuration={totalTime}
+                        paymentMethod={paymentMethod as 'cash' | 'card'}
+                        onPaymentMethodChange={setPaymentMethod}
                     />
                 );
             default:

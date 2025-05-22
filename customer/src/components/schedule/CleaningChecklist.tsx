@@ -1,3 +1,4 @@
+import { CleaningOption } from '@/pages/schedule/SchedulePage';
 import React from 'react';
 
 interface ChecklistProps {
@@ -7,9 +8,10 @@ interface ChecklistProps {
   setTotalPrice: (price: number) => void;
   totalTime: number;
   setTotalTime: (time: number) => void;
+  setSelectedOptions: (options: CleaningOption[] | ((prev: CleaningOption[]) => CleaningOption[])) => void;
 }
 
-const checklistItems = [
+const checklistItems: CleaningOption[] = [
   { id: 'basic', label: '일반 청소 (전자제거, 바닥 청소)' , extra_price: 6000, extra_time: 5},
   { id: 'special', label: '특실 청소' , extra_price: 60000, extra_time: 10},
   { id: 'window', label: '주방 청소' , extra_price: 3000, extra_time: 10},
@@ -23,10 +25,10 @@ function calulateTime(time: number) {
   return `${hour}시간 ${minute}분`;
 }
 
-export const CleaningChecklist = ({ selectedItems, onToggleItem, setTotalPrice, setTotalTime, totalPrice, totalTime }: ChecklistProps) => {
+export const CleaningChecklist = ({ selectedItems, onToggleItem, setTotalPrice, setTotalTime, totalPrice, totalTime, setSelectedOptions }: ChecklistProps) => {
   return (
     <div className="px-4 mt-6">
-      <h2 className="text-lg font-bold mb-4">청소 요구사항</h2>
+      <h2 className="text-lg font-bold mb-4">청 소 요구사항</h2>
       <div className="space-y-3">
         {checklistItems.map((item) => (
           <label
@@ -46,12 +48,14 @@ export const CleaningChecklist = ({ selectedItems, onToggleItem, setTotalPrice, 
                     const newTime = totalTime + item.extra_time;
                     setTotalPrice(newPrice);
                     setTotalTime(newTime);
+                    setSelectedOptions((prev: CleaningOption[]) => [...prev, item]);
                   } else {
                     // 체크 해제 시: 가격과 시간 차감
                     const newPrice = totalPrice - item.extra_price;
                     const newTime = totalTime - item.extra_time;
                     setTotalPrice(newPrice);
                     setTotalTime(newTime);
+                    setSelectedOptions((prev: CleaningOption[]) => prev.filter((option: CleaningOption) => option.id !== item.id));
                   }
                   onToggleItem(item.id);
                 }}

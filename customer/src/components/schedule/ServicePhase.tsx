@@ -1,6 +1,7 @@
 import React from 'react';
 import { ServiceTypeSelect } from './ServiceTypeSelect';
 import { CleaningChecklist } from './CleaningChecklist';
+import { CleaningOption } from '@/pages/schedule/SchedulePage';
 
 interface ServicePhaseProps {
   totalPrice: number;
@@ -11,6 +12,8 @@ interface ServicePhaseProps {
   onServiceTypeSelect: (type: string) => void;
   selectedItems: string[];
   onToggleItem: (id: string) => void;
+  selectedOptions: CleaningOption[];
+  setSelectedOptions: (options: CleaningOption[] | ((prev: CleaningOption[]) => CleaningOption[])) => void;
 }
 
 export const ServicePhase = ({
@@ -21,7 +24,8 @@ export const ServicePhase = ({
   totalPrice,
   setTotalPrice,
   totalTime,
-  setTotalTime
+  setTotalTime,
+  setSelectedOptions
 }: ServicePhaseProps) => {
   return (
     <div className="mt-6">
@@ -38,6 +42,7 @@ export const ServicePhase = ({
           setTotalTime={setTotalTime}
           totalPrice={totalPrice}
           totalTime={totalTime}
+          setSelectedOptions={setSelectedOptions}
         />
       )}
     </div>

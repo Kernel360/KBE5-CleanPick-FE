@@ -34,19 +34,19 @@ export const ServiceTypeSelect = ({ selected, onSelect }: ServiceTypeProps) => {
         {serviceTypes.map((type) => (
           <button
             key={type.id}
-            onClick={() => onSelect(type.id)}
+            onClick={() => onSelect(type.label)}
             className={cn(
               "w-full h-16 rounded-xl flex items-center px-6",
               "transition-all duration-200",
               "border-2",
-              selected === type.id
+              selected === type.label
                 ? "bg-primary/5 border-primary text-primary"
                 : "bg-white border-gray-100 hover:border-gray-200"
             )}
           >
             <div className={cn(
               "rounded-lg p-2.5",
-              selected === type.id
+              selected === type.label
                 ? "bg-primary/10 text-primary"
                 : "bg-gray-50 text-gray-400"
             )}>
@@ -54,7 +54,7 @@ export const ServiceTypeSelect = ({ selected, onSelect }: ServiceTypeProps) => {
             </div>
             <span className={cn(
               "font-medium ml-4",
-              selected === type.id
+              selected === type.label
                 ? "text-primary"
                 : "text-gray-700"
             )}>

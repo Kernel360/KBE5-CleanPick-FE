@@ -1,42 +1,50 @@
 import React, { useState } from 'react';
 import { PaymentMethod } from './PaymentMethod';
 import { PaymentInfo } from './PaymentInfo';
+import { CleaningOption } from '@/pages/schedule/SchedulePage';
 
 interface PaymentPhaseProps {
   totalPrice: number;
-  extraFee: number;
+  selectedOptions: CleaningOption[];
   serviceDate: Date;
   serviceTime: string;
   serviceAddress: string;
+  serviceAddressDetail: string;
   serviceDuration: number;
+  selectedServiceType: string;
+  paymentMethod: 'cash' | 'card';
+  onPaymentMethodChange: (method: 'cash' | 'card') => void;
 }
 
 export const PaymentPhase: React.FC<PaymentPhaseProps> = ({
+  selectedServiceType,
+  selectedOptions,
   totalPrice,
-  extraFee,
   serviceDate,
   serviceTime,
   serviceAddress,
-  serviceDuration
+  serviceAddressDetail,
+  serviceDuration,
+  paymentMethod,
+  onPaymentMethodChange
 }) => {
-  const [paymentMethod, setPaymentMethod] = useState<'cash' | 'card'>('cash');
   const [isAgreed, setIsAgreed] = useState(false);
-
   return (
     <div className="p-4">
       <PaymentInfo
-        serviceType="가정집 청소"
+        selectedOptions={selectedOptions}
+        serviceType={selectedServiceType}
         serviceDate={serviceDate}
         serviceTime={serviceTime}
         serviceDuration={serviceDuration}
         serviceAddress={serviceAddress}
+        serviceAddressDetail={serviceAddressDetail}
         totalPrice={totalPrice}
-        extraFee={extraFee}
       />
 
       <PaymentMethod
         paymentMethod={paymentMethod}
-        onMethodChange={setPaymentMethod}
+        onMethodChange={onPaymentMethodChange}
       />
 
       {/* 약관 동의 */}
