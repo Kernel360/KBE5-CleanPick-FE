@@ -11,10 +11,10 @@ import {
 
 const menus = [
   { icon: <FaUser />, label: '프로필 관리', href: '/profileform' },
-  { icon: <FaFileAlt />, label: '서류 등록' }, // 보류
+  { icon: <FaFileAlt />, label: '서류 등록 (준비중)' }, // 보류
   { icon: <FaCreditCard />, label: '수입 내역', href: '/incomeList' },
-  { icon: <FaBell />, label: '알림 설정' }, // 보류
-  { icon: <FaComments />, label: '고객 센터' }, // 보류
+  { icon: <FaBell />, label: '알림 설정 (준비중)' }, // 보류
+  { icon: <FaComments />, label: '고객 센터 (준비중)' }, // 보류
   { icon: <FaClipboardList />, label: '약관 및 정책', href: '/policy' },
 ];
 
