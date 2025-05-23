@@ -5,66 +5,83 @@ interface RequestDetailModalProps {
   onClose: () => void;
 }
 
-const RequestDetailModal = ({ request, onClose }: RequestDetailModalProps ) => {
-    const hasReview = request.reviewWritten;
-  
-    if (!request) return null; // 혹시라도 undefined로 들어올 경우
-  
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
-        <div className="bg-white rounded-xl w-[90%] max-w-md max-h-[90vh] overflow-y-auto p-6 shadow-lg">
-          <h2 className="text-xl font-bold text-gray-900">{request.title}</h2>
-          <p className="text-gray-600 mt-1">{request.date}, {request.time}</p>
-  
-          {request.tasks && request.tasks.length > 0 && (
-            <ul className="mt-4 text-sm text-gray-700 space-y-1">
-              {request.tasks.map((task, i) => (
-                <li key={i}>✅ {task}</li>
-              ))}
-            </ul>
-          )}
-  
-          <div className="bg-green-100 text-green-700 text-sm rounded mt-4 px-3 py-1 inline-block">
-            매칭된 매니저: <strong>{request.manager}</strong>
-          </div>
-  
-          <div className="mt-6 space-y-2 text-sm text-gray-800">
-            <p>서비스 유형: <strong>{request.title}</strong></p>
-            <p>예약 날짜: <strong>{request.bookingDate}</strong></p>
-            <p>서비스 시간: <strong>{request.duration}</strong></p>
-            <p>위치: <strong>{request.address}</strong></p>
-          </div>
-  
-          <hr className="my-4" />
-  
-          <div className="text-sm text-gray-800 space-y-1">
-            <p>예약금: ₩{(request.amount ?? 0).toLocaleString()}</p>
-            <p>수수료 or 추가 비용: ₩{(request.fee ?? 0).toLocaleString()}</p>
-            <p className="font-bold text-lg text-indigo-600">
-              Total: ₩{((request.amount ?? 0) + (request.fee ?? 0)).toLocaleString()}
-            </p>
-          </div>
-  
-          <button
-            className={`mt-6 w-full py-3 rounded-lg text-white text-sm font-semibold ${
-              hasReview
-                ? 'bg-gray-300 cursor-not-allowed'
-                : 'bg-indigo-600 hover:bg-indigo-700'
-            }`}
-            disabled={hasReview}
-          >
-            {hasReview ? '리뷰 작성 완료' : '리뷰 쓰기'}
-          </button>
-  
-          <button
-            onClick={onClose}
-            className="mt-3 text-sm text-gray-400 w-full text-center"
-          >
-            닫기
-          </button>
-        </div>
-      </div>
-    );
-  };
+const RequestDetailModal = ({ request, onClose }: RequestDetailModalProps) => {
+  const hasReview = request.reviewWritten;
 
-export default RequestDetailModal;  
+  if (!request) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
+      <div className="bg-white rounded-xl w-[90%] max-w-sm max-h-[90vh] overflow-y-auto p-6 shadow-lg text-sm text-gray-800">
+        {/* 제목, 시간 */}
+        <h2 className="text-base font-bold text-gray-900">{request.title}</h2>
+        <p className="text-gray-600 mt-1">{request.date}</p>
+
+        {/* 서비스 항목 */}
+        {request.tasks && request.tasks.length > 0 && (
+          <ul className="mt-4 space-y-1 text-sm">
+            {request.tasks.map((task, idx) => (
+              <li key={idx} className="text-green-600 font-medium">✔ {task}</li>
+            ))}
+          </ul>
+        )}
+
+        {/* 메모 */}
+        {request.memo && (
+          <div className="bg-red-100 text-red-800 text-sm rounded-md px-4 py-3 mt-5 whitespace-pre-line">
+            <p className="font-bold mb-1">추가 요청사항</p>
+            <p>{request.memo}</p>
+          </div>
+        )}
+
+        {/* 정보 */}
+        <div className="grid grid-cols-2 gap-y-2 mt-6 text-sm">
+          <p className="text-gray-500">고객</p>
+          <p className="text-right">{request.customer} 고객님</p>
+          <p className="text-gray-500">서비스 유형</p>
+          <p className="text-right">{request.title}</p>
+          <p className="text-gray-500">예약 날짜</p>
+          <p className="text-right font-semibold">{request.bookingDate}</p>
+          <p className="text-gray-500">서비스 기간</p>
+          <p className="text-right">{request.duration}</p>
+          <p className="text-gray-500">위치</p>
+          <p className="text-right font-semibold">{request.address}</p>
+        </div>
+
+        <hr className="my-5" />
+
+        {/* 가격 */}
+        <div className="grid grid-cols-2 gap-y-2 text-sm">
+          <p className="text-gray-500">예약금</p>
+          <p className="text-right">₩{request.amount.toLocaleString()}</p>
+          <p className="text-gray-500">수수료 or 추가 비용</p>
+          <p className="text-right">₩{request.fee.toLocaleString()}</p>
+          <p className="font-bold text-base col-span-2 text-right text-indigo-600">
+            Total: ₩{(request.amount + request.fee).toLocaleString()}
+          </p>
+        </div>
+
+        {/* 버튼 */}
+        <button
+          className={`mt-6 w-full py-3 rounded-lg text-white text-sm font-semibold ${
+            hasReview
+              ? 'bg-gray-300 cursor-not-allowed'
+              : 'bg-indigo-600 hover:bg-indigo-700'
+          }`}
+          disabled={hasReview}
+        >
+          {hasReview ? '리뷰 작성 완료' : '리뷰 쓰기'}
+        </button>
+
+        <button
+          onClick={onClose}
+          className="mt-3 text-sm text-gray-400 w-full text-center"
+        >
+          닫기
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default RequestDetailModal;

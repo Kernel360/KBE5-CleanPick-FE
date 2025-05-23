@@ -17,6 +17,7 @@ export interface AcceptedRequest {
   fee: number;
   reviewWritten?: boolean;
   status?: string;
+  memo?: string;
 }
 
 export const useAcceptedRequests = () => {
@@ -36,6 +37,7 @@ export const useAcceptedRequests = () => {
       bookingDate: 'June 14, 10:00 AM',
       manager: '홍길동 님',
       tasks: ['일반 청소', '욕실 청소', '주방 청소'],
+      memo: '고양이가 있으니까 아래쪽에 있는 창문은 절대 열지 말아주세요!!!!',
       reviewWritten: false,
       status: '체크아웃 대기',
     },
@@ -72,6 +74,7 @@ export const useAcceptedRequests = () => {
       bookingDate: 'June 16, 9:00 AM',
       manager: '홍길동 님',
       tasks: ['욕실 청소', '거실 정리'],
+      memo: '',
       reviewWritten: true, // 만약 리뷰가 있다면?
       status: '완료',
     },
@@ -90,6 +93,7 @@ export const useAcceptedRequests = () => {
       bookingDate: 'June 9, 2:00 PM',
       manager: '홍길동 님',
       tasks: ['에어컨 필터 청소'],
+      memo: '고양이가 있으니까 아래쪽에 있는 창문은 절대 열지 말아주세요!!!!',
       reviewWritten: false,
       status: '완료',
     },
