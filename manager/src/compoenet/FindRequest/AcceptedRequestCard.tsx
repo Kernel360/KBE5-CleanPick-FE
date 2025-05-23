@@ -6,9 +6,10 @@ interface AcceptedRequestCardProps {
   request: AcceptedRequest;
   onToggle: (id: number) => void;
   isCompleted?: boolean;
+  onUpdate?: () => void;
 }
 
-const AcceptedRequestCard = ({ request, onToggle, isCompleted }: AcceptedRequestCardProps) => {
+const AcceptedRequestCard = ({ request, onToggle, isCompleted, onUpdate }: AcceptedRequestCardProps) => {
   const [openDetailModal, setOpenDetailModal] = useState(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 

@@ -1,12 +1,19 @@
 import { AcceptedRequest } from "../hooks/useAcceptedRequests";
+import ReviewWriteModal from "./ReviewWriteModal";
+import { useState } from 'react';
 
 interface RequestDetailModalProps {
   request: AcceptedRequest;
   onClose: () => void;
+  onUpdate?: () => void;
 }
 
-const RequestDetailModal = ({ request, onClose }: RequestDetailModalProps) => {
-  const hasReview = request.reviewWritten;
+const RequestDetailModal = ({ request, onClose, onUpdate }: RequestDetailModalProps) => {
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [reviewWritten, setReviewWritten] = useState(request.reviewWritten || false);
+  const userId = 1; // TODO: Get from auth context or props
+
+  const hasReview = reviewWritten;
 
   if (!request) return null;
 
@@ -63,22 +70,44 @@ const RequestDetailModal = ({ request, onClose }: RequestDetailModalProps) => {
 
         {/* 버튼 */}
         <button
-          className={`mt-6 w-full py-3 rounded-lg text-white text-sm font-semibold ${
-            hasReview
-              ? 'bg-gray-300 cursor-not-allowed'
-              : 'bg-indigo-600 hover:bg-indigo-700'
-          }`}
+          onClick={() => setShowReviewModal(true)}
+          className={`mt-6 w-full py-3 rounded-lg text-white text-sm font-semibold ${hasReview
+            ? 'bg-gray-300 cursor-not-allowed'
+            : 'bg-indigo-600 hover:bg-indigo-700'
+            }`}
           disabled={hasReview}
         >
           {hasReview ? '리뷰 작성 완료' : '리뷰 쓰기'}
+
         </button>
 
+        {showReviewModal && (
+          <ReviewWriteModal
+            userId={userId}
+            customerName={request.customer}
+            serviceType={request.title}
+            date={request.date}
+            onClose={() => setShowReviewModal(false)}
+            onSubmit={(rating, content) => {
+              console.log('제출됨', rating, content);
+              // TODO: API 요청 후 상태 업데이트
+              setReviewWritten(true); // ✅ 상태 변경
+              setShowReviewModal(false);
+            }}
+          />
+        )}
+
+
         <button
-          onClick={onClose}
+          onClick={() => {
+            onClose();
+            if (onUpdate) onUpdate(); // ✅ 업데이트 트리거
+          }}
           className="mt-3 text-sm text-gray-400 w-full text-center"
         >
           닫기
         </button>
+
       </div>
     </div>
   );

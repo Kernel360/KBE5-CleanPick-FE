@@ -7,7 +7,7 @@ import SortToggleButton from '../SortToggleButton';
 const CompletedRequestSection = () => {
   const [filter, setFilter] = useState('전체');
   const [sortOrder, setSortOrder] = useState<'recent' | 'oldest'>('recent');
-  const { completedRequests } = useAcceptedRequests();
+  const { completedRequests, markReviewAsWritten } = useAcceptedRequests();
 
   const parseDate = (dateStr: string): Date => {
     const match = dateStr.match(/(\d+)월 (\d+)일/);
@@ -54,6 +54,7 @@ const CompletedRequestSection = () => {
               request={req}
               onToggle={() => {}}
               isCompleted
+              onUpdate={() => markReviewAsWritten(req.id)} // ✅ 리뷰 작성 후 업데이트
             />
           ))
         ) : (

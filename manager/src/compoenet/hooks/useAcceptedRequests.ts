@@ -94,7 +94,7 @@ export const useAcceptedRequests = () => {
       manager: '홍길동 님',
       tasks: ['에어컨 필터 청소'],
       memo: '고양이가 있으니까 아래쪽에 있는 창문은 절대 열지 말아주세요!!!!',
-      reviewWritten: false,
+      reviewWritten: true,
       status: '완료',
     },
     {
@@ -112,7 +112,7 @@ export const useAcceptedRequests = () => {
       bookingDate: 'June 17, 5:00 PM',
       manager: '홍길동 님',
       tasks: ['바닥 청소', '창문 닦기'],
-      reviewWritten: false,
+      reviewWritten: true,
       status: '체크인 대기',
     },
   ]);
@@ -128,6 +128,12 @@ export const useAcceptedRequests = () => {
     );
   };
 
+  const markReviewAsWritten = (id: number) => {
+    setRequests((prev) =>
+      prev.map((r) => (r.id === id ? { ...r, reviewWritten: true } : r))
+    );
+  };
+
   const acceptedRequests = requests.filter((r) => r.status !== '완료');
   const completedRequests = requests.filter((r) => r.status === '완료');
 
@@ -136,5 +142,6 @@ export const useAcceptedRequests = () => {
     acceptedRequests,
     completedRequests,
     handleToggleStatus,
+    markReviewAsWritten,
   };
 };
