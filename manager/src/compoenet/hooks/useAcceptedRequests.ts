@@ -94,7 +94,7 @@ export const useAcceptedRequests = () => {
       manager: '홍길동 님',
       tasks: ['에어컨 필터 청소'],
       memo: '고양이가 있으니까 아래쪽에 있는 창문은 절대 열지 말아주세요!!!!',
-      reviewWritten: true,
+      reviewWritten: false,
       status: '완료',
     },
     {
