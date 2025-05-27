@@ -1,36 +1,38 @@
----
-name: Custom issue template
-about: Describe this issue template's purpose here.
-title: ''
-labels: ''
-assignees: ''
+<!-- 이슈 제목 형식은 "[type] 제목"으로 통일합니다. -->
+<!-- 사용하지 않는 항목은 지워주세요.-->
+
+>어떻게 써야 할지 고민될 땐 [Wiki의 ISSUE EXAMPLE : 이슈 어떻게 쓰면 좋을까?](https://github.com/Kernel360/KDEV4-VIVIM-BE/wiki/ISSUE-EXAMPLE-:-%EC%9D%B4%EC%8A%88-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%93%B0%EB%A9%B4-%EC%A2%8B%EC%9D%84%EA%B9%8C%3F)를 참고해주세요.
 
 ---
 
-# Issue
-## 이슈 유형
+## 🚀 이슈 설명
 
-- [ ] 기능 추가 요청 (Feature)
-- [ ] 버그 리포트 (Bug)
-- [ ] 리팩토링 / 개선 (Refactor)
-- [ ] 문서 관련 (Docs)
-- [ ] 질문 / 논의 (Question)
-- [ ] 기타 (Other)
+### (설명)
+
 
 ---
 
-## 📝 이슈 내용
+### 작업 계획
 
-어떤 이슈인지 명확하게 설명해주세요.
 
-## ✅ 해야 할 일 (To-do)
-
-- [ ] 작업 1
-- [ ] 작업 2
-- [ ] 작업 3
 
 ---
 
-## 📎 참고자료 (선택)
+## 주요 풀 리퀘스트
 
-관련 문서, 링크, 이미지 등을 첨부해주세요.
+- #번호  : 
+	 - 트러블슈팅: 
+   - 풀리퀘스트 리뷰: 
+
+   
+- #번호 : 
+   - 트러블슈팅: 
+   - 풀리퀘스트 리뷰: 
+
+---
+
+## 메모
+
+--- 
+
+## 참고 자료
