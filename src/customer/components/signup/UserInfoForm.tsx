@@ -1,0 +1,44 @@
+import { Input } from '@/common/components/ui/input';
+
+interface UserInfoFormProps {
+  userInfo: {
+    name: string;
+    phone: string;
+  };
+  onChange: (field: 'name' | 'phone', value: string) => void;
+}
+
+export default function UserInfoForm({ userInfo, onChange }: UserInfoFormProps) {
+  return (
+    <div className="space-y-4">
+      <div>
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+          이름
+        </label>
+        <Input
+          id="name"
+          type="text"
+          value={userInfo.name}
+          onChange={(e) => onChange('name', e.target.value)}
+          placeholder="이름을 입력하세요"
+          className="w-full px-4 py-2 rounded-lg bg-gray-50 h-[50px]"
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+          전화번호
+        </label>
+        <Input
+          id="phone"
+          type="tel"
+          value={userInfo.phone}
+          onChange={(e) => onChange('phone', e.target.value.replace(/[^0-9]/g, ''))}
+          placeholder="전화번호를 입력하세요 ('-' 제외)"
+          className="w-full px-4 py-2 rounded-lg bg-gray-50 h-[50px]"
+          required
+        />
+      </div>
+    </div>
+  );
+} 

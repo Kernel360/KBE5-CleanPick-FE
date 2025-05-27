@@ -1,11 +1,6 @@
-/* eslint-disable */
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { Input } from '@/common/components/ui/input';
 import { MapPin, X } from 'lucide-react';
-
-interface ScheduleAddressProps {
-  location: string;
-  onLocationChange: (location: string, detail?: { address: string; latitude: number; longitude: number }) => void;
-}
 
 declare global {
   interface Window {
@@ -13,44 +8,60 @@ declare global {
   }
 }
 
-export const ScheduleAddress = ({ location, onLocationChange }: ScheduleAddressProps) => {
+interface AddressSearchProps {
+  onAddressSelect: (address: string) => void;
+}
+
+export default function AddressSearch({ onAddressSelect }: AddressSearchProps) {
+  const [address, setAddress] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState<string>(location);
   const [map, setMap] = useState<any>(null);
   const [marker, setMarker] = useState<any>(null);
-  const [searchInput, setSearchInput] = useState('');
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
 
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${import.meta.env.VITE_KAKAO_MAP_API_KEY}&libraries=services`;
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${import.meta.env.VITE_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
     script.async = true;
+
     script.onload = () => {
-      // 스크립트 로드 후 맵 초기화
-      const mapContainer = document.getElementById('map');
-      const mapOption = {
-        center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3
-      };
-      new window.kakao.maps.Map(mapContainer, mapOption);
+      window.kakao.maps.load(() => {
+        setIsMapLoaded(true);
+      });
     };
+
     document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
   }, []);
 
+  // 지도 초기화
   useEffect(() => {
-    // 검색어가 변경될 때마다 주소 검색 실행
+    if (isModalOpen && isMapLoaded) {
+      const mapContainer = document.getElementById('map');
+      const mapOption = {
+        center: new window.kakao.maps.LatLng(37.566826, 126.978656), // 서울시청
+        level: 3
+      };
+      const newMap = new window.kakao.maps.Map(mapContainer, mapOption);
+      const newMarker = new window.kakao.maps.Marker();
+      setMap(newMap);
+      setMarker(newMarker);
+    }
+  }, [isModalOpen, isMapLoaded]);
+
+  useEffect(() => {
+    if (!searchInput || !isMapLoaded) return;
+
+    const places = new window.kakao.maps.services.Places();
     const searchAddress = () => {
-      if (!location) {
-        setSearchResults([]);
-        return;
-      }
-
-      const places = new window.kakao.maps.services.Places();
-
-      places.keywordSearch(location, (result: any[], status: any) => {
+      places.keywordSearch(searchInput, (result: any[], status: any) => {
         if (status === window.kakao.maps.services.Status.OK) {
-          // 검색 결과 중 주소 정보만 필터링
           const addressResults = result.filter(item => 
             item.address_name && (item.category_group_code === '' || item.category_group_code === 'BK9')
           );
@@ -61,64 +72,53 @@ export const ScheduleAddress = ({ location, onLocationChange }: ScheduleAddressP
 
     const debounceTimer = setTimeout(searchAddress, 300);
     return () => clearTimeout(debounceTimer);
-  }, [location]);
-
-  // 지도 초기화
-  useEffect(() => {
-    if (isModalOpen) {
-      const mapContainer = document.getElementById('map');
-      const mapOption = {
-        center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3
-      };
-      const newMap = new window.kakao.maps.Map(mapContainer, mapOption);
-      const newMarker = new window.kakao.maps.Marker();
-      setMap(newMap);
-      setMarker(newMarker);
-    }
-  }, [isModalOpen]);
+  }, [searchInput, isMapLoaded]);
 
   const handleSelectAddress = (item: any) => {
+    if (!isMapLoaded) return;
+
     const geocoder = new window.kakao.maps.services.Geocoder();
     
     geocoder.addressSearch(item.address_name, (result: any[], status: any) => {
       if (status === window.kakao.maps.services.Status.OK) {
         const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
         
-        // 지도 이동 및 마커 표시
         if (map && marker) {
-          marker.setMap(null); // 기존 마커 제거
+          marker.setMap(null);
           marker.setPosition(coords);
           marker.setMap(map);
           map.setCenter(coords);
         }
 
-        onLocationChange(item.address_name, {
-          address: item.address_name,
-          latitude: Number(result[0].y),
-          longitude: Number(result[0].x)
-        });
-        setSelectedAddress(item.address_name);
+        setAddress(item.address_name);
+        onAddressSelect(item.address_name);
         setSearchInput(item.address_name);
         setSearchResults([]);
         setIsSearching(false);
+        setIsModalOpen(false);
       }
     });
   };
 
   return (
-    <div className="mb-6 relative">
-      <h3 className="text-lg font-medium mb-3">위치 입력</h3>
-      <div className="relative">
-        <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-        <input
-          type="text"
-          value={selectedAddress}
-          onClick={() => setIsModalOpen(true)}
-          readOnly
-          placeholder="주소를 입력해주세요"
-          className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-        />
+    <div className="space-y-4">
+      <div>
+        <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+          주소
+        </label>
+        <div className="relative">
+          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <Input
+            id="address"
+            type="text"
+            value={address}
+            onClick={() => setIsModalOpen(true)}
+            readOnly
+            placeholder="주소를 입력해주세요"
+            className="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-50 h-[50px]"
+            required
+          />
+        </div>
       </div>
 
       {isModalOpen && (
@@ -134,16 +134,15 @@ export const ScheduleAddress = ({ location, onLocationChange }: ScheduleAddressP
             <h2 className="text-xl font-bold mb-4">주소 검색</h2>
             
             <div className="mb-4 relative">
-              <input
+              <Input
                 type="text"
                 value={searchInput}
                 onChange={(e) => {
                   setSearchInput(e.target.value);
-                  onLocationChange(e.target.value);
                   setIsSearching(true);
                 }}
                 placeholder="주소를 검색해주세요"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg"
+                className="w-full px-4 py-2 rounded-lg"
               />
 
               {isSearching && searchResults.length > 0 && (
@@ -152,7 +151,7 @@ export const ScheduleAddress = ({ location, onLocationChange }: ScheduleAddressP
                     <button
                       key={index}
                       onClick={() => handleSelectAddress(item)}
-                      className="w-full px-4 py-3 text-left hover:bg-gray-50 border-b border-gray-100 last:border-0 bg-white"
+                      className="w-full px-4 py-3 text-left hover:bg-gray-50 border-b border-gray-100 last:border-0"
                     >
                       <p className="font-medium text-gray-900">{item.place_name || item.address_name}</p>
                       <p className="text-sm text-gray-500">{item.address_name}</p>
@@ -164,17 +163,11 @@ export const ScheduleAddress = ({ location, onLocationChange }: ScheduleAddressP
 
             <div 
               id="map" 
-              className="mt-4"
-              style={{ 
-                width: '100%',
-                height: 'calc(100% - 120px)',
-                position: 'relative',
-                overflow: 'hidden'
-              }}
+              className="w-full h-[calc(100%-120px)] relative overflow-hidden rounded-lg"
             ></div>
           </div>
         </div>
       )}
     </div>
   );
-}; 
+} 

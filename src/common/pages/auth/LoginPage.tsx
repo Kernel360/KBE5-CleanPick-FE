@@ -29,6 +29,11 @@ export default function LoginPage() {
         navigate('/signupdetail');
         return response.data;
       }
+
+      if (type === 'manager' && response.data.status === 'PENDING') {
+        navigate('/signupdetail');
+        return response.data;
+      }
       
       // 사용자 타입에 따라 리다이렉트
       navigate(type === 'customer' ? '/' : '/manager');

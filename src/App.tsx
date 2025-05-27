@@ -42,6 +42,7 @@ function App() {
         <Route path="mypage/edit" element={<MyPageEdit />} />
         <Route path="review" element={<ReviewList />} />
         <Route path="signupdetail" element={<CustomerSignUpDetailPage />} />
+        <Route path="/signup-detail" element={<CustomerSignUpDetailPage />} />
       </Route>
 
       <Route path="/manager">
@@ -59,7 +60,7 @@ function App() {
 
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
-      <Route path="/customer/signup-detail" element={<CustomerSignUpDetailPage />} />
+    
     </Routes>
   );
 }
