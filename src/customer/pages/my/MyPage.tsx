@@ -56,7 +56,7 @@ const MyPage: React.FC = () => {
         <div className="mt-4 bg-white">
           <button 
             className="w-full px-6 py-4 flex items-center justify-between border-b border-gray-100 bg-white"
-            onClick={() => {navigate('/customer/mypage/edit')}}
+            onClick={() => {navigate('/mypage/edit')}}
           >
             <div className="flex items-center gap-3">
               <FaRegUser className="text-gray-400" />

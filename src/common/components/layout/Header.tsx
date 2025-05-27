@@ -56,7 +56,7 @@ export const Header = ({
               <div className="font-bold text-lg  ">{title}</div>
             </>
           ) : (
-            <div className="font-bold text-lg hover:cursor-pointer" onClick={() => navigate('/')}>{title}</div>
+            <div className="font-bold text-lg hover:cursor-pointer" onClick={() => navigate('/customer')}>{title}</div>
           )}
       
         </div>

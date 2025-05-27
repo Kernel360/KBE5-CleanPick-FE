@@ -14,7 +14,7 @@ export const ServiceCard = ({ icon, label, type, optionId }: ServiceCardProps) =
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/customer/schedule', { 
+    navigate('/schedule', { 
       state: { 
         selectedService: type,
         selectedOption: optionId 

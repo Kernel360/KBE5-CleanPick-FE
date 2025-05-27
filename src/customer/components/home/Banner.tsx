@@ -23,7 +23,7 @@ export const Banner = () => {
           "hover:cursor-pointer",
           "rounded-full"
         )}
-        onClick={() => navigate('/customer/schedule')}
+        onClick={() => navigate('/login')}
       >
         시작하기 +
       </Button>

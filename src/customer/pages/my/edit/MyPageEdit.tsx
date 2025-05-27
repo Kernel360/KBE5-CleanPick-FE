@@ -25,7 +25,7 @@ const MyPageEdit: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: API 연동
-    navigate('/customer/mypage');
+    navigate('/mypage');
   };
 
   return (

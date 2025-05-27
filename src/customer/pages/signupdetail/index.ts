@@ -1,0 +1,1 @@
+export { CustomerSignUpDetailPage } from './CustomerSignUpDetailPage';
