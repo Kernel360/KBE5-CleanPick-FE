@@ -19,11 +19,10 @@ export default function LoginPage() {
         password,
       });
 
-      const token = response.headers['authorization'];
-      if (token) {
-        localStorage.setItem('token', token);
-        localStorage.setItem('userType', type);
-      }
+      const token = response.headers['authorization']?.replace('Bearer ', '') || '';
+
+      localStorage.setItem('token', token);
+      localStorage.setItem('userType', type);
       
       if (type === 'customer' && response.data.status === 'PENDING') {
         navigate('/signupdetail');

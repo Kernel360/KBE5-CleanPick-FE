@@ -9,7 +9,7 @@ declare global {
 }
 
 interface AddressSearchProps {
-  onAddressSelect: (address: string) => void;
+  onAddressSelect: (mainAddress: string) => void;
 }
 
 export default function AddressSearch({ onAddressSelect }: AddressSearchProps) {

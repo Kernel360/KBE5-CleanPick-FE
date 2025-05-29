@@ -3,40 +3,75 @@ import { useNavigate } from 'react-router-dom';
 import HeaderNav from '@/manager/layer/HeaderNav';
 import ProfileImageUpload from '@/customer/components/signup/ProfileImageUpload';
 import UserInfoForm from '@/customer/components/signup/UserInfoForm';
-import AddressSearch from '@/customer/components/signup/AddressSearch';
+import { ScheduleAddress } from '@/customer/components/schedule/ScheduleAddress';
+import { ScheduleAddressDetail } from '@/customer/components/schedule/ScheduleAddressDetail';
 import instance from '@/common/api/axios';
 
 interface UserDetailInfo {
   name: string;
-  phone: string;
-  address: string;
-  profileImage: File | null;
+  phoneNumber: string;
+  mainAddress: string;
+  subAddress: string;
+}
+
+interface PresignedUrlInfo {
+  url: string;
+  contentType: string;
 }
 
 export default function CustomerSignUpDetailPage() {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState<UserDetailInfo>({
     name: '',
-    phone: '',
-    address: '',
-    profileImage: null
+    phoneNumber: '',
+    mainAddress: '',
+    subAddress: ''
   });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [presignedUrlInfo, setPresignedUrlInfo] = useState<PresignedUrlInfo | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     try {
-      const formData = new FormData();
-      formData.append('name', userInfo.name);
-      formData.append('phone', userInfo.phone);
-      formData.append('address', userInfo.address);
-      if (userInfo.profileImage) {
-        formData.append('profileImage', userInfo.profileImage);
+      let profileImageUrl = '';
+      
+      // 이미지가 있는 경우 먼저 S3에 업로드
+      if (selectedFile && presignedUrlInfo) {
+        try {
+          const response = await fetch(presignedUrlInfo.url, {
+            method: 'PUT',
+            body: selectedFile,
+            headers: {
+              'Content-Type': presignedUrlInfo.contentType,
+            },
+          });
+          
+          if (!response.ok) {
+            throw new Error(`이미지 업로드 실패 (상태 코드: ${response.status})`);
+          }
+
+          // presigned URL에서 쿼리 파라미터를 제거하여 실제 S3 URL 추출
+          profileImageUrl = presignedUrlInfo.url.split('?')[0];
+        } catch (error) {
+          console.error('이미지 업로드 실패:', error);
+          alert('이미지 업로드에 실패했습니다. 다시 시도해주세요.');
+          return;
+        }
       }
 
-      await instance.post('/customer/signup-detail', formData, {
+      // 회원 정보 등록
+      const signupData = {
+        name: userInfo.name,
+        phoneNumber: userInfo.phoneNumber,
+        mainAddress: userInfo.mainAddress,
+        subAddress: userInfo.subAddress,
+        profileImageUrl
+      };
+
+      await instance.post('/customers', signupData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
       });
 
@@ -47,20 +82,37 @@ export default function CustomerSignUpDetailPage() {
     }
   };
 
+  const handleLocationChange = (location: string) => {
+    setUserInfo(prev => ({
+      ...prev,
+      mainAddress: location
+    }));
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 mt-[100px]">
+    <div className="min-h-screen bg-gray-50">
       <HeaderNav showBack={true} title="추가 정보 입력" />
-      <div className="max-w-md mx-auto p-6">
+      <div className="max-w-md mx-auto p-6 mt-[100px]">
         <form onSubmit={handleSubmit} className="space-y-6">
           <ProfileImageUpload
-            onImageSelect={(file) => setUserInfo(prev => ({ ...prev, profileImage: file }))}
+            selectedFile={selectedFile}
+            onImageSelect={(file, presignedInfo) => {
+              setSelectedFile(file);
+              setPresignedUrlInfo(presignedInfo);
+            }}
           />
           <UserInfoForm
             userInfo={userInfo}
             onChange={(field, value) => setUserInfo(prev => ({ ...prev, [field]: value }))}
           />
-          <AddressSearch
-            onAddressSelect={(address) => setUserInfo(prev => ({ ...prev, address }))}
+          <ScheduleAddress
+            location={userInfo.mainAddress}
+            onLocationChange={handleLocationChange}
+          />
+          <ScheduleAddressDetail
+            detailAddress={userInfo.subAddress}
+            onDetailAddressChange={(detail) => setUserInfo(prev => ({ ...prev, subAddress: detail }))}
+            mainAddress={userInfo.mainAddress}
           />
           <button
             type="submit"
