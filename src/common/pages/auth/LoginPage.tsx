@@ -2,6 +2,7 @@ import LoginForm from '@/common/components/auth/LoginForm';
 import instance from '@/common/api/axios';
 import { useNavigate } from 'react-router-dom';
 import HeaderNav from '@/manager/layer/HeaderNav';
+import useAuthStore from '@/stores/useAuthStore';
 
 interface LoginResponse {
   id: number;
@@ -11,6 +12,7 @@ interface LoginResponse {
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { login } = useAuthStore();
 
   const handleLogin = async (email: string, password: string, type: 'customer' | 'manager') => {
     try {
@@ -23,6 +25,9 @@ export default function LoginPage() {
 
       localStorage.setItem('token', token);
       localStorage.setItem('userType', type);
+      
+      // Zustand store 업데이트
+      login(response.data, type);
       
       if (type === 'customer' && response.data.status === 'PENDING') {
         navigate('/signupdetail');

@@ -1,23 +1,45 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Header } from '@/customer/components/layout/Header';
-import { FaRegUser, FaChevronRight } from 'react-icons/fa';
+import { FaRegUser, FaChevronRight, FaSignOutAlt } from 'react-icons/fa';
 import { IoNotificationsOutline } from 'react-icons/io5';
 import { BiMessageDetail } from 'react-icons/bi';
-import { useNavigate } from 'react-router-dom';
+import useAuthStore from '@/stores/useAuthStore';
+import instance from '@/customer/api/axios';
 
-interface UserProfile {
-  nickname: string;
-  profileImage?: string;
-}
-
-// 임시 데이터 (나중에 API 연동으로 대체)
-const tempUserProfile: UserProfile = {
-  nickname: "홍길동",
-  // profileImage: "https://example.com/profile.jpg" // 이미지 있을 때 테스트용
-};
-
-const MyPage: React.FC = () => {
+const MyPage = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, profile, logout, userType } = useAuthStore();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [isAuthenticated, navigate]);
+
+  const handleLogout = async () => {
+    try {
+      // 백엔드 로그아웃 요청
+      await instance.post(`/logout`);
+      
+      // 로컬 스토리지 토큰 삭제
+      localStorage.removeItem('token');
+      localStorage.removeItem('userType');
+      
+      // Zustand store 초기화
+      logout();
+      
+      // 로그인 페이지로 이동
+      navigate('/login');
+    } catch (error) {
+      console.error('로그아웃 실패:', error);
+      // 에러가 발생해도 로컬의 인증 정보는 삭제
+      localStorage.removeItem('token');
+      localStorage.removeItem('userType');
+      logout();
+      navigate('/login');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -32,9 +54,9 @@ const MyPage: React.FC = () => {
           <div className="flex flex-col items-center">
             {/* 프로필 이미지 */}
             <div className="w-24 h-24">
-              {tempUserProfile.profileImage ? (
+              {profile?.profileImageUrl ? (
                 <img 
-                  src={tempUserProfile.profileImage} 
+                  src={profile.profileImageUrl} 
                   alt="프로필" 
                   className="w-full h-full rounded-full object-cover border-2 border-gray-200"
                 />
@@ -47,7 +69,8 @@ const MyPage: React.FC = () => {
             
             {/* 사용자 정보 */}
             <div className="mt-4 text-center">
-              <h2 className="text-xl font-bold">{tempUserProfile.nickname}</h2>
+              <h2 className="text-xl font-bold">{profile?.name || '사용자'}</h2>
+            
             </div>
           </div>
         </div>
@@ -67,7 +90,7 @@ const MyPage: React.FC = () => {
 
           <button 
             className="w-full px-6 py-4 flex items-center justify-between border-b border-gray-100 bg-white"
-            onClick={() => {navigate('/customer/review')}}
+            onClick={() => {navigate('/review')}}
           >
             <div className="flex items-center gap-3">
               <BiMessageDetail className="text-gray-400" />
@@ -96,6 +119,16 @@ const MyPage: React.FC = () => {
               <span className="text-gray-700">고객 센터</span>
             </div>
             <FaChevronRight className="text-gray-400" />
+          </button>
+
+          <button 
+            className="w-full px-6 py-4 flex items-center justify-between bg-white text-red-500 border-t border-gray-100"
+            onClick={handleLogout}
+          >
+            <div className="flex items-center gap-3">
+              <FaSignOutAlt className="text-red-500" />
+              <span>로그아웃</span>
+            </div>
           </button>
         </div>
       </div>

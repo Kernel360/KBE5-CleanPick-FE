@@ -24,6 +24,11 @@ export const ScheduleAddress = ({ location, onLocationChange }: ScheduleAddressP
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
   const mapRef = useRef<any>(null);
 
+  // location prop이 변경될 때 selectedAddress 업데이트
+  useEffect(() => {
+    setSelectedAddress(location);
+  }, [location]);
+
   // 스크립트 로딩
   useEffect(() => {
     const script = document.createElement('script');

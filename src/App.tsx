@@ -1,4 +1,6 @@
 import './index.css';
+import { CustomerSignUpDetailPage } from './customer/pages/signupdetail';
+import { Layout } from './customer/components/layout/Layout';
 import { Routes, Route, Outlet } from 'react-router-dom';
 import { MainPage } from './customer/pages/main';
 import { SchedulePage } from './customer/pages/schedule';
@@ -19,17 +21,8 @@ import ProfileDetail from './manager/pages/ProfileDetail';
 import ReviewToUser from './manager/pages/ReviewToUser';
 import LoginPage from './common/pages/auth/LoginPage';
 import SignupPage from './common/pages/auth/SignUpPage';
-import { CustomerSignUpDetailPage } from './customer/pages/signupdetail';
 
 
-const Layout = () => {
-    return (
-        <div>
-            <Outlet />
-            <BottomNav className="mt-[500px]" />
-        </div>
-    )
-}
 
 function App() {
   return (
@@ -60,7 +53,7 @@ function App() {
 
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
-    
+
     </Routes>
   );
 }

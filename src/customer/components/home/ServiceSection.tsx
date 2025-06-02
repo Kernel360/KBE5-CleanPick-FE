@@ -6,6 +6,8 @@ import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
 import { TbAirConditioning } from "react-icons/tb";
 import { GiCookingPot } from "react-icons/gi";
 import { LuRefrigerator } from "react-icons/lu";
+import { useNavigate } from 'react-router-dom';
+import useAuthStore from '@/stores/useAuthStore';
 
 const serviceList = [
   { icon: <LuHouse className="text-primary" />, label: '가정집 청소', type: 'HOME' },
@@ -20,6 +22,8 @@ export const ServiceSection = () => {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const navigate = useNavigate();
+  const { isAuthenticated, userType } = useAuthStore();
 
   const handleMouseDown = (e: MouseEvent) => {
     if (!scrollRef.current) return;
@@ -44,6 +48,27 @@ export const ServiceSection = () => {
     scrollRef.current.scrollLeft = scrollLeft - walk;
   };
 
+  const handleServiceClick = (type: string, optionId?: number) => {
+    console.log('Auth State:', { isAuthenticated, userType });
+
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+
+    if (userType === 'manager') {
+      navigate('/manager');
+      return;
+    }
+
+    navigate('/schedule', { 
+      state: { 
+        selectedService: type,
+        selectedOption: optionId 
+      } 
+    });
+  };
+
   return (
     <section className="mt-6">
       <div className="text-base font-bold mb-2 ml-5">서비스 선택</div>
@@ -54,7 +79,6 @@ export const ServiceSection = () => {
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
         className={cn(
-          
           "flex overflow-x-auto gap-3 px-4 pb-4",
           "scrollbar-hide snap-x snap-proximity",
           "select-none cursor-grab active:cursor-grabbing",
@@ -64,10 +88,13 @@ export const ServiceSection = () => {
         {serviceList.map((service) => (
           <div 
             key={service.label} 
-            className="snap-center shrink-0 "
+            className="snap-center shrink-0"
             onDragStart={(e) => e.preventDefault()}
           >
-            <ServiceCard {...service} />
+            <ServiceCard 
+              {...service} 
+              onClick={() => handleServiceClick(service.type, service.optionId)} 
+            />
           </div>
         ))}
       </div>

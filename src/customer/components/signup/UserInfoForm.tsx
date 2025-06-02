@@ -13,7 +13,7 @@ export default function UserInfoForm({ userInfo, onChange }: UserInfoFormProps) 
     <div className="space-y-4">
       <div>
         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-          이름
+          닉네임
         </label>
         <Input
           id="name"
