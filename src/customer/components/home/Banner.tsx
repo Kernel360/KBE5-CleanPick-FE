@@ -2,9 +2,22 @@ import React from 'react';
 import { Button } from '@/customer/components/ui/button';
 import { cn } from '@/customer/lib/utils';
 import { useNavigate } from 'react-router-dom';
+import useAuthStore from '@/stores/useAuthStore';
 
 export const Banner = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, userType } = useAuthStore();
+
+  const handleStartClick = () => {
+    console.log('Auth State:', { isAuthenticated, userType });
+
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+
+    navigate('/schedule');
+  };
 
   return (
     <div className={cn(
@@ -23,7 +36,7 @@ export const Banner = () => {
           "hover:cursor-pointer",
           "rounded-full"
         )}
-        onClick={() => navigate('/customer/schedule')}
+        onClick={handleStartClick}
       >
         시작하기 +
       </Button>

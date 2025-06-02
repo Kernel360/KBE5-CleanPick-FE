@@ -53,20 +53,20 @@ export const BottomNav = ({ className }: BottomNavProps) => {
         <NavItem 
           icon={<FaHome size={20} />} 
           label="홈" 
-          isActive={isActive('/')}
-          onClick={() => navigate('/')} 
+          isActive={isActive('/customer')}
+          onClick={() => navigate('/customer')} 
         />
         <NavItem 
           icon={<FaCalendarAlt size={20} />} 
           label="예약" 
-          isActive={isActive('/schedule')}
-          onClick={() => navigate('/schedule')}
+          isActive={isActive('/customer/schedule')}
+          onClick={() => navigate('/customer/schedule')}
         />
         <NavItem 
           icon={<FaUserFriends size={20} />} 
           label="매니저" 
-          isActive={isActive('/managers')}
-          onClick={() => navigate('/managers')}
+          isActive={isActive('/customer/managers')}
+          onClick={() => navigate('/customer/managers')}
         />
         <NavItem 
           icon={<FaRegUser size={20} />} 

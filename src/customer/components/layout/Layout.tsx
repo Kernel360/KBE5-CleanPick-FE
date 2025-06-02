@@ -1,0 +1,29 @@
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom"
+import { BottomNav } from "./BottomNav"
+import { useEffect } from "react";
+import useAuthStore from "@/stores/useAuthStore"
+
+export const Layout = () => {
+
+    const { user, userType } = useAuthStore();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        console.log(user, userType);
+        if (userType === 'customer' && user?.userStatus === 'PENDING' && location.pathname !== '/mypage/edit') {
+            navigate('/mypage/edit');
+            console.log('redirect to mypage/edit');
+        }
+    }, [user, userType]);
+
+    // customer이고 status가 PENDING이면 MyPageEdit으로 리다이렉트
+  
+
+    return (
+        <div>
+            <Outlet />
+            <BottomNav className="mt-[500px]" />
+        </div>
+    )
+}

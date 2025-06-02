@@ -1,4 +1,6 @@
 import './index.css';
+import { CustomerSignUpDetailPage } from './customer/pages/signupdetail';
+import { Layout } from './customer/components/layout/Layout';
 import { Routes, Route, Outlet } from 'react-router-dom';
 import { MainPage } from './customer/pages/main';
 import { SchedulePage } from './customer/pages/schedule';
@@ -17,26 +19,23 @@ import ProfileForm from './manager/pages/ProfileForm';
 import Policy from './manager/pages/Policy';
 import ProfileDetail from './manager/pages/ProfileDetail';
 import ReviewToUser from './manager/pages/ReviewToUser';
+import LoginPage from './common/pages/auth/LoginPage';
+import SignupPage from './common/pages/auth/SignUpPage';
 
-const Layout = () => {
-    return (
-        <div>
-            <Outlet />
-            <BottomNav className="mt-[500px]" />
-        </div>
-    )
-}
+
 
 function App() {
   return (
     <Routes>
-      <Route path="/customer" element={<Layout />}>
+      <Route path="/" element={<Layout />}>
         <Route index element={<MainPage />} />
         <Route path="schedule" element={<SchedulePage />} />
         <Route path="mypage" element={<MyPage />} />
         <Route path="managers" element={<ManagerListPage />} />
         <Route path="mypage/edit" element={<MyPageEdit />} />
         <Route path="review" element={<ReviewList />} />
+        <Route path="signupdetail" element={<CustomerSignUpDetailPage />} />
+        <Route path="/signup-detail" element={<CustomerSignUpDetailPage />} />
       </Route>
 
       <Route path="/manager">
@@ -51,6 +50,10 @@ function App() {
         <Route path="profileDetail" element={<ProfileDetail />} />
         <Route path="reviewToUser" element={<ReviewToUser />} />
       </Route>
+
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<SignupPage />} />
+
     </Routes>
   );
 }

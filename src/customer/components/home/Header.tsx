@@ -19,7 +19,7 @@ export const Header = () => {
         <div className="font-bold text-lg">클린픽</div>
         <div className="flex items-center space-x-3">
           <FaRegBell size={20} className="text-white cursor-pointer hover:text-gray-900" />
-          <FiUser size={24} className="text-white cursor-pointer hover:text-gray-900" onClick={() => navigate('/customer/mypage')} />
+          <FiUser size={24} className="text-white cursor-pointer hover:text-gray-900" onClick={() => navigate('/mypage')} />
         </div>
       </div>
     </header>

@@ -26,6 +26,16 @@ function convertServiceType(serviceType: string) {
   } else if (serviceType === 'SPECIAL') {
     return '특수 청소';
   }
+  return '기타 청소';
+}
+
+function formatDate(date: Date | null) {
+  if (!date) return '';
+  try {
+    return date.toISOString().split('T')[0];
+  } catch (e) {
+    return '';
+  }
 }
 
 export const PaymentInfo: React.FC<PaymentInfoProps> = ({
@@ -51,12 +61,12 @@ export const PaymentInfo: React.FC<PaymentInfoProps> = ({
         <div className="flex justify-between items-center">
           <span className="text-gray-600">예약 날짜</span>
           <span>
-            {serviceDate.toISOString().split('T')[0]}, {serviceTime}
+            {formatDate(serviceDate)}, {serviceTime}
           </span>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-gray-600">서비스 기간</span>
-          <span>{calculateTime(serviceDuration)}</span>
+          <span>{calculateTime(serviceDuration || 0)}</span>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-gray-600">위치</span>
@@ -69,20 +79,18 @@ export const PaymentInfo: React.FC<PaymentInfoProps> = ({
      
       {/* 가격 정보 */}
       <div className="p-4 rounded-lg space-y-3 mb-">
-        
-        
         {/* 선택된 옵션들 */}
         {selectedOptions.map((option) => (
           <div key={option.id} className="flex justify-between items-center text-sm">
             <span className="text-gray-600">{option.label}</span>
-            <span>₩{option.extra_price.toLocaleString()}</span>
+            <span>₩{(option.extra_price || 0).toLocaleString()}</span>
           </div>
         ))}
 
         {/* 총액 */}
         <div className="flex justify-between items-center font-bold text-lg pt-2 border-t border-gray-300 ">
           <span>Total</span>
-          <span className="text-primary">₩{(totalPrice).toLocaleString()}</span>
+          <span className="text-primary">₩{(totalPrice || 0).toLocaleString()}</span>
         </div>
       </div>
     </div>

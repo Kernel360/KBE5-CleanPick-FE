@@ -1,34 +1,23 @@
 import React, { ReactNode } from 'react';
 import { Card, CardContent } from '@/customer/components/ui/card';
 import { cn } from '@/customer/lib/utils';
-import { useNavigate } from 'react-router-dom';
 
 interface ServiceCardProps {
   icon: ReactNode;
   label: string;
   type: string;
   optionId?: number;
+  onClick?: () => void;
 }
 
-export const ServiceCard = ({ icon, label, type, optionId }: ServiceCardProps) => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate('/customer/schedule', { 
-      state: { 
-        selectedService: type,
-        selectedOption: optionId 
-      } 
-    });
-  };
-
+export const ServiceCard = ({ icon, label, type, optionId, onClick }: ServiceCardProps) => {
   return (
     <Card 
       className={cn(
         "bg-gray-100 border-none md:w-[200px] w-[100px] h-[100px] ",
         "hover:bg-gray-200 transition-colors cursor-pointer "
       )}
-      onClick={handleClick}
+      onClick={onClick}
     >
       <CardContent className={cn(
         "flex flex-col items-center py-6",

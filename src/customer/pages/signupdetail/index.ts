@@ -1,0 +1,1 @@
+export { default as CustomerSignUpDetailPage } from './CustomerSignUpDetailPage';
