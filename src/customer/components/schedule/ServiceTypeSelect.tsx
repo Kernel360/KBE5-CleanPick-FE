@@ -6,22 +6,25 @@ import { IoBagHandle } from "react-icons/io5";
 
 interface ServiceTypeProps {
   selected: string;
-  onSelect: (type: string) => void;
+  onSelect: (type: string, id: number) => void;
 }
 
 const serviceTypes = [
   {
-    id: 'HOME',
+    id: 1,
+    type: 'HOME',
     label: '가정집 청소',
     icon: <FaHome size={24} />,
   },
   {
-    id: 'OFFICE',
+    id: 2,
+    type: 'OFFICE',
     label: '사무실 청소',
     icon: <FaBuilding size={24} />,
   },
   {
-    id: 'SPECIAL',
+    id: 3,
+    type: 'SPECIAL',
     label: '특수 청소',
     icon: <IoBagHandle size={24} />,
   },
@@ -32,34 +35,34 @@ export const ServiceTypeSelect = ({ selected, onSelect }: ServiceTypeProps) => {
     <div className="px-4">
       <h2 className="text-lg font-bold mb-4">서비스 유형</h2>
       <div className="flex flex-col gap-3">
-        {serviceTypes.map((type) => (
+        {serviceTypes.map((service) => (
           <button
-            key={type.id}
-            onClick={() => onSelect(type.id)}
+            key={service.id}
+            onClick={() => onSelect(service.type, service.id)}
             className={cn(
               "w-full h-16 rounded-xl flex items-center px-6",
               "transition-all duration-200",
               "border-2",
-              selected === type.id
+              selected === service.type
                 ? "bg-primary/5 border-primary text-primary"
                 : "bg-white border-gray-100 hover:border-gray-200"
             )}
           >
             <div className={cn(
               "rounded-lg p-2.5",
-              selected === type.id
+              selected === service.type
                 ? "bg-primary/10 text-primary"
                 : "bg-gray-50 text-gray-400"
             )}>
-              {type.icon}
+              {service.icon}
             </div>
             <span className={cn(
               "font-medium ml-4",
-              selected === type.id
+              selected === service.type
                 ? "text-primary"
                 : "text-gray-700"
             )}>
-              {type.label}
+              {service.label}
             </span>
           </button>
         ))}

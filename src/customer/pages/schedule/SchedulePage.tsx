@@ -7,10 +7,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { PaymentPhase } from '@/customer/components/schedule/PaymentPhase';  
 
 export interface CleaningOption {
-    id: number,
-    label: string,
-    extra_price: number,
-    extra_time: number,
+    id: number;
+    type: string;
+    name: string;
+    extraPrice: number;
+    extraDuration: number;
 }
 
 export const SchedulePage = () => {
@@ -20,6 +21,7 @@ export const SchedulePage = () => {
     const [currentPhase, setCurrentPhase] = useState(1);
     
     // 서비스 선택 단계 상태 (Phase 1)
+    const [selectedServiceId, setSelectedServiceId] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalTime, setTotalTime] = useState(0);
     const [selectedServiceType, setSelectedServiceType] = useState('');
@@ -70,14 +72,21 @@ export const SchedulePage = () => {
         }
     };
 
+    const onServiceTypeSelect = (type: string, id: number) => {
+        setSelectedServiceType(type);
+        setSelectedServiceId(id);
+    }
+
     // 현재 단계에 따른 컴포넌트 렌더링
     const renderPhase = () => {
         switch (currentPhase) {
             case 1:
                 return (
                     <ServicePhase
+                        selectedServiceId={selectedServiceId}
+                        setSelectedServiceId={setSelectedServiceId}
                         selectedServiceType={selectedServiceType}
-                        onServiceTypeSelect={setSelectedServiceType}
+                        onServiceTypeSelect={onServiceTypeSelect}
                         selectedItems={selectedItems}
                         onToggleItem={handleToggleItem}
                         totalPrice={totalPrice}
