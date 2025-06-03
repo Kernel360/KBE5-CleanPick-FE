@@ -21,7 +21,7 @@ import ProfileDetail from './manager/pages/ProfileDetail';
 import ReviewToUser from './manager/pages/ReviewToUser';
 import LoginPage from './common/pages/auth/LoginPage';
 import SignupPage from './common/pages/auth/SignUpPage';
-
+import '@/common/fcm/settingFCM';
 
 
 function App() {

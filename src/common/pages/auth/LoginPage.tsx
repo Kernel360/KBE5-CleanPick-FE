@@ -3,6 +3,7 @@ import instance from '@/common/api/axios';
 import { useNavigate } from 'react-router-dom';
 import HeaderNav from '@/manager/layer/HeaderNav';
 import useAuthStore from '@/stores/useAuthStore';
+import { registerFCMToken } from '@/common/fcm/fcmtoken-manage';
 
 interface LoginResponse {
   id: number;
@@ -25,10 +26,10 @@ export default function LoginPage() {
 
       localStorage.setItem('token', token);
       localStorage.setItem('userType', type);
-      
+
       // Zustand store 업데이트
       login(response.data, type);
-      
+      registerFCMToken();
       if (type === 'customer' && response.data.status === 'PENDING') {
         navigate('/signupdetail');
         return response.data;
