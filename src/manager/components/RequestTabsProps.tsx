@@ -11,10 +11,10 @@ const RequestTabs = ({ activeTab, setActiveTab, tabs }: RequestTabsProps) => {
         <button
           key={tab}
           onClick={() => setActiveTab(tab)}
-          className={`flex-1 py-3 text-sm font-medium ${
+          className={`flex-1 py-3 text-sm bg-white rounded-none ${
             activeTab === tab
-              ? 'text-indigo-600 border-b-2 border-indigo-600 font-bold'
-              : 'text-gray-500'
+              ? 'text-indigo-600 border-b-2 border-indigo-600 font-extrabold'
+              : 'text-gray-500 font-medium'
           }`}
         >
           {tab}
