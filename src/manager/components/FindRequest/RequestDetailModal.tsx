@@ -1,6 +1,7 @@
 import { AcceptedRequest } from "../hooks/useAcceptedRequests";
 import ReviewWriteModal from "./ReviewWriteModal";
 import { useState } from 'react';
+import { FaCheck } from 'react-icons/fa';
 
 interface RequestDetailModalProps {
   request: AcceptedRequest;
@@ -26,9 +27,12 @@ const RequestDetailModal = ({ request, onClose, onUpdate }: RequestDetailModalPr
 
         {/* 서비스 항목 */}
         {request.tasks && request.tasks.length > 0 && (
-          <ul className="mt-4 space-y-1 text-sm">
+          <ul className=" -ml-4 mt-4 space-y-2 text-sm">
             {request.tasks.map((task, idx) => (
-              <li key={idx} className="text-green-600 font-medium">✔ {task}</li>
+              <li key={idx} className="flex items-center text-gray-600 font-medium">
+                <FaCheck className="mr-2 text-green-500" size={16} />
+                {task}
+              </li>
             ))}
           </ul>
         )}
@@ -103,7 +107,7 @@ const RequestDetailModal = ({ request, onClose, onUpdate }: RequestDetailModalPr
             onClose();
             if (onUpdate) onUpdate(); // ✅ 업데이트 트리거
           }}
-          className="mt-3 text-sm text-gray-400 w-full text-center"
+          className="mt-3 text-sm py-3 text-white w-full text-center"
         >
           닫기
         </button>

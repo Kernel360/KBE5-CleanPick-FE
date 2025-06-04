@@ -65,7 +65,7 @@ const ReviewWriteModal = ({
           <p className="font-bold mb-1">리뷰를 작성해주세요</p>
           <textarea
             className="w-full border rounded px-3 py-2 text-sm text-gray-700"
-            placeholder="청소 서비스에 대한 솔직한 의견을 남겨주세요. 다른 고객들에게 도움이 됩니다."
+            placeholder="서비스 진행 과정에 개선이 필요한 점을 적어주세요. 다른 매니저님들께 도움이 됩니다."
             maxLength={100}
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -85,7 +85,7 @@ const ReviewWriteModal = ({
 
         <button
           onClick={onClose}
-          className="mt-2 w-full text-center text-sm text-gray-400"
+          className="mt-3 text-sm py-3 text-white w-full text-center"
         >
           닫기
         </button>
