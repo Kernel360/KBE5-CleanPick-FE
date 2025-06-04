@@ -3,10 +3,21 @@ import { useSchedule } from '@/manager/components/hooks/useSchedule';
 import FilterTabs from '@/manager/components/FilterTabs';
 import ScheduleCard from '@/manager/components/scheduleCard';
 
-const TodayListPage = () => {
+interface Schedule {
+  id: number;
+  category: string;
+  title: string;
+  time: string;
+  address: string;
+  customer: string;
+  rating: string;
+  status: 'ready' | 'checked-in' | 'completed';
+}
+
+export const ScheduleList: React.FC = () => {
   const { schedules, handleStatusChange, isLoading, error } = useSchedule();
-  const [filter, setFilter] = useState('전체');
-  const [showCompleted, setShowCompleted] = useState(false);
+  const [filter, setFilter] = useState<string>('전체');
+  const [showCompleted, setShowCompleted] = useState<boolean>(false);
 
   const filtered = schedules.filter(
     (s) =>
@@ -64,6 +75,4 @@ const TodayListPage = () => {
       </div>
     </div>
   );
-};
-
-export default TodayListPage;
+}; 

@@ -7,7 +7,18 @@ import BottomNav from '@/manager/layer/BottomNav';
 import RequestTabs from '@/manager/components/RequestTabsProps';
 import ScheduleCard from '@/manager/components/scheduleCard';
 
-const dummySchedules = [
+interface Schedule {
+  id: number;
+  category: string;
+  title: string;
+  time: string;
+  address: string;
+  customer: string;
+  rating: string;
+  status: 'ready' | 'checked-in' | 'completed';
+}
+
+const dummySchedules: Schedule[] = [
   {
     id: 1,
     category: '근무 내역',
@@ -30,9 +41,9 @@ const dummySchedules = [
   },
 ];
 
-const IncomeList = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [activeTab, setActiveTab] = useState('근무 내역');
+export const IncomeList: React.FC = () => {
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  const [activeTab, setActiveTab] = useState<string>('근무 내역');
 
   const handlePrevMonth = () => {
     setCurrentDate((prev) => subMonths(prev, 1));
@@ -94,6 +105,4 @@ const IncomeList = () => {
       <BottomNav />
     </div>
   );
-};
-
-export default IncomeList;
+}; 

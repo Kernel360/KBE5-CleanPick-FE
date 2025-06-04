@@ -10,7 +10,7 @@ interface LoginResponse {
   status: 'PENDING' | 'ACTIVE';
 }
 
-export default function LoginPage() {
+export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuthStore();
 
@@ -54,4 +54,4 @@ export default function LoginPage() {
       <LoginForm onSubmit={handleLogin} />
     </div>
   );
-} 
+}; 

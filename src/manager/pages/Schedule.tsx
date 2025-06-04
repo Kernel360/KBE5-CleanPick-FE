@@ -1,10 +1,10 @@
 import HeaderNav from '@/manager/layer/HeaderNav';
 import BottomNav from '@/manager/layer/BottomNav';
 import Calendar from '@/manager/components/schedule/Calendar';
-import ScheduleList from '@/manager/components/schedule/ScheduleList';
+import { ScheduleList } from '@/manager/components/schedule/ScheduleList';
 import { useScheduleData } from '@/manager/components/hooks/useScheduleData';
 
-const Schedule = () => {
+export const Schedule: React.FC = () => {
   const {
     selectedDate,
     setSelectedDate,
@@ -23,13 +23,11 @@ const Schedule = () => {
           allSchedules={allSchedules}
         />
         <div className="flex-1 overflow-y-auto">
-          <ScheduleList date={selectedDate} schedules={schedulesForDate} />
+          <ScheduleList schedules={schedulesForDate} />
         </div>
       </main>
 
       <BottomNav />
     </div>
   );
-};
-
-export default Schedule;
+}; 
