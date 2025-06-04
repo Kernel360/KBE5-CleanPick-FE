@@ -29,8 +29,12 @@ const TodaySchedule = ({ schedules, handleStatusChange }) => {
           onStatusChange={handleStatusChange}
         />
       ) : (
-        <div className="text-center py-8 text-gray-500">
-          오늘 남은 일정이 없습니다
+        <div 
+          className="bg-white rounded-xl p-6 text-center shadow-sm border border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors"
+          onClick={() => navigate('/manager/findrequest')}
+        >
+          <p className="text-gray-600 mb-2">오늘 일정이 없습니다!</p>
+          <p className="text-indigo-600 font-medium">새로운 요청을 신청해보세요</p>
         </div>
       )}
     </div>

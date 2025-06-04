@@ -9,7 +9,7 @@ export const Home: React.FC = () => {
 
   return (
     <div className="pt-[3.5rem] pb-14 px-4">
-      <HeaderNav title="홈" />
+      <HeaderNav title="CleanPick" />
       <main>
         <Income />
         <TodaySchedule

@@ -6,7 +6,7 @@ interface RequestTabsProps {
 
 const RequestTabs = ({ activeTab, setActiveTab, tabs }: RequestTabsProps) => {
   return (
-    <div className="flex px-4 border-b">
+    <div className="flex px-2 border-b mt-3">
       {tabs.map((tab) => (
         <button
           key={tab}

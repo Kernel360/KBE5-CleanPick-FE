@@ -46,7 +46,7 @@ const AcceptedRequestCard = ({ request, onToggle, isCompleted, onUpdate }: Accep
 
   return (
     <>
-      <div className="bg-gray-50 rounded-xl shadow p-4 text-sm text-gray-800">
+      <div className="bg-gray-50 shadow-sm rounded-lg p-4 text-sm text-gray-800 border">
         <h3 className="font-bold text-base mb-1">{request.title}</h3>
         <p className="text-gray-700">{request.date}</p>
         <p className="mt-2">📍 {request.address}</p>
