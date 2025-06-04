@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Request } from '@/manager/components/hooks/useNewRequests';
+import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 
 interface RequestCardProps {
   request: Request;
@@ -16,7 +17,7 @@ const RequestCard = ({ request, onApply, onReject }: RequestCardProps) => {
   const getCardColor = () => {
     if (request.matchType === '1:1') return 'bg-[#FFEEDB] border border-[#FF8000]';
     if (request.matchType === '신규' && request.isRecurring) return 'bg-[#E5F9E5] border border-[#10B981]';
-    return 'bg-[#F9FAFB] border border-[#D1D5DB]';
+    return 'bg-[#F9FAFB] border';
   };
 
   const handleAction = () => {
@@ -34,8 +35,13 @@ const RequestCard = ({ request, onApply, onReject }: RequestCardProps) => {
           <p className="text-xs text-gray-500 mt-1">{request.date}</p>
         </div>
 
-        <p className="text-sm text-gray-600">📍 {request.address}</p>
-        <p className="text-sm text-gray-600">👤 고객: {request.customer} (평점 {request.rating}★)</p>
+        <div className="flex items-center text-sm text-gray-500 mb-1">
+        <FaMapMarkerAlt className="mr-2 text-gray-400" /><span>{request.address}</span>
+        </div>
+        <div className="flex items-center text-sm text-gray-500 mb-1">
+          <FaUser className="mr-2 text-gray-400" />
+          <span>고객: {request.customer} (평점 {request.rating}★)</span>
+        </div>
         <p className="text-sm text-gray-600">⏱ 소요 시간: {request.duration}</p>
         <p className="text-sm text-gray-600">🌞 예상 수입: ₩{request.income.toLocaleString()}</p>
 
@@ -82,13 +88,13 @@ const RequestCard = ({ request, onApply, onReject }: RequestCardProps) => {
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setConfirmOpen(false)}
-                className="px-4 py-2 rounded text-sm text-gray-600 border border-gray-300"
+                className="px-4 py-2 rounded text-sm text-white bg-primary hover:bg-primary-sub"
               >
                 취소
               </button>
               <button
                 onClick={handleAction}
-                className="px-4 py-2 rounded text-sm text-white bg-indigo-600 hover:bg-indigo-700"
+                className="px-4 py-2 rounded text-sm text-white bg-primary hover:bg-primary-sub"
               >
                 확인
               </button>

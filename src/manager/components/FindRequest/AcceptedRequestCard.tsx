@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AcceptedRequest } from "@/manager/components/hooks/useAcceptedRequests";
 import RequestDetailModal from './RequestDetailModal';
+import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 
 interface AcceptedRequestCardProps {
   request: AcceptedRequest;
@@ -52,8 +53,13 @@ const AcceptedRequestCard = ({ request, onToggle, isCompleted, onUpdate }: Accep
           <p className="text-xs text-gray-500 mt-1">{request.date}</p>
         </div>
 
-        <p className="text-sm text-gray-600">📍 {request.address}</p>
-        <p className="text-sm text-gray-600">👤 고객: {request.customer} (평점 {request.rating}★)</p>
+        <div className="flex items-center text-sm text-gray-500 mb-1">
+        <FaMapMarkerAlt className="mr-2 text-gray-400" /><span>{request.address}</span>
+        </div>
+        <div className="flex items-center text-sm text-gray-500 mb-1">
+          <FaUser className="mr-2 text-gray-400" />
+          <span>고객: {request.customer} (평점 {request.rating}★)</span>
+        </div>
         <p className="text-sm text-gray-600">⏱ 소요 시간: {request.duration}</p>
         <p className="text-sm text-gray-600">🌞 예상 수입: ₩{request.income.toLocaleString()}</p>
 
@@ -80,13 +86,13 @@ const AcceptedRequestCard = ({ request, onToggle, isCompleted, onUpdate }: Accep
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setConfirmModalOpen(false)}
-                className="px-4 py-2 rounded text-sm text-gray-600 border border-gray-300"
+                className="px-4 py-2 rounded text-sm text-white bg-primary hover:bg-primary-sub"
               >
                 취소
               </button>
               <button
                 onClick={handleConfirm}
-                className="px-4 py-2 rounded text-sm text-white bg-indigo-600 hover:bg-indigo-700"
+                className="px-4 py-2 rounded text-sm text-white bg-primary hover:bg-primary-sub"
               >
                 확인
               </button>

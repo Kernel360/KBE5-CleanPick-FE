@@ -6,6 +6,8 @@ import HeaderNav from '@/manager/layer/HeaderNav';
 import BottomNav from '@/manager/layer/BottomNav';
 import RequestTabs from '@/manager/components/RequestTabsProps';
 import ScheduleCard from '@/manager/components/scheduleCard';
+import { useIncomeList } from '../components/hooks/useIncomeList';
+import { useNavigate } from 'react-router-dom';
 
 interface Schedule {
   id: number;
@@ -44,6 +46,9 @@ const dummySchedules: Schedule[] = [
 export const IncomeList: React.FC = () => {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [activeTab, setActiveTab] = useState<string>('근무 내역');
+  const [page, setPage] = useState(0);
+  const { data, total, hasMore, loading, error } = useIncomeList(page);
+  const navigate = useNavigate();
 
   const handlePrevMonth = () => {
     setCurrentDate((prev) => subMonths(prev, 1));
@@ -66,16 +71,19 @@ export const IncomeList: React.FC = () => {
       <main className="mt-4">
         {/* 월 이동 */}
         <div className="flex items-center justify-between mb-4">
-          <button onClick={handlePrevMonth} className="p-2">
+          <button onClick={handlePrevMonth} className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition">
             <FaChevronLeft size={16} />
           </button>
           <div className="text-lg font-semibold">{formattedMonth}</div>
-          <button onClick={handleNextMonth} className="p-2">
+          <button onClick={handleNextMonth} className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition">
             <FaChevronRight size={16} />
           </button>
         </div>
 
-        <div>총 수입 금액: ₩2,850,000</div>
+        <div className="bg-white rounded-xl shadow p-4 mb-4 text-center">
+          <div className="text-gray-500 text-sm mb-1">총 수입</div>
+          <div className="text-2xl font-bold">{total.toLocaleString()}원</div>
+        </div>
 
         {/* 탭 */}
         <RequestTabs
@@ -85,21 +93,39 @@ export const IncomeList: React.FC = () => {
         />
 
         {/* 탭 콘텐츠 */}
-        <div className="bg-white shadow rounded-lg p-4 text-gray-700 text-sm">
-          {filtered.length > 0 ? (
-            filtered.map((item) => (
-              <ScheduleCard
-                key={item.id}
-                {...item}
-                onStatusChange={() => {}}
-              />
-            ))
-          ) : (
-            <div className="text-center text-gray-400 py-8">
-              해당 내역이 없습니다.
+        {loading && (
+          <div className="text-center text-gray-400 py-8">로딩 중...</div>
+        )}
+        {error && (
+          <div className="text-center text-red-500 py-8">{error}</div>
+        )}
+        {!loading && !error && data.length === 0 && (
+          <div className="text-center text-gray-400 py-8">수입 내역이 없습니다.</div>
+        )}
+        <div className="space-y-3">
+          {data.map((item: any) => (
+            <div
+              key={item.id}
+              className="bg-white rounded-xl shadow p-4 cursor-pointer hover:bg-gray-50 transition"
+              onClick={() => navigate(`/reservation/${item.reservationId}`)}
+            >
+              <div className="flex justify-between items-center mb-1">
+                <span className="font-semibold">{item.date} ({item.dayOfWeek})</span>
+                <span className="font-bold text-indigo-600">{item.amount.toLocaleString()}원</span>
+              </div>
+              <div className="text-gray-500 text-sm">{item.startTime} ~ {item.endTime}</div>
             </div>
-          )}
+          ))}
         </div>
+
+        {hasMore && (
+          <button
+            className="w-full mt-4 py-2 rounded bg-gray-100 text-gray-700 font-semibold"
+            onClick={() => setPage(p => p + 1)}
+          >
+            더보기
+          </button>
+        )}
       </main>
 
       <BottomNav />

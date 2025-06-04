@@ -31,7 +31,7 @@ const CompletedRequestSection = () => {
       <FilterTabs
         currentFilter={filter}
         setFilter={setFilter}
-        filters={['전체', '에어컨 청소', '가정집 청소', '특수 청소']}
+        filters={['전체', '가정집 청소', '사무실 청소', '특수 청소']}
         title="완료된 요청"
       />
 
