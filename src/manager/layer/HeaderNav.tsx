@@ -1,18 +1,20 @@
 import { FaChevronLeft } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 interface HeaderNavProps {
   title: string;
   showBack?: boolean;
-  customBackPath?: string; // ← 새로 추가
+  customBackPath?: string;
 }
 
 const HeaderNav: React.FC<HeaderNavProps> = ({
   title,
-  showBack = false,
+  showBack = true,
   customBackPath = null,
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isHomePage = location.pathname === '/manager';
 
   const handleBackClick = () => {
     if (customBackPath) {
@@ -25,12 +27,12 @@ const HeaderNav: React.FC<HeaderNavProps> = ({
   return (
     <div className="fixed top-0 left-0 w-full bg-primary text-white px-4 py-3 text-lg font-bold z-50">
       <div className="flex items-center">
-        {(showBack || customBackPath) && (
+        {!isHomePage && (
           <button onClick={handleBackClick} className="mr-2 bg-primary hover:text-gray-200 transition-colors">
             <FaChevronLeft size={18} />
           </button>
         )}
-        {title}
+        {isHomePage ? 'CleanPick' : title}
       </div>
     </div>
   );
