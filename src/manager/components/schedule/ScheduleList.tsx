@@ -1,4 +1,4 @@
-import { Schedule } from '@/compoenet/hooks/useScheduleData';
+import { Schedule } from '@/manager/components/hooks/useScheduleData';
 
 interface ScheduleListProps {
   schedules: Schedule[];
