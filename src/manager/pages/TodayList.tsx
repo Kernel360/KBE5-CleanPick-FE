@@ -66,7 +66,7 @@ export const ScheduleList: React.FC = () => {
         </label>
       </div>
 
-      <div className="px-4">
+      <div className="px-4 space-y-3 min-h-[300px]">
         {filtered.length > 0 ? (
           filtered.map((item) => (
             <ScheduleCard

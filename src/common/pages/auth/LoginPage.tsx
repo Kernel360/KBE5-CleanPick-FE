@@ -27,7 +27,13 @@ export const LoginPage: React.FC = () => {
       localStorage.setItem('userType', type);
       
       // Zustand store 업데이트
-      login(response.data, type);
+      login(
+        {
+          ...response.data,
+          userStatus: response.data.status,
+        },
+        type
+      );
       
       if (type === 'customer' && response.data.status === 'PENDING') {
         navigate('/signupdetail');
