@@ -59,8 +59,8 @@ export const BottomNav = ({ className }: BottomNavProps) => {
         <NavItem 
           icon={<FaCalendarAlt size={20} />} 
           label="예약" 
-          isActive={isActive('/schedule')}
-          onClick={() => navigate('/schedule')}
+          isActive={isActive('/schedule/list')}
+          onClick={() => navigate('/schedule/list')}
         />
         <NavItem 
           icon={<FaUserFriends size={20} />} 

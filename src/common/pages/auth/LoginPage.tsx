@@ -28,7 +28,7 @@ export default function LoginPage() {
       localStorage.setItem('userType', type);
 
       // Zustand store 업데이트
-      login(response.data, type);
+      await login(response.data, type);
       registerFCMToken();
       if (type === 'customer' && response.data.userStatus === 'PENDING') {
         navigate('/signupdetail');
@@ -51,7 +51,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header showBack={true} title="로그인" />
+      <Header showIcons={true} title="클린픽" showBack={false} />
       <LoginForm onSubmit={handleLogin} />
     </div>
   );

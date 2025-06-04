@@ -4,7 +4,7 @@ import { ServicePhase } from '@/customer/components/schedule/ServicePhase';
 import { SchedulePhase } from '@/customer/components/schedule/SchedulePhase';
 import { Header } from "@/customer/components/layout/Header";
 import { useNavigate, useLocation } from "react-router-dom";
-import { PaymentPhase } from '@/customer/components/schedule/PaymentPhase';  
+import { PaymentPhase } from '@/customer/components/schedule/ConrimPhase';  
 
 export interface CleaningOption {
     id: number;
@@ -41,8 +41,22 @@ export const SchedulePage = () => {
     // location state에서 선택된 서비스 타입 가져오기
     useEffect(() => {
         const state = location.state as { selectedService?: string; selectedOption?: number };
+        console.log('SchedulePage location state:', state);
+        
         if (state?.selectedService) {
+            // 서비스 타입에 따른 ID 매핑
+            const serviceTypeToId = {
+                'HOME': 1,
+                'OFFICE': 2,
+                'SPECIAL': 3
+            };
+            
+            const serviceId = serviceTypeToId[state.selectedService as keyof typeof serviceTypeToId];
+            console.log('Setting selectedServiceType:', state.selectedService, 'serviceId:', serviceId);
+            
             setSelectedServiceType(state.selectedService);
+            setSelectedServiceId(serviceId);
+            
             if (state.selectedOption) {
                 setSelectedItems([state.selectedOption.toString()]);
             }
@@ -156,7 +170,7 @@ export const SchedulePage = () => {
                 onBackClick={currentPhase === 1 ? () => navigate(-1) : handlePrevPhase}
             />
             
-            <div className="pt-[3.5rem] pb-[140px] md:pb-[100px]">
+            <div className="pt-[1.5rem] pb-[140px] md:pb-[100px]">
                 <ProgressSteps currentStep={currentPhase} />
                 {renderPhase()}
             </div>

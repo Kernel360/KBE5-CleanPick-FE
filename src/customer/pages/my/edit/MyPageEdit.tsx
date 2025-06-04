@@ -201,7 +201,7 @@ const MyPageEdit = () => {
         showBack={true}
       />
       
-      <div className="pt-[3.5rem] px-4">
+      <div className="pt-[3.5rem] px-4 pb-[100px] pt-[100px]">
         <div className="space-y-6">
           <ProfileImageUpload
             selectedFile={selectedFile}

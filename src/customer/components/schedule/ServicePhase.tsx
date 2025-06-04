@@ -49,13 +49,15 @@ export const ServicePhase = ({
   // 옵션 데이터 가져오기
   useEffect(() => {
     const fetchOptions = async () => {
-      if (!selectedServiceId) return;
+      
+      if (!selectedServiceId || selectedServiceId === 0) {
+        return;
+      }
       
       setIsLoading(true);
       setError(null);
       try {
         const response = await instance.get<ApiResponse>(`/option/${selectedServiceId}`);
-        console.log('Fetched options:', response.data.data);
         setCleaningOptions(response.data.data);
       } catch (err) {
         setError('옵션을 불러오는데 실패했습니다.');
@@ -84,7 +86,14 @@ export const ServicePhase = ({
   }, [selectedOption, cleaningOptions, selectedOptions, setSelectedOptions, onToggleItem, setTotalPrice, setTotalTime, selectedItems]);
 
   if (isLoading) {
-    return <div className="p-4 text-center">옵션을 불러오는 중...</div>;
+    return (
+      <div className="flex flex-col items-center justify-center py-12">
+        <div className="relative">
+          <div className="w-8 h-8 border-4 border-gray-200 border-t-primary rounded-full animate-spin"></div>
+        </div>
+        <p className="mt-4 text-gray-600 text-sm">옵션을 불러오고 있습니다</p>
+      </div>
+    );
   }
 
   if (error) {

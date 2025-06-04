@@ -62,6 +62,7 @@ const useAuthStore = create<AuthState>()(
       fetchProfile: async () => {
         try {
           const response = await instance.get<ApiResponse<UserProfile>>('/customers')
+          console.log("response:", response.data)
           if (response.data.success) {
             set({ profile: response.data.data })
           }

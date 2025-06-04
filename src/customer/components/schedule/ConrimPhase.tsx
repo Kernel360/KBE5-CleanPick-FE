@@ -56,10 +56,10 @@ export const PaymentPhase: React.FC<PaymentPhaseProps> = ({
           id="terms"
           checked={isAgreed}
           onChange={(e) => setIsAgreed(e.target.checked)}
-          className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
+          className="w-4 h-4 rounded border-radius-sm border-gray-300 text-primary focus:ring-primary"
         />
         <label htmlFor="terms" className="text-sm text-gray-600">
-          I agree to the Terms of Service and Privacy Policy
+          이용약관 및 개인정보 수집 및 이용에 동의합니다.
         </label>
       </div>
 
@@ -71,14 +71,9 @@ export const PaymentPhase: React.FC<PaymentPhaseProps> = ({
           isAgreed ? 'bg-primary hover:bg-primary/90' : 'bg-gray-300'
         }`}
       >
-        결제하기
+        예약완료
       </button>
 
-      <TossPaymentModal
-        isOpen={isPaymentModalOpen}
-        onClose={() => setIsPaymentModalOpen(false)}
-        amount={totalPrice || 0}
-      />
     </div>
   );
 }; 

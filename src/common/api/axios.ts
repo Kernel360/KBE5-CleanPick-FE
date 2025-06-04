@@ -4,6 +4,7 @@ const instance = axios.create({
     baseURL: import.meta.env.VITE_API_URL || 'https://34fd-211-180-227-226.ngrok-free.app',
     headers: {
         'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true'
     },
 });
 
