@@ -28,7 +28,7 @@ const RequestCard = ({ request, onApply, onReject }: RequestCardProps) => {
 
   return (
     <>
-      <div className={`p-3 rounded-lg shadow-sm text-sm text-gray-800 ${getCardColor()} flex flex-col gap-3`}>
+      <div className={`p-4 rounded-lg shadow-sm text-sm text-gray-800 ${getCardColor()} flex flex-col gap-3`}>
         <div>
           <h3 className="text-base font-extrabold">{request.title}</h3>
           <p className="text-xs text-gray-500 mt-1">{request.date}</p>

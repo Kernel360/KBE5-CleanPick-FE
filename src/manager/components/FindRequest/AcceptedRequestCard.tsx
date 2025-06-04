@@ -46,14 +46,18 @@ const AcceptedRequestCard = ({ request, onToggle, isCompleted, onUpdate }: Accep
 
   return (
     <>
-      <div className="bg-gray-50 shadow-sm rounded-lg p-4 text-sm text-gray-800 border">
-        <h3 className="font-bold text-base mb-1">{request.title}</h3>
-        <p className="text-gray-700">{request.date}</p>
-        <p className="mt-2">📍 {request.address}</p>
-        <p>👤 고객: {request.customer} (평점 {request.rating}★)</p>
-        <p>⏱ 소요 시간: {request.duration}</p>
-        <p>🌞 예상 수입: ₩{request.income.toLocaleString()}</p>
-        <div className="mt-4">{getButton()}</div>
+      <div className="bg-gray-50 shadow-sm rounded-lg p-4 text-sm text-gray-800 border flex flex-col gap-3">
+        <div>
+          <h3 className="text-base font-extrabold">{request.title}</h3>
+          <p className="text-xs text-gray-500 mt-1">{request.date}</p>
+        </div>
+
+        <p className="text-sm text-gray-600">📍 {request.address}</p>
+        <p className="text-sm text-gray-600">👤 고객: {request.customer} (평점 {request.rating}★)</p>
+        <p className="text-sm text-gray-600">⏱ 소요 시간: {request.duration}</p>
+        <p className="text-sm text-gray-600">🌞 예상 수입: ₩{request.income.toLocaleString()}</p>
+
+        <div className="mt-2">{getButton()}</div>
       </div>
 
       {/* 상세 보기 모달 */}
