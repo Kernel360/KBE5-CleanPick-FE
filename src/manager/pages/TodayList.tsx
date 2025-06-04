@@ -38,7 +38,7 @@ export const ScheduleList: React.FC = () => {
   }
 
   return (
-    <div className="pt-[3.5rem] pb-14">
+    <div className="pt-[3.5rem] pb-14 mt-2">
       <FilterTabs
         currentFilter={filter}
         setFilter={setFilter}
@@ -47,14 +47,22 @@ export const ScheduleList: React.FC = () => {
         showBack={true}
       />
 
-      <div className="px-4 mb-4">
-        <label className="flex items-center gap-2 text-sm text-gray-700">
+      <div className="px-5 mb-4 mt-3">
+        <label className="inline-flex items-center gap-2 cursor-pointer select-none w-fit">
           <input
             type="checkbox"
             checked={showCompleted}
             onChange={() => setShowCompleted(!showCompleted)}
+            className="hidden peer"
           />
-          완료된 일정 보기
+          <span className="w-5 h-5 flex items-center justify-center rounded-full border-2 border-indigo-500 peer-checked:bg-indigo-500 transition-all duration-150">
+            {showCompleted && (
+              <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            )}
+          </span>
+          <span className="text-sm text-gray-700">완료된 일정도 보기</span>
         </label>
       </div>
 

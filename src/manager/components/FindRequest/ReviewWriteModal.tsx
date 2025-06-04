@@ -30,7 +30,7 @@ const ReviewWriteModal = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
-      <div className="bg-white rounded-xl w-[90%] max-w-sm max-h-[90vh] overflow-y-auto p-6 shadow-lg text-sm text-gray-800">
+      <div className="bg-gray-50 rounded-xl w-[90%] max-w-sm max-h-[90vh] overflow-y-auto p-6 shadow-lg text-sm text-gray-800">
         {/* 고객 정보 */}
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 bg-gray-200 rounded-full" />
@@ -41,7 +41,7 @@ const ReviewWriteModal = ({
         </div>
 
         {/* 별점 */}
-        <div className="bg-gray-50 p-4 rounded-xl mb-4">
+        <div className="bg-gray-100 p-4 rounded-xl mb-4">
           <p className="font-bold mb-2">서비스는 어떠셨나요?</p>
           <div className="flex items-center gap-1 mb-1">
             {Array.from({ length: 5 }).map((_, i) => (

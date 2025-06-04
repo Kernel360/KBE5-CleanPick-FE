@@ -20,7 +20,7 @@ const RequestDetailModal = ({ request, onClose, onUpdate }: RequestDetailModalPr
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
-      <div className="bg-white rounded-xl w-[90%] max-w-sm max-h-[90vh] overflow-y-auto p-6 shadow-lg text-sm text-gray-800">
+      <div className="bg-gray-50 rounded-xl w-[90%] max-w-sm max-h-[90vh] overflow-y-auto p-6 shadow-lg text-sm text-gray-800">
         {/* 제목, 시간 */}
         <h2 className="text-base font-bold text-gray-900">{request.title}</h2>
         <p className="text-gray-600 mt-1">{request.date}</p>
@@ -39,7 +39,7 @@ const RequestDetailModal = ({ request, onClose, onUpdate }: RequestDetailModalPr
 
         {/* 메모 */}
         {request.memo && (
-          <div className="bg-red-100 text-red-800 text-sm rounded-md px-4 py-3 mt-5 whitespace-pre-line">
+          <div className="bg-red-100 text-red-800 text-sm rounded-md px-4 py-3 mt-5 whitespace-pre-line border">
             <p className="font-bold mb-1">추가 요청사항</p>
             <p>{request.memo}</p>
           </div>
