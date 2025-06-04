@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Request } from '@/manager/components/hooks/useNewRequests';
-import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaUser, FaClock, FaWonSign } from 'react-icons/fa';
 
 interface RequestCardProps {
   request: Request;
@@ -42,8 +42,14 @@ const RequestCard = ({ request, onApply, onReject }: RequestCardProps) => {
           <FaUser className="mr-2 text-gray-400" />
           <span>고객: {request.customer} (평점 {request.rating}★)</span>
         </div>
-        <p className="text-sm text-gray-600">⏱ 소요 시간: {request.duration}</p>
-        <p className="text-sm text-gray-600">🌞 예상 수입: ₩{request.income.toLocaleString()}</p>
+        <div className="flex items-center text-sm text-gray-500 mb-1">
+          <FaClock className="mr-2 text-gray-400" />
+          <span>소요 시간: {request.duration}</span>
+        </div>
+        <div className="flex items-center text-sm text-gray-500 mb-1">
+          <FaWonSign className="mr-2 text-gray-400" />
+          <span>예상 수입: ₩{request.income.toLocaleString()}</span>
+        </div>
 
         <div className="flex gap-2 mt-2">
           {!isPending && (

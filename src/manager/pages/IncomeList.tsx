@@ -72,11 +72,11 @@ export const IncomeList: React.FC = () => {
         {/* 월 이동 */}
         <div className="flex items-center justify-between mb-4">
           <button onClick={handlePrevMonth} className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition">
-            <FaChevronLeft size={16} />
+            <FaChevronLeft size={16} color="text-white" />
           </button>
           <div className="text-lg font-semibold">{formattedMonth}</div>
           <button onClick={handleNextMonth} className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition">
-            <FaChevronRight size={16} />
+            <FaChevronRight size={16} className="text-white" />
           </button>
         </div>
 
