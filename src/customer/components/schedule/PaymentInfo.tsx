@@ -82,8 +82,8 @@ export const PaymentInfo: React.FC<PaymentInfoProps> = ({
         {/* 선택된 옵션들 */}
         {selectedOptions.map((option) => (
           <div key={option.id} className="flex justify-between items-center text-sm">
-            <span className="text-gray-600">{option.label}</span>
-            <span>₩{(option.extra_price || 0).toLocaleString()}</span>
+            <span className="text-gray-600">{option.name}</span>
+            <span>₩{(option.extraPrice || 0).toLocaleString()}</span>
           </div>
         ))}
 

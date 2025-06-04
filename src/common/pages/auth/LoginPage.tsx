@@ -1,14 +1,14 @@
 import LoginForm from '@/common/components/auth/LoginForm';
 import instance from '@/common/api/axios';
 import { useNavigate } from 'react-router-dom';
-import HeaderNav from '@/manager/layer/HeaderNav';
+import { Header } from '@/customer/components/layout/Header';
 import useAuthStore from '@/stores/useAuthStore';
 import { registerFCMToken } from '@/common/fcm/fcmtoken-manage';
 
 interface LoginResponse {
   id: number;
   email: string;
-  status: 'PENDING' | 'ACTIVE';
+  userStatus: 'PENDING' | 'ACTIVE';
 }
 
 export default function LoginPage() {
@@ -30,12 +30,12 @@ export default function LoginPage() {
       // Zustand store 업데이트
       login(response.data, type);
       registerFCMToken();
-      if (type === 'customer' && response.data.status === 'PENDING') {
+      if (type === 'customer' && response.data.userStatus === 'PENDING') {
         navigate('/signupdetail');
         return response.data;
       }
 
-      if (type === 'manager' && response.data.status === 'PENDING') {
+      if (type === 'manager' && response.data.userStatus === 'PENDING') {
         navigate('/signupdetail');
         return response.data;
       }
@@ -51,7 +51,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <HeaderNav showBack={true} title="로그인" />
+      <Header showBack={true} title="로그인" />
       <LoginForm onSubmit={handleLogin} />
     </div>
   );

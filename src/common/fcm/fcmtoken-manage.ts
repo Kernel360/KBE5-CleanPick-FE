@@ -69,21 +69,14 @@ export const registerFCMToken = async () => {
 };
 
 // 로그아웃 시: FCM 토큰 만료/삭제
-export const unregisterFCMToken = async (userId: string) => {
+export const unregisterFCMToken = async () => {
   try {
     const currentToken = localStorage.getItem('fcmToken');
     
     if (currentToken) {
       // 서버에서 토큰 삭제
-      await fetch('/api/fcm/unregister', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId,
-          fcmToken: currentToken
-        })
+      await instance.post('/device/delete', {
+        deviceToken: currentToken
       });
     }
     
@@ -102,13 +95,13 @@ export const unregisterFCMToken = async (userId: string) => {
 };
 
 // 토큰 새로고침 (필요시)
-export const refreshFCMToken = async (userId: string) => {
+export const refreshFCMToken = async () => {
   try {
     // 기존 토큰 삭제
     await deleteToken(messaging);
     
     // 새 토큰 등록
-    return await registerFCMToken(userId);
+    return await registerFCMToken();
   } catch (error) {
     console.error('Error refreshing FCM token:', error);
     return null;

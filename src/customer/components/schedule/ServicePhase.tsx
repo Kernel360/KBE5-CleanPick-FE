@@ -8,9 +8,9 @@ interface ServicePhaseProps {
   selectedServiceId: number;
   setSelectedServiceId: (id: number) => void;
   totalPrice: number;
-  setTotalPrice: (price: number) => void;
+  setTotalPrice: React.Dispatch<React.SetStateAction<number>>;
   totalTime: number;
-  setTotalTime: (time: number) => void;
+  setTotalTime: React.Dispatch<React.SetStateAction<number>>;
   selectedServiceType: string;
   onServiceTypeSelect: (type: string, id: number) => void;
   selectedItems: string[];

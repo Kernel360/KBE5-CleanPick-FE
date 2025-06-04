@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import HeaderNav from '@/manager/layer/HeaderNav';
+import { Header } from '@/customer/components/layout/Header';
 import ProfileImageUpload from '@/customer/components/signup/ProfileImageUpload';
 import UserInfoForm from '@/customer/components/signup/UserInfoForm';
 import { ScheduleAddress } from '@/customer/components/schedule/ScheduleAddress';
@@ -91,7 +91,7 @@ export default function CustomerSignUpDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <HeaderNav showBack={true} title="추가 정보 입력" />
+      <Header showBack={true} title="추가 정보 입력" />
       <div className="max-w-md mx-auto p-6 mt-[100px]">
         <form onSubmit={handleSubmit} className="space-y-6">
           <ProfileImageUpload

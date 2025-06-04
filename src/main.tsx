@@ -11,8 +11,21 @@ script.onload = () => {
     console.log('Kakao Maps API loaded');
   });
 };
-script.src = '//dapi.kakao.com/v2/maps/sdk.js?appkey=db61549ba91dbc274892b8bb84d28846&libraries=services,clusterer&autoload=false';
+script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${import.meta.env.VITE_KAKAO_MAP_APP_KEY}&libraries=services,clusterer&autoload=false`;
 document.head.appendChild(script);
+
+// PWA 서비스워커 등록
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then((registration) => {
+        console.log('SW registered: ', registration);
+      })
+      .catch((registrationError) => {
+        console.log('SW registration failed: ', registrationError);
+      });
+  });
+}
 
 createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

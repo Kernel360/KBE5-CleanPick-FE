@@ -126,6 +126,8 @@ export const SchedulePage = () => {
                         serviceDuration={totalTime}
                         paymentMethod={paymentMethod as 'cash' | 'card'}
                         onPaymentMethodChange={setPaymentMethod}
+                        onNext={handleNextPhase}
+                        onPrev={handlePrevPhase}
                     />
                 );
             default:

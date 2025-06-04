@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import SignUpForm from '@/common/components/auth/SignUpForm';
 import instance from '@/common/api/axios';
-import HeaderNav from '@/manager/layer/HeaderNav';
+import { Header } from '@/customer/components/layout/Header';
 
 interface SignUpResponse {
   token: string;
@@ -38,7 +38,7 @@ export default function SignUpPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-        <HeaderNav showBack={true} title="회원가입" />
+        <Header showBack={true} title="회원가입" />
         <SignUpForm onSubmit={handleSignUp} />
     </div>
   );
