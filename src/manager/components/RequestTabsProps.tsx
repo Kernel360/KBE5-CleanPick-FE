@@ -6,15 +6,15 @@ interface RequestTabsProps {
 
 const RequestTabs = ({ activeTab, setActiveTab, tabs }: RequestTabsProps) => {
   return (
-    <div className="flex px-4 border-b">
+    <div className="flex px-2 border-b mt-3">
       {tabs.map((tab) => (
         <button
           key={tab}
           onClick={() => setActiveTab(tab)}
-          className={`flex-1 py-3 text-sm font-medium ${
+          className={`flex-1 py-3 text-sm bg-white rounded-none ${
             activeTab === tab
-              ? 'text-indigo-600 border-b-2 border-indigo-600 font-bold'
-              : 'text-gray-500'
+              ? 'text-indigo-600 border-b-2 border-indigo-600 font-extrabold'
+              : 'text-gray-500 font-medium'
           }`}
         >
           {tab}

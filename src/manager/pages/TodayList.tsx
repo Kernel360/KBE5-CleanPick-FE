@@ -3,10 +3,21 @@ import { useSchedule } from '@/manager/components/hooks/useSchedule';
 import FilterTabs from '@/manager/components/FilterTabs';
 import ScheduleCard from '@/manager/components/scheduleCard';
 
-const TodayListPage = () => {
+interface Schedule {
+  id: number;
+  category: string;
+  title: string;
+  time: string;
+  address: string;
+  customer: string;
+  rating: string;
+  status: 'ready' | 'checked-in' | 'completed';
+}
+
+export const ScheduleList: React.FC = () => {
   const { schedules, handleStatusChange, isLoading, error } = useSchedule();
-  const [filter, setFilter] = useState('전체');
-  const [showCompleted, setShowCompleted] = useState(false);
+  const [filter, setFilter] = useState<string>('전체');
+  const [showCompleted, setShowCompleted] = useState<boolean>(false);
 
   const filtered = schedules.filter(
     (s) =>
@@ -27,7 +38,7 @@ const TodayListPage = () => {
   }
 
   return (
-    <div className="pt-[3.5rem] pb-14">
+    <div className="pt-[3.5rem] pb-14 mt-2">
       <FilterTabs
         currentFilter={filter}
         setFilter={setFilter}
@@ -36,18 +47,26 @@ const TodayListPage = () => {
         showBack={true}
       />
 
-      <div className="px-4 mb-4">
-        <label className="flex items-center gap-2 text-sm text-gray-700">
+      <div className="px-5 mb-4 mt-3">
+        <label className="inline-flex items-center gap-2 cursor-pointer select-none w-fit">
           <input
             type="checkbox"
             checked={showCompleted}
             onChange={() => setShowCompleted(!showCompleted)}
+            className="hidden peer"
           />
-          완료된 일정 보기
+          <span className="w-5 h-5 flex items-center justify-center rounded-full border-2 border-indigo-500 peer-checked:bg-indigo-500 transition-all duration-150">
+            {showCompleted && (
+              <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            )}
+          </span>
+          <span className="text-sm text-gray-700">완료된 일정도 보기</span>
         </label>
       </div>
 
-      <div className="px-4">
+      <div className="px-4 space-y-3 min-h-[300px]">
         {filtered.length > 0 ? (
           filtered.map((item) => (
             <ScheduleCard
@@ -64,6 +83,4 @@ const TodayListPage = () => {
       </div>
     </div>
   );
-};
-
-export default TodayListPage;
+}; 

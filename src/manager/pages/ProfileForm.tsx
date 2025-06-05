@@ -3,7 +3,7 @@ import HeaderNav from '@/manager/layer/HeaderNav';
 import { useState } from 'react';
 const availableServices = ['가정집 청소', '사무실 청소', '특수 청소'];
 
-const ProfileForm = () => {
+export const ProfileForm: React.FC = () => {
   const {
     profile,
     updateProfile,
@@ -173,5 +173,3 @@ const ProfileForm = () => {
     </form>
   );
 };
-
-export default ProfileForm;

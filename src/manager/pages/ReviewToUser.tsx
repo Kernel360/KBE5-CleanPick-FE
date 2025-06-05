@@ -3,7 +3,17 @@ import HeaderNav from '@/manager/layer/HeaderNav';
 import { FaStar, FaMapMarkerAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-const ReviewToUser = () => {
+interface Review {
+  id: number;
+  author: string;
+  reviewType: string;
+  location: string;
+  rating: number;
+  content: string;
+  reservationId: number;
+}
+
+export const ReviewToUser: React.FC = () => {
     const { reviews } = useReviewToUser();
     const navigate = useNavigate();
 
@@ -13,7 +23,7 @@ const ReviewToUser = () => {
             <h2 className="text-lg font-bold text-gray-800 mb-4">고객 리뷰</h2>
 
             <div className="space-y-4">
-                {reviews.map((review) => (
+                {reviews.map((review: Review) => (
                     <div key={review.id} className="bg-white p-4 rounded-xl shadow text-sm text-gray-700">
                         {/* 상단: 이름, 별점 */}
                         <div className="flex justify-between items-start mb-2">
@@ -46,6 +56,4 @@ const ReviewToUser = () => {
             </div>
         </div>
     );
-};
-
-export default ReviewToUser;
+}; 

@@ -2,7 +2,7 @@ import HeaderNav from '@/manager/layer/HeaderNav';
 import MyDetailPage from '@/manager/components/MyPage/MyDetail';
 import MyReview from '@/manager/components/MyPage/MyReview';
 
-const ProfileDetail = () => {
+export const ProfileDetail: React.FC = () => {
   return (
     <div className="pt-[3.5rem] px-4 pb-14">
       <HeaderNav title="내 상세 정보" showBack={true} />
@@ -14,6 +14,4 @@ const ProfileDetail = () => {
       </main>
     </div>
   );
-};
-
-export default ProfileDetail;
+}; 

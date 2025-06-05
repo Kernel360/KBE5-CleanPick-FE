@@ -22,13 +22,13 @@ const Income = () => {
         {/* 오늘까지 수입 */}
         <div className="flex-1 rounded-xl shadow px-4 py-3 bg-white">
           <p className="text-sm text-gray-500">오늘까지 수입</p>
-          <p className="text-lg font-semibold text-gray-800">150,000원</p>
+          <p className="text-xl font-extrabold text-primary">150,000원</p>
         </div>
 
         {/* 이번달 예상 수입 */}
         <div className="flex-1 rounded-xl shadow px-4 py-3 bg-white">
           <p className="text-sm text-gray-500">이번달 예상 수입</p>
-          <p className="text-lg font-semibold text-gray-800">450,000원</p>
+          <p className="text-xl font-semibold text-gray-800">450,000원</p>
         </div>
       </div>
     </div>

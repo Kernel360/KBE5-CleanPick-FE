@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AcceptedRequest } from "@/manager/components/hooks/useAcceptedRequests";
 import RequestDetailModal from './RequestDetailModal';
+import { FaMapMarkerAlt, FaUser, FaClock, FaWonSign } from 'react-icons/fa';
 
 interface AcceptedRequestCardProps {
   request: AcceptedRequest;
@@ -46,14 +47,29 @@ const AcceptedRequestCard = ({ request, onToggle, isCompleted, onUpdate }: Accep
 
   return (
     <>
-      <div className="bg-gray-50 rounded-xl shadow p-4 text-sm text-gray-800">
-        <h3 className="font-bold text-base mb-1">{request.title}</h3>
-        <p className="text-gray-700">{request.date}</p>
-        <p className="mt-2">📍 {request.address}</p>
-        <p>👤 고객: {request.customer} (평점 {request.rating}★)</p>
-        <p>⏱ 소요 시간: {request.duration}</p>
-        <p>🌞 예상 수입: ₩{request.income.toLocaleString()}</p>
-        <div className="mt-4">{getButton()}</div>
+      <div className="bg-gray-50 shadow-sm rounded-lg p-4 text-sm text-gray-800 border flex flex-col gap-3">
+        <div>
+          <h3 className="text-base font-extrabold">{request.title}</h3>
+          <p className="text-xs text-gray-500 mt-1">{request.date}</p>
+        </div>
+
+        <div className="flex items-center text-sm text-gray-500 mb-1">
+          <FaMapMarkerAlt className="mr-2 text-gray-400" /><span>{request.address}</span>
+        </div>
+        <div className="flex items-center text-sm text-gray-500 mb-1">
+          <FaUser className="mr-2 text-gray-400" />
+          <span>고객: {request.customer} (평점 {request.rating}★)</span>
+        </div>
+        <div className="flex items-center text-sm text-gray-500 mb-1">
+          <FaClock className="mr-2 text-gray-400" />
+          <span>소요 시간: {request.duration}</span>
+        </div>
+        <div className="flex items-center text-sm text-gray-500 mb-1">
+          <FaWonSign className="mr-2 text-gray-400" />
+          <span>예상 수입: ₩{request.income.toLocaleString()}</span>
+        </div>
+
+        <div className="mt-2">{getButton()}</div>
       </div>
 
       {/* 상세 보기 모달 */}
@@ -76,13 +92,13 @@ const AcceptedRequestCard = ({ request, onToggle, isCompleted, onUpdate }: Accep
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setConfirmModalOpen(false)}
-                className="px-4 py-2 rounded text-sm text-gray-600 border border-gray-300"
+                className="px-4 py-2 rounded text-sm text-white bg-primary hover:bg-primary-sub"
               >
                 취소
               </button>
               <button
                 onClick={handleConfirm}
-                className="px-4 py-2 rounded text-sm text-white bg-indigo-600 hover:bg-indigo-700"
+                className="px-4 py-2 rounded text-sm text-white bg-primary hover:bg-primary-sub"
               >
                 확인
               </button>

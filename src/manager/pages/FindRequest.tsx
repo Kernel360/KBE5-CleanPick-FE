@@ -7,14 +7,14 @@ import AppliedRequestSection from '@/manager/components/FindRequest/AppliedReque
 import AcceptedRequestSection from '@/manager/components/FindRequest/AcceptedRequestSection';
 import CompletedRequestSection from '@/manager/components/FindRequest/CompletedRequestSection';
 
-const FindRequest = () => {
-  const [activeTab, setActiveTab] = useState('신규 요청');
+export const FindRequest: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<string>('신규 요청');
 
   const renderContent = () => {
     switch (activeTab) {
       case '신규 요청':
-        return <NewRequestSection  Section />;
-      case '신청 요청':
+        return <NewRequestSection />;
+      case '신청한 요청':
         return <AppliedRequestSection />;
       case '수락된 요청':
         return <AcceptedRequestSection />;
@@ -32,13 +32,11 @@ const FindRequest = () => {
         <RequestTabs
           activeTab={activeTab}
           setActiveTab={setActiveTab}
-          tabs={['신규 요청', '신청 요청', '수락된 요청', '완료된 요청']}
+          tabs={['신규 요청', '신청한 요청', '수락된 요청', '완료된 요청']}
         />
         {renderContent()}
       </main>
       <BottomNav />
     </div>
   );
-};
-
-export default FindRequest;
+}; 

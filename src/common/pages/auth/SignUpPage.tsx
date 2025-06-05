@@ -12,7 +12,7 @@ interface SignUpResponse {
   };
 }
 
-export default function SignUpPage() {
+export const SignupPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSignUp = async (email: string, password: string, type: 'customer' | 'manager') => {
@@ -42,4 +42,4 @@ export default function SignUpPage() {
         <SignUpForm onSubmit={handleSignUp} />
     </div>
   );
-} 
+}; 

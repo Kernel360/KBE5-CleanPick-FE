@@ -9,18 +9,18 @@ import { MyPage } from './customer/pages/my';
 import { ManagerListPage } from './customer/pages/manager/list';
 import { MyPageEdit } from './customer/pages/my/edit';
 import { ReviewList } from './customer/pages/review/list';
-import Home from './manager/pages/Home';
-import FindRequest from './manager/pages/FindRequest';
-import Schedule from './manager/pages/Schedule';
-import ManagerMyPage from './manager/pages/ManagerMyPage';
-import IncomeList from './manager/pages/IncomeList';
-import ScheduleList from './manager/pages/TodayList';
-import ProfileForm from './manager/pages/ProfileForm';
-import Policy from './manager/pages/Policy';
-import ProfileDetail from './manager/pages/ProfileDetail';
-import ReviewToUser from './manager/pages/ReviewToUser';
-import LoginPage from './common/pages/auth/LoginPage';
-import SignupPage from './common/pages/auth/SignUpPage';
+import { Home } from './manager/pages/Home';
+import { FindRequest } from './manager/pages/FindRequest';
+import { Schedule } from './manager/pages/Schedule';
+import { ManagerMyPage } from './manager/pages/ManagerMyPage';
+import { IncomeList } from './manager/pages/IncomeList';
+import { ScheduleList } from './manager/pages/TodayList';
+import { ProfileForm } from './manager/pages/ProfileForm';
+import { Policy } from './manager/pages/Policy';
+import { ProfileDetail } from './manager/pages/ProfileDetail';
+import { ReviewToUser } from './manager/pages/ReviewToUser';
+import { LoginPage } from './common/pages/auth/LoginPage';
+import { SignupPage } from './common/pages/auth/SignUpPage';
 
 
 

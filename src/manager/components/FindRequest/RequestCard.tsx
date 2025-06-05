@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Request } from '@/manager/components/hooks/useNewRequests';
+import { FaMapMarkerAlt, FaUser, FaClock, FaWonSign } from 'react-icons/fa';
 
 interface RequestCardProps {
   request: Request;
@@ -16,7 +17,7 @@ const RequestCard = ({ request, onApply, onReject }: RequestCardProps) => {
   const getCardColor = () => {
     if (request.matchType === '1:1') return 'bg-[#FFEEDB] border border-[#FF8000]';
     if (request.matchType === '신규' && request.isRecurring) return 'bg-[#E5F9E5] border border-[#10B981]';
-    return 'bg-[#F9FAFB] border border-[#D1D5DB]';
+    return 'bg-[#F9FAFB] border';
   };
 
   const handleAction = () => {
@@ -28,16 +29,27 @@ const RequestCard = ({ request, onApply, onReject }: RequestCardProps) => {
 
   return (
     <>
-      <div className={`p-3 rounded-lg shadow-sm text-sm text-gray-800 ${getCardColor()} flex flex-col gap-3`}>
+      <div className={`p-4 rounded-lg shadow-sm text-sm text-gray-800 ${getCardColor()} flex flex-col gap-3`}>
         <div>
           <h3 className="text-base font-extrabold">{request.title}</h3>
           <p className="text-xs text-gray-500 mt-1">{request.date}</p>
         </div>
 
-        <p className="text-sm text-gray-600">📍 {request.address}</p>
-        <p className="text-sm text-gray-600">👤 고객: {request.customer} (평점 {request.rating}★)</p>
-        <p className="text-sm text-gray-600">⏱ 소요 시간: {request.duration}</p>
-        <p className="text-sm text-gray-600">🌞 예상 수입: ₩{request.income.toLocaleString()}</p>
+        <div className="flex items-center text-sm text-gray-500 mb-1">
+        <FaMapMarkerAlt className="mr-2 text-gray-400" /><span>{request.address}</span>
+        </div>
+        <div className="flex items-center text-sm text-gray-500 mb-1">
+          <FaUser className="mr-2 text-gray-400" />
+          <span>고객: {request.customer} (평점 {request.rating}★)</span>
+        </div>
+        <div className="flex items-center text-sm text-gray-500 mb-1">
+          <FaClock className="mr-2 text-gray-400" />
+          <span>소요 시간: {request.duration}</span>
+        </div>
+        <div className="flex items-center text-sm text-gray-500 mb-1">
+          <FaWonSign className="mr-2 text-gray-400" />
+          <span>예상 수입: ₩{request.income.toLocaleString()}</span>
+        </div>
 
         <div className="flex gap-2 mt-2">
           {!isPending && (
@@ -82,13 +94,13 @@ const RequestCard = ({ request, onApply, onReject }: RequestCardProps) => {
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setConfirmOpen(false)}
-                className="px-4 py-2 rounded text-sm text-gray-600 border border-gray-300"
+                className="px-4 py-2 rounded text-sm text-white bg-primary hover:bg-primary-sub"
               >
                 취소
               </button>
               <button
                 onClick={handleAction}
-                className="px-4 py-2 rounded text-sm text-white bg-indigo-600 hover:bg-indigo-700"
+                className="px-4 py-2 rounded text-sm text-white bg-primary hover:bg-primary-sub"
               >
                 확인
               </button>

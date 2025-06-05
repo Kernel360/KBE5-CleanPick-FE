@@ -28,23 +28,12 @@ const CompletedRequestSection = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center px-4">
-        
-        <FilterTabs
-          currentFilter={filter}
-          setFilter={setFilter}
-          filters={['전체', '에어컨 청소', '가정집 청소', '사무실 청소']}
-          title="완료된 요청"
-        />
-
-        <SortToggleButton
-          sortOrder={sortOrder}
-          onClick={() =>
-            setSortOrder((prev) => (prev === 'recent' ? 'oldest' : 'recent'))
-          }
-        />
-        
-      </div>
+      <FilterTabs
+        currentFilter={filter}
+        setFilter={setFilter}
+        filters={['전체', '가정집 청소', '사무실 청소', '특수 청소']}
+        title="완료된 요청"
+      />
 
       <div className="px-4 pt-4 flex flex-col gap-4">
         {filtered.length > 0 ? (
@@ -58,9 +47,7 @@ const CompletedRequestSection = () => {
             />
           ))
         ) : (
-          <div className="text-gray-500 text-sm text-center mt-8">
-            완료된 요청이 없습니다.
-          </div>
+          <div className="text-gray-500 text-sm text-center mt-8">완료된 요청이 없습니다.</div>
         )}
       </div>
     </>

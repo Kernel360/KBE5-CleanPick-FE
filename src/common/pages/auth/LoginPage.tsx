@@ -10,7 +10,7 @@ interface LoginResponse {
   status: 'PENDING' | 'ACTIVE';
 }
 
-export default function LoginPage() {
+export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuthStore();
 
@@ -27,7 +27,13 @@ export default function LoginPage() {
       localStorage.setItem('userType', type);
       
       // Zustand store 업데이트
-      login(response.data, type);
+      login(
+        {
+          ...response.data,
+          userStatus: response.data.status,
+        },
+        type
+      );
       
       if (type === 'customer' && response.data.status === 'PENDING') {
         navigate('/signupdetail');
@@ -54,4 +60,4 @@ export default function LoginPage() {
       <LoginForm onSubmit={handleLogin} />
     </div>
   );
-} 
+}; 

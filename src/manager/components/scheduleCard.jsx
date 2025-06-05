@@ -29,12 +29,12 @@ const ScheduleCard = ({
     if (status === 'ready') {
       return (
         <>
-          <button className="flex-1 border rounded-lg py-2 text-sm text-gray-700">
+          <button className="flex-1 border rounded-lg py-2 text-sm text-gray-700 bg-white">
             전화하기
           </button>
           <button
             onClick={() => handleClickAction('checkin')}
-            className="flex-1 bg-violet-600 hover:bg-violet-700 text-white rounded-lg py-2 text-sm font-medium"
+            className="flex-1 bg-primary hover:bg-primary-sub text-white rounded-lg py-2 text-sm font-medium"
           >
             Check In
           </button>
@@ -45,12 +45,12 @@ const ScheduleCard = ({
     if (status === 'checked-in') {
       return (
         <>
-          <button className="flex-1 border rounded-lg py-2 text-sm text-gray-700">
+          <button className="flex-1 border rounded-lg py-2 text-sm text-gray-700 bg-white">
             전화하기
           </button>
           <button
             onClick={() => handleClickAction('checkout')}
-            className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg py-2 text-sm font-medium"
+            className="flex-1 bg-emerald-500 hover:bg-emerald-400 text-white rounded-lg py-2 text-sm font-medium"
           >
             Check Out
           </button>
@@ -74,25 +74,22 @@ const ScheduleCard = ({
 
   return (
     <>
-      <div className="bg-white shadow rounded-xl p-4 mb-4">
-        <div className="mb-2">
-          <h3 className="font-bold text-base text-gray-800">{title}</h3>
-          <p className="text-sm text-gray-500">{time}</p>
+      <div className="bg-gray-50 shadow-sm rounded-lg p-4 text-sm text-gray-800 border flex flex-col gap-3 mb-4">
+        <div>
+          <h3 className="text-base font-extrabold">{title}</h3>
+          <p className="text-xs text-gray-500 mt-1">{time}</p>
         </div>
-
         <div className="flex items-center text-sm text-gray-500 mb-1">
           <FaMapMarkerAlt className="mr-2 text-gray-400" />
           <span>{address}</span>
         </div>
-
-        <div className="flex items-center text-sm text-gray-500 mb-4">
+        <div className="flex items-center text-sm text-gray-500 mb-1">
           <FaUser className="mr-2 text-gray-400" />
           <span>
             고객: {customer} ({rating} ★)
           </span>
         </div>
-
-        <div className="flex gap-2">{renderButtons()}</div>
+        <div className="mt-2 flex gap-2">{renderButtons()}</div>
       </div>
 
       {/* ✅ 확인 모달 */}
@@ -107,13 +104,13 @@ const ScheduleCard = ({
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setConfirmOpen(false)}
-                className="px-4 py-2 rounded text-sm text-gray-600 border border-gray-300"
+                className="px-4 py-2 rounded text-sm text-white bg-primary hover:bg-primary-sub"
               >
                 취소
               </button>
               <button
                 onClick={handleConfirm}
-                className="px-4 py-2 rounded text-sm text-white bg-indigo-600 hover:bg-indigo-700"
+                className="px-4 py-2 rounded text-sm text-white bg-primary hover:bg-primary-sub"
               >
                 확인
               </button>

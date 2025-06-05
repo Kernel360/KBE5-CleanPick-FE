@@ -1,6 +1,7 @@
 import { AcceptedRequest } from "../hooks/useAcceptedRequests";
 import ReviewWriteModal from "./ReviewWriteModal";
 import { useState } from 'react';
+import { FaCheck } from 'react-icons/fa';
 
 interface RequestDetailModalProps {
   request: AcceptedRequest;
@@ -19,23 +20,26 @@ const RequestDetailModal = ({ request, onClose, onUpdate }: RequestDetailModalPr
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
-      <div className="bg-white rounded-xl w-[90%] max-w-sm max-h-[90vh] overflow-y-auto p-6 shadow-lg text-sm text-gray-800">
+      <div className="bg-gray-50 rounded-xl w-[90%] max-w-sm max-h-[90vh] overflow-y-auto p-6 shadow-lg text-sm text-gray-800">
         {/* 제목, 시간 */}
         <h2 className="text-base font-bold text-gray-900">{request.title}</h2>
         <p className="text-gray-600 mt-1">{request.date}</p>
 
         {/* 서비스 항목 */}
         {request.tasks && request.tasks.length > 0 && (
-          <ul className="mt-4 space-y-1 text-sm">
+          <ul className=" -ml-4 mt-4 space-y-2 text-sm">
             {request.tasks.map((task, idx) => (
-              <li key={idx} className="text-green-600 font-medium">✔ {task}</li>
+              <li key={idx} className="flex items-center text-gray-600 font-medium">
+                <FaCheck className="mr-2 text-green-500" size={16} />
+                {task}
+              </li>
             ))}
           </ul>
         )}
 
         {/* 메모 */}
         {request.memo && (
-          <div className="bg-red-100 text-red-800 text-sm rounded-md px-4 py-3 mt-5 whitespace-pre-line">
+          <div className="bg-red-100 text-red-800 text-sm rounded-md px-4 py-3 mt-5 whitespace-pre-line border">
             <p className="font-bold mb-1">추가 요청사항</p>
             <p>{request.memo}</p>
           </div>
@@ -103,7 +107,7 @@ const RequestDetailModal = ({ request, onClose, onUpdate }: RequestDetailModalPr
             onClose();
             if (onUpdate) onUpdate(); // ✅ 업데이트 트리거
           }}
-          className="mt-3 text-sm text-gray-400 w-full text-center"
+          className="mt-3 text-sm py-3 text-white w-full text-center"
         >
           닫기
         </button>

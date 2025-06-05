@@ -1,10 +1,11 @@
-import { Schedule } from '@/compoenet/hooks/useScheduleData';
+import { Schedule } from '@/manager/components/hooks/useScheduleData';
 
 interface ScheduleListProps {
   schedules: Schedule[];
+  date?: Date;
 }
 
-const ScheduleList = ({ schedules }: ScheduleListProps) => {
+export const ScheduleList = ({ schedules }: ScheduleListProps) => {
   return (
     <div>
       {schedules.length === 0 ? (
@@ -28,5 +29,3 @@ const ScheduleList = ({ schedules }: ScheduleListProps) => {
     </div>
   );
 };
-
-export default ScheduleList;

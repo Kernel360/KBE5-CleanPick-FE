@@ -1,6 +1,6 @@
 import HeaderNav from '@/manager/layer/HeaderNav';
 
-const PolicyPage = () => {
+export const Policy: React.FC = () => {
   return (
     <div className="pt-[3.5rem] pb-14 px-4">
       <HeaderNav title="약관 및 정책" showBack={true} />
@@ -12,5 +12,3 @@ const PolicyPage = () => {
     </div>
   );
 };
-
-export default PolicyPage;

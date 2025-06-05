@@ -4,12 +4,12 @@ import Income from '@/manager/components/Home/income';
 import TodaySchedule from '@/manager/components/Home/todaySchedule';
 import { useSchedule } from '@/manager/components/hooks/useSchedule';
 
-const Home = () => {
+export const Home: React.FC = () => {
   const { schedules, handleStatusChange } = useSchedule();
 
   return (
     <div className="pt-[3.5rem] pb-14 px-4">
-      <HeaderNav title="홈" />
+      <HeaderNav title="CleanPick" />
       <main>
         <Income />
         <TodaySchedule
@@ -20,6 +20,4 @@ const Home = () => {
       <BottomNav />
     </div>
   );
-};
-
-export default Home;
+}; 
