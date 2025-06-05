@@ -52,7 +52,6 @@ const AcceptedRequestCard = ({ request, onToggle, isCompleted, onUpdate }: Accep
           <h3 className="text-base font-extrabold">{request.title}</h3>
           <p className="text-xs text-gray-500 mt-1">{request.date}</p>
         </div>
-
         <div className="flex items-center text-sm text-gray-500 mb-1">
           <FaMapMarkerAlt className="mr-2 text-gray-400" /><span>{request.address}</span>
         </div>

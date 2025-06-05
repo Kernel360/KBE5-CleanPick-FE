@@ -24,6 +24,7 @@ import {
     setSelectedDate,
     allSchedules,
   }: CalendarProps) => {
+
     // 이번 달의 모든 일자
     const days = useMemo(() => {
       const start = startOfMonth(selectedDate);
@@ -39,11 +40,11 @@ import {
     const renderDot = (count: number) => {
       if (count === 0) return null;
       if (count >= 5)
-        return <div className="w-2 h-2 rounded-full bg-red-500 mx-auto" />;
+        return <div className="w-[4px] h-[4px] rounded-full bg-red-500 mx-auto" />;
       return (
         <div className="flex gap-[2px] mt-1">
           {Array.from({ length: count }).map((_, i) => (
-            <div key={i} className="w-[4px] h-[4px] rounded-full bg-indigo-500" />
+            <div key={i} className="w-[4px] h-[4px] rounded-full bg-primary" />
           ))}
         </div>
       );
@@ -71,14 +72,14 @@ import {
         </div>
   
         {/* 요일 헤더 */}
-        <div className="grid grid-cols-7 text-center text-sm text-gray-500 mb-1">
+        <div className="grid grid-cols-7 text-center text-sm text-gray-500 mb-1 mt-6">
           {['일', '월', '화', '수', '목', '금', '토'].map((d, i) => (
             <div key={i}>{d}</div>
           ))}
         </div>
   
         {/* 날짜 셀 */}
-        <div className="grid grid-cols-7 gap-y-2 text-center">
+        <div className="grid grid-cols-7 gap-y-8 text-center">
           {/* 이달의 시작 요일 전 공백 */}
           {Array(getDay(startOfMonth(selectedDate)))
             .fill(null)
@@ -89,21 +90,37 @@ import {
           {days.map((day) => {
             const count = getCount(day);
             const isSel = isSameDay(day, selectedDate);
+            const isTodayDate = isToday(day);
             return (
               <div
                 key={day.toISOString()}
                 onClick={() => setSelectedDate(day)}
-                className={`relative w-10 h-10 mx-auto flex flex-col items-center justify-center cursor-pointer rounded-full transition
+                className={`relative w-7 h-7 mx-auto flex flex-col items-center justify-center cursor-pointer rounded-full transition
                   ${
                     isSel
-                      ? 'bg-indigo-600 text-white'
-                      : isToday(day)
-                      ? 'border border-indigo-400 text-indigo-600'
-                      : 'hover:bg-gray-100'
+                      ? isTodayDate
+                        ? 'bg-primary text-white'
+                        : 'bg-primary-sub text-white'
+                      : isTodayDate
+                      ? 'bg-gray-200 text-primary'
+                      : 'hover:bg-gray-200'
                   }`}
+                style={{ fontSize: '15px' }}
               >
-                <span className="text-sm">{day.getDate()}</span>
-                <div className="absolute bottom-1">{renderDot(count)}</div>
+                <span className="relative z-10">
+                  <span
+                    className={`
+                      ${isSel ? 'text-white' : ''}
+                      ${isSel && isTodayDate ? 'font-bold' : ''}
+                      ${isTodayDate && !isSel ? 'font-bold' : ''}
+                      text-base
+                    `}
+                  >
+                    {day.getDate()}
+                  </span>
+                </span>
+                
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-[-10px] z-20">{renderDot(count)}</div>
               </div>
             );
           })}

@@ -1,4 +1,7 @@
 import { Schedule } from '@/manager/components/hooks/useScheduleData';
+import { FaMapMarkerAlt, FaUser, FaClock, FaWonSign } from 'react-icons/fa';
+import { useState } from 'react';
+import RequestDetailModal from '../FindRequest/RequestDetailModal';
 
 interface ScheduleListProps {
   schedules: Schedule[];
@@ -6,6 +9,7 @@ interface ScheduleListProps {
 }
 
 export const ScheduleList = ({ schedules }: ScheduleListProps) => {
+  const [selected, setSelected] = useState<Schedule | null>(null);
   return (
     <div>
       {schedules.length === 0 ? (
@@ -15,16 +19,37 @@ export const ScheduleList = ({ schedules }: ScheduleListProps) => {
           {schedules.map((item) => (
             <div
               key={item.id}
-              className="bg-white shadow rounded-xl p-4 border border-gray-200"
+              className="bg-white shadow rounded-xl p-5 border border-gray-200 mx-6 mt-1 cursor-pointer"
+              onClick={() => setSelected(item)}
             >
-              <h3 className="font-bold text-base">{item.title}</h3>
-              <p className="text-gray-600">{item.time}</p>
-              <p className="mt-2">📍 {item.address}</p>
-              <p>👤 고객: {item.customer} ({item.rating}★)</p>
-              <p>🌞 예상 수입: ₩{item.income.toLocaleString()}</p>
+              <div>
+                <h3 className="text-base font-extrabold">{item.title}</h3>
+                <p className="text-xs text-gray-500 mt-1">{item.date}</p>
+              </div>
+              <div className="flex items-center text-sm text-gray-500 mb-1 mt-4">
+                <FaMapMarkerAlt className="mr-2 text-gray-400" /><span>{item.address}</span>
+              </div>
+              <div className="flex items-center text-sm text-gray-500 mb-1">
+                <FaUser className="mr-2 text-gray-400" />
+                <span>고객: {item.customer} (평점 {item.rating}★)</span>
+              </div>  
+              <div className="flex items-center text-sm text-gray-500 mb-1">
+                <FaClock className="mr-2 text-gray-400" />
+                <span>소요 시간: {item.income.toLocaleString()}</span>
+              </div>
+              <div className="flex items-center text-sm text-gray-500 mb-1">
+                <FaWonSign className="mr-2 text-gray-400" />
+                <span>예상 수입: ₩{item.income.toLocaleString()}</span>
+              </div>
             </div>
           ))}
         </div>
+      )}
+      {selected && (
+        <RequestDetailModal
+          request={selected}
+          onClose={() => setSelected(null)}
+        />
       )}
     </div>
   );

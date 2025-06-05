@@ -16,13 +16,13 @@ export const Schedule: React.FC = () => {
     <div className="pt-[3.5rem] pb-14 h-screen flex flex-col overflow-hidden">
       <HeaderNav title="일정" />
 
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <main className="flex-1 flex flex-col overflow-hidden mt-4">
         <Calendar
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
           allSchedules={allSchedules}
         />
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto mt-6">
           <ScheduleList schedules={schedulesForDate} />
         </div>
       </main>

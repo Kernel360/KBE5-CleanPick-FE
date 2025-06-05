@@ -19,8 +19,14 @@ const RequestDetailModal = ({ request, onClose, onUpdate }: RequestDetailModalPr
   if (!request) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
-      <div className="bg-gray-50 rounded-xl w-[90%] max-w-sm max-h-[90vh] overflow-y-auto p-6 shadow-lg text-sm text-gray-800">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center"
+      onClick={onClose}
+    >
+      <div
+        className="bg-gray-50 rounded-xl w-[90%] max-w-sm max-h-[90vh] overflow-y-auto p-6 shadow-lg text-sm text-gray-800"
+        onClick={e => e.stopPropagation()}
+      >
         {/* 제목, 시간 */}
         <h2 className="text-base font-bold text-gray-900">{request.title}</h2>
         <p className="text-gray-600 mt-1">{request.date}</p>
