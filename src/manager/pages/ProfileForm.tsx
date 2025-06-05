@@ -2,6 +2,7 @@ import { useUserProfile } from '@/manager/components/hooks/useUserProfile';
 import HeaderNav from '@/manager/layer/HeaderNav';
 import { useState } from 'react';
 const availableServices = ['가정집 청소', '사무실 청소', '특수 청소'];
+const weekDays = ['월', '화', '수', '목', '금', '토', '일'];
 
 export const ProfileForm: React.FC = () => {
   const {
@@ -14,6 +15,7 @@ export const ProfileForm: React.FC = () => {
   } = useUserProfile();
 
   const [photo, setPhoto] = useState<string | null>(null);
+  const [activeDay, setActiveDay] = useState<string | null>(null);
 
   const handleServiceChange = (service: string) => {
     const exists = profile.services.includes(service);
@@ -122,34 +124,61 @@ export const ProfileForm: React.FC = () => {
       {/* 활동 가능 시간 */}
       <section>
         <h3 className="font-bold text-gray-800 mb-2">활동 가능 시간</h3>
-        {profile.availableTime.map((slot, i) => (
-          <div key={i} className="flex justify-between items-center gap-2 mb-2">
+        <div className="flex gap-2 mb-4">
+          {weekDays.map((day) => (
+            <button
+              key={day}
+              type="button"
+              className={`px-3 py-1 rounded-full border text-sm font-medium transition
+                ${activeDay === day ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'}`}
+              onClick={() => setActiveDay(activeDay === day ? null : day)}
+            >
+              {day}
+            </button>
+          ))}
+        </div>
+        {activeDay && (
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-sm font-medium w-12">{activeDay}</span>
             <input
-              type="text"
-              placeholder="요일 (예: 수요일)"
-              value={slot.day}
-              onChange={(e) =>
-                updateAvailableDay(i, { ...slot, day: e.target.value })
-              }
-              className="border rounded px-2 py-1 w-[40%] text-sm"
+              type="time"
+              min="00:00"
+              max="23:59"
+              step="1800"
+              value={profile.availableTime.find((slot) => slot.day === activeDay)?.start || ''}
+              onChange={(e) => {
+                const exists = profile.availableTime.find((slot) => slot.day === activeDay);
+                if (exists) {
+                  updateAvailableDay(profile.availableTime.findIndex((slot) => slot.day === activeDay), { ...exists, start: e.target.value });
+                } else {
+                  addAvailableDay();
+                  updateAvailableDay(profile.availableTime.length, { day: activeDay, start: e.target.value, end: '' });
+                }
+              }}
+              className="border rounded px-2 py-1 w-[90px] text-sm"
+              placeholder="시작"
             />
+            <span className="mx-1">~</span>
             <input
-              type="text"
-              value={slot.time}
-              onChange={(e) =>
-                updateAvailableDay(i, { ...slot, time: e.target.value })
-              }
-              className="border rounded px-2 py-1 w-[50%] text-sm"
+              type="time"
+              min="00:00"
+              max="23:59"
+              step="1800"
+              value={profile.availableTime.find((slot) => slot.day === activeDay)?.end || ''}
+              onChange={(e) => {
+                const exists = profile.availableTime.find((slot) => slot.day === activeDay);
+                if (exists) {
+                  updateAvailableDay(profile.availableTime.findIndex((slot) => slot.day === activeDay), { ...exists, end: e.target.value });
+                } else {
+                  addAvailableDay();
+                  updateAvailableDay(profile.availableTime.length, { day: activeDay, start: '', end: e.target.value });
+                }
+              }}
+              className="border rounded px-2 py-1 w-[90px] text-sm"
+              placeholder="종료"
             />
           </div>
-        ))}
-        <button
-          type="button"
-          className="text-indigo-600 text-sm"
-          onClick={addAvailableDay}
-        >
-          + 요일 추가
-        </button>
+        )}
       </section>
 
       {/* 자기소개 */}

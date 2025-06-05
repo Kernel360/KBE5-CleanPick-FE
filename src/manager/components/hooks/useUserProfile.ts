@@ -5,7 +5,7 @@ export interface UserProfile {
   phone: string;
   services: string[];
   regions: string[];
-  availableTime: { day: string; time: string }[];
+  availableTime: { day: string; start: string; end: string }[];
   bio?: string;
   photo?: string;
 }
@@ -17,8 +17,8 @@ export const useUserProfile = () => {
     services: ['가정집 청소'],
     regions: ['비엔티안 시내'],
     availableTime: [
-      { day: '월요일', time: '09:00 - 18:00' },
-      { day: '화요일', time: '09:00 - 18:00' },
+      { day: '월요일', start: '09:00', end: '18:00' },
+      { day: '화요일', start: '09:00', end: '18:00' },
     ],
     bio: '안녕하세요. 홍길동입니다. 청소 서비스를 제공합니다.',
     photo: '',
@@ -31,7 +31,7 @@ export const useUserProfile = () => {
   const addRegion = () => {
     setProfile((prev) => ({
       ...prev,
-      regions: [...prev.regions, ''], // 빈 지역 필드
+      regions: [...prev.regions, ''],
     }));
   };
 
@@ -44,11 +44,11 @@ export const useUserProfile = () => {
   const addAvailableDay = () => {
     setProfile((prev) => ({
       ...prev,
-      availableTime: [...prev.availableTime, { day: '', time: '09:00 - 18:00' }],
+      availableTime: [...prev.availableTime, { day: '', start: '', end: '' }],
     }));
   };
 
-  const updateAvailableDay = (index: number, updatedSlot: { day: string; time: string }) => {
+  const updateAvailableDay = (index: number, updatedSlot: { day: string; start: string; end: string }) => {
     const updated = [...profile.availableTime];
     updated[index] = updatedSlot;
     setProfile((prev) => ({ ...prev, availableTime: updated }));
