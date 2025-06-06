@@ -9,11 +9,24 @@ import { MyPage } from './customer/pages/my';
 import { ManagerListPage } from './customer/pages/manager/list';
 import { MyPageEdit } from './customer/pages/my/edit';
 import { ReviewList } from './customer/pages/review/list';
-import LoginPage from './common/pages/auth/LoginPage';
-import SignupPage from './common/pages/auth/SignUpPage';
+import { LoginPage } from './common/pages/auth/LoginPage';
+import { SignupPage } from './common/pages/auth/SignUpPage';
 import { ScheduleListPage } from './customer/pages/schedule-list';
 // FCM 초기화
 import '@/common/fcm/settingFCM';
+import { Home } from './manager/pages/Home';
+import { FindRequest } from './manager/pages/FindRequest';
+import { Schedule } from './manager/pages/Schedule';
+import { ManagerMyPage } from './manager/pages/ManagerMyPage';
+import { IncomeList } from './manager/pages/IncomeList';
+import { ScheduleList } from './manager/pages/TodayList';
+import { ProfileForm } from './manager/pages/ProfileForm';
+import { Policy } from './manager/pages/Policy';
+import { ProfileDetail } from './manager/pages/ProfileDetail';
+import { ReviewToUser } from './manager/pages/ReviewToUser';
+
+
+
 
 function App() {
   return (

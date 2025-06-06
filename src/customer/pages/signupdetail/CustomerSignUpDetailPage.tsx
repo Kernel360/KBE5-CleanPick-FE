@@ -7,11 +7,17 @@ import { ScheduleAddress } from '@/customer/components/schedule/ScheduleAddress'
 import { ScheduleAddressDetail } from '@/customer/components/schedule/ScheduleAddressDetail';
 import instance from '@/common/api/axios';
 
+interface AddressInfo {
+  mainAddress: string;
+  subAddress: string;
+  latitude: number;
+  longitude: number;
+}
+
 interface UserDetailInfo {
   name: string;
   phoneNumber: string;
-  mainAddress: string;
-  subAddress: string;
+  addressInfo: AddressInfo;
 }
 
 interface PresignedUrlInfo {
@@ -24,8 +30,12 @@ export default function CustomerSignUpDetailPage() {
   const [userInfo, setUserInfo] = useState<UserDetailInfo>({
     name: '',
     phoneNumber: '',
-    mainAddress: '',
-    subAddress: ''
+    addressInfo: {
+      mainAddress: '',
+      subAddress: '',
+      latitude: 0,
+      longitude: 0
+    }
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [presignedUrlInfo, setPresignedUrlInfo] = useState<PresignedUrlInfo | null>(null);
@@ -64,8 +74,10 @@ export default function CustomerSignUpDetailPage() {
       const signupData = {
         name: userInfo.name,
         phoneNumber: userInfo.phoneNumber,
-        mainAddress: userInfo.mainAddress,
-        subAddress: userInfo.subAddress,
+        mainAddress: userInfo.addressInfo.mainAddress,
+        subAddress: userInfo.addressInfo.subAddress,
+        latitude: userInfo.addressInfo.latitude,
+        longitude: userInfo.addressInfo.longitude,
         profileImageUrl
       };
 
@@ -82,18 +94,36 @@ export default function CustomerSignUpDetailPage() {
     }
   };
 
-  const handleLocationChange = (location: string) => {
+  const handleLocationChange = (location: string, detail?: { address: string; latitude: number; longitude: number }) => {
     setUserInfo(prev => ({
       ...prev,
-      mainAddress: location
+      addressInfo: {
+        ...prev.addressInfo,
+        mainAddress: location,
+        // detail이 있을 경우 위도/경도 업데이트
+        ...(detail && {
+          latitude: detail.latitude,
+          longitude: detail.longitude
+        })
+      }
+    }));
+  };
+
+  const handleDetailAddressChange = (detail: string) => {
+    setUserInfo(prev => ({
+      ...prev,
+      addressInfo: {
+        ...prev.addressInfo,
+        subAddress: detail
+      }
     }));
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header showBack={true} title="추가 정보 입력" />
-      <div className="max-w-md mx-auto p-6 mt-[100px]">
-        <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="max-w-md mx-auto p-6 mt-[100px] mb-[50px]">
+        <div className="space-y-6">
           <ProfileImageUpload
             selectedFile={selectedFile}
             onImageSelect={(file, presignedInfo) => {
@@ -106,21 +136,22 @@ export default function CustomerSignUpDetailPage() {
             onChange={(field, value) => setUserInfo(prev => ({ ...prev, [field]: value }))}
           />
           <ScheduleAddress
-            location={userInfo.mainAddress}
+            location={userInfo.addressInfo.mainAddress}
             onLocationChange={handleLocationChange}
           />
           <ScheduleAddressDetail
-            detailAddress={userInfo.subAddress}
-            onDetailAddressChange={(detail) => setUserInfo(prev => ({ ...prev, subAddress: detail }))}
-            mainAddress={userInfo.mainAddress}
+            detailAddress={userInfo.addressInfo.subAddress}
+            onDetailAddressChange={handleDetailAddressChange}
+            mainAddress={userInfo.addressInfo.mainAddress}
           />
           <button
             type="submit"
             className="w-full bg-primary text-white py-3 rounded-lg font-semibold"
-          >
+            onClick={handleSubmit}
+         >
             등록 완료
           </button>
-        </form>
+        </div>
       </div>
     </div>
   );

@@ -52,7 +52,7 @@ const useAuthStore = create<AuthState>()(
         set({ user: userData, isAuthenticated: true, userType: type })
         if (type === 'customer') {
           const store = useAuthStore.getState()
-          await store.fetchProfile()
+          store.fetchProfile()
         }
       },
       logout: () => 
