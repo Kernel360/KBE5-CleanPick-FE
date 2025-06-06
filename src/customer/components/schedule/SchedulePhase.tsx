@@ -3,6 +3,14 @@ import { ScheduleCalender } from './ScheduleCalender';
 import { ScheduleTime } from './ScheduleTime';
 import { ScheduleAddress } from './ScheduleAddress';
 import { ScheduleAddressDetail } from './ScheduleAddressDetail';
+
+interface AddressInfo {
+  mainAddress: string;
+  subAddress: string;
+  latitude: number;
+  longitude: number;
+}
+
 interface SchedulePhaseProps {
   selectedDate: Date | undefined;
   onDateSelect: (date: Date | undefined) => void;
@@ -10,10 +18,8 @@ interface SchedulePhaseProps {
   selectedMinute: string;
   onHourSelect: (hour: string) => void;
   onMinuteSelect: (minute: string) => void;
-  location: string;
-  onLocationChange: (location: string, detail?: { address: string; latitude: number; longitude: number }) => void;
-  detailAddress: string;
-  onDetailAddressChange: (detailAddress: string) => void;
+  addressInfo: AddressInfo;
+  onAddressInfoChange: (addressInfo: AddressInfo) => void;
 }
 
 export const SchedulePhase = ({
@@ -23,12 +29,30 @@ export const SchedulePhase = ({
   selectedMinute,
   onHourSelect,
   onMinuteSelect,
-  location,
-  onLocationChange,
-  detailAddress,
-  onDetailAddressChange
+  addressInfo,
+  onAddressInfoChange
 }: SchedulePhaseProps) => {
   const [serviceType, setServiceType] = useState<'once' | 'regular'>('once');
+
+  const handleLocationChange = (location: string, detail?: { address: string; latitude: number; longitude: number }) => {
+    const updatedAddressInfo = {
+      ...addressInfo,
+      mainAddress: location,
+      ...(detail && {
+        latitude: detail.latitude,
+        longitude: detail.longitude
+      })
+    };
+    onAddressInfoChange(updatedAddressInfo);
+  };
+
+  const handleDetailAddressChange = (detailAddress: string) => {
+    const updatedAddressInfo = {
+      ...addressInfo,
+      subAddress: detailAddress
+    };
+    onAddressInfoChange(updatedAddressInfo);
+  };
 
   return (
     <div className="px-4">
@@ -66,12 +90,15 @@ export const SchedulePhase = ({
         onMinuteSelect={onMinuteSelect}
       />
 
-      <ScheduleAddress location={location} onLocationChange={onLocationChange} />
+      <ScheduleAddress 
+        location={addressInfo.mainAddress} 
+        onLocationChange={handleLocationChange} 
+      />
 
       <ScheduleAddressDetail
-        detailAddress={detailAddress}
-        onDetailAddressChange={onDetailAddressChange}
-        mainAddress={location}
+        detailAddress={addressInfo.subAddress}
+        onDetailAddressChange={handleDetailAddressChange}
+        mainAddress={addressInfo.mainAddress}
       />
     </div>
   );

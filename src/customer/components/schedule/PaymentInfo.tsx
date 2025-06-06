@@ -1,13 +1,19 @@
 import React from 'react';
 import { CleaningOption } from '@/customer/pages/schedule/SchedulePage';
 
+interface AddressInfo {
+  mainAddress: string;
+  subAddress: string;
+  latitude: number;
+  longitude: number;
+}
+
 interface PaymentInfoProps {
   serviceType: string;
   serviceDate: Date;
   serviceTime: string;
   serviceDuration: number;
-  serviceAddress: string;
-  serviceAddressDetail: string;
+  addressInfo: AddressInfo;
   totalPrice: number;
   selectedOptions: CleaningOption[];
 }
@@ -43,8 +49,7 @@ export const PaymentInfo: React.FC<PaymentInfoProps> = ({
   serviceDate,
   serviceTime,
   serviceDuration,
-  serviceAddress,
-  serviceAddressDetail,
+  addressInfo,
   totalPrice,
   selectedOptions = []
 }) => {
@@ -71,8 +76,8 @@ export const PaymentInfo: React.FC<PaymentInfoProps> = ({
         <div className="flex justify-between items-center">
           <span className="text-gray-600">위치</span>
           <div className="text-right">
-            <div>{serviceAddress}</div>
-            <div className="text-md text-gray-500">{serviceAddressDetail}</div>
+            <div>{addressInfo.mainAddress}</div>
+            <div className="text-md text-gray-500">{addressInfo.subAddress}</div>
           </div>
         </div>
       </div>

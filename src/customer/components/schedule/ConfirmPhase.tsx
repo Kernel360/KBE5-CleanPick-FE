@@ -2,15 +2,20 @@ import React, { useState } from 'react';
 import { PaymentMethod } from './PaymentMethod';
 import { PaymentInfo } from './PaymentInfo';
 import { CleaningOption } from '@/customer/pages/schedule/SchedulePage';
-import TossPaymentModal from '@/customer/components/payment/PaymentCheckout';
+
+interface AddressInfo {
+  mainAddress: string;
+  subAddress: string;
+  latitude: number;
+  longitude: number;
+}
 
 interface PaymentPhaseProps {
   totalPrice: number;
   selectedOptions: CleaningOption[];
   serviceDate: Date;
   serviceTime: string;
-  serviceAddress: string;
-  serviceAddressDetail: string;
+  addressInfo: AddressInfo;
   serviceDuration: number;
   selectedServiceType: string;
   paymentMethod: 'cash' | 'card';
@@ -25,8 +30,7 @@ export const PaymentPhase: React.FC<PaymentPhaseProps> = ({
   totalPrice,
   serviceDate,
   serviceTime,
-  serviceAddress,
-  serviceAddressDetail,
+  addressInfo,
   serviceDuration,
   paymentMethod,
   onPaymentMethodChange,
@@ -36,6 +40,16 @@ export const PaymentPhase: React.FC<PaymentPhaseProps> = ({
   const [isAgreed, setIsAgreed] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
+  const confirmSchedule = () => {
+    console.log("selectedServiceType", selectedServiceType)
+    console.log("selectedOptions", selectedOptions)
+    console.log("totalPrice", totalPrice)
+    console.log("serviceDate", serviceDate)
+    console.log("serviceTime", serviceTime)
+    console.log("addressInfo", addressInfo)
+    console.log("serviceDuration", serviceDuration)
+  }
+
   return (
     <div className="p-4">
       <PaymentInfo
@@ -44,8 +58,7 @@ export const PaymentPhase: React.FC<PaymentPhaseProps> = ({
         serviceDate={serviceDate}
         serviceTime={serviceTime}
         serviceDuration={serviceDuration}
-        serviceAddress={serviceAddress}
-        serviceAddressDetail={serviceAddressDetail}
+        addressInfo={addressInfo}
         totalPrice={totalPrice || 0}
       />
 
@@ -63,10 +76,10 @@ export const PaymentPhase: React.FC<PaymentPhaseProps> = ({
         </label>
       </div>
 
-      {/* 결제 버튼 */}
+  
       <button
         disabled={!isAgreed}
-        onClick={() => setIsPaymentModalOpen(true)}
+        onClick={confirmSchedule}
         className={`w-full py-4 rounded-lg font-medium text-white ${
           isAgreed ? 'bg-primary hover:bg-primary/90' : 'bg-gray-300'
         }`}

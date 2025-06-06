@@ -72,18 +72,53 @@ export const ServicePhase = ({
 
   // 선택된 옵션 처리
   useEffect(() => {
+    console.log('selectedOption useEffect triggered:', {
+      selectedOption,
+      cleaningOptionsLength: cleaningOptions.length,
+      selectedOptionsLength: selectedOptions.length,
+      selectedItems
+    });
+
     if (selectedOption && cleaningOptions.length > 0) {
-      const option = cleaningOptions.find(opt => opt.id === selectedOption);
-      if (option && !selectedOptions.some(selected => selected.id === option.id)) {
-        setSelectedOptions([option]);
-        if (!selectedItems.includes(option.id.toString())) {
-          onToggleItem(option.id.toString());
+      // 홈의 optionId와 실제 API 옵션 ID 매핑
+      const optionIdMapping: { [key: number]: string } = {
+        1: '에어컨 청소',
+        2: '후드 청소', 
+        3: '냉장고 청소'
+      };
+
+      // selectedOption에 해당하는 옵션명으로 실제 옵션 찾기
+      const targetOptionName = optionIdMapping[selectedOption];
+      console.log('Looking for option name:', targetOptionName);
+
+      const option = cleaningOptions.find(opt => opt.name === targetOptionName);
+      console.log('Found option for selectedOption:', option);
+      
+      if (option) {
+        const isAlreadySelected = selectedOptions.some(selected => selected.id === option.id);
+        console.log('Is option already selected:', isAlreadySelected);
+        
+        if (!isAlreadySelected) {
+          console.log('Auto-selecting option:', option);
+          setSelectedOptions([option]);
+          
+          // 아이템이 이미 선택되어 있지 않다면 토글
+          if (!selectedItems.includes(option.id.toString())) {
+            console.log('Toggling item:', option.id.toString());
+            onToggleItem(option.id.toString());
+          }
+          
+          // 가격과 시간 설정
+          setTotalPrice(option.extraPrice);
+          setTotalTime(option.extraDuration);
+          console.log('Set price and time:', option.extraPrice, option.extraDuration);
         }
-        setTotalPrice(option.extraPrice);
-        setTotalTime(option.extraDuration);
+      } else {
+        console.log('Option not found for name:', targetOptionName);
+        console.log('Available options:', cleaningOptions.map(opt => ({ id: opt.id, name: opt.name })));
       }
     }
-  }, [selectedOption, cleaningOptions, selectedOptions, setSelectedOptions, onToggleItem, setTotalPrice, setTotalTime, selectedItems]);
+  }, [selectedOption, cleaningOptions, selectedOptions, selectedItems, setSelectedOptions, onToggleItem, setTotalPrice, setTotalTime]);
 
   if (isLoading) {
     return (

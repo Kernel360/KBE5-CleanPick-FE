@@ -64,16 +64,7 @@ export const ScheduleListItem: React.FC<ScheduleListItemProps> = ({
             처리 완료
           </Button>
         );
-      } else {
-        return (
-          <Button
-            onClick={() => onManageHelper?.(schedule.id)}
-            className="w-full h-12 bg-green-600 hover:bg-green-700 text-white"
-          >
-            매니저 변경하기
-          </Button>
-        );
-      }
+      } 
     } else if (schedule.status === 'pending' || schedule.status === 'matched') {
       return (
         <Button
