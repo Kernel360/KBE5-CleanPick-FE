@@ -11,7 +11,18 @@ interface User {
   userStatus: UserStatus
 }
 
-interface UserProfile {
+interface CustomerProfile {
+  name: string
+  phoneNumber: string
+  profileImageUrl: string | null
+  mainAddress: string
+  subAddress: string
+  latitude?: number
+  longitude?: number
+  address?: string
+}
+
+interface ManagerProfile {
   name: string
   phoneNumber: string
   profileImageUrl: string | null
@@ -33,7 +44,7 @@ interface AuthState {
   user: User | null
   userType: UserType | null
   isAuthenticated: boolean
-  profile: UserProfile | null
+  profile: CustomerProfile | ManagerProfile | null
   login: (userData: User, type: UserType) => Promise<void>
   logout: () => void
   setUserType: (type: UserType) => void
@@ -61,8 +72,7 @@ const useAuthStore = create<AuthState>()(
         set({ userType: type }),
       fetchProfile: async () => {
         try {
-          const response = await instance.get<ApiResponse<UserProfile>>('/customers')
-          console.log("response:", response.data)
+          const response = await instance.get<ApiResponse<CustomerProfile>>('/customers')
           if (response.data.success) {
             set({ profile: response.data.data })
           }

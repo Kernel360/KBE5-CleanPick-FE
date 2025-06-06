@@ -9,11 +9,6 @@ import { MyPage } from './customer/pages/my';
 import { ManagerListPage } from './customer/pages/manager/list';
 import { MyPageEdit } from './customer/pages/my/edit';
 import { ReviewList } from './customer/pages/review/list';
-import { LoginPage } from './common/pages/auth/LoginPage';
-import { SignupPage } from './common/pages/auth/SignUpPage';
-import { ScheduleListPage } from './customer/pages/schedule-list';
-// FCM 초기화
-import '@/common/fcm/settingFCM';
 import { Home } from './manager/pages/Home';
 import { FindRequest } from './manager/pages/FindRequest';
 import { Schedule } from './manager/pages/Schedule';
@@ -24,7 +19,8 @@ import { ProfileForm } from './manager/pages/ProfileForm';
 import { Policy } from './manager/pages/Policy';
 import { ProfileDetail } from './manager/pages/ProfileDetail';
 import { ReviewToUser } from './manager/pages/ReviewToUser';
-
+import { LoginPage } from './common/pages/auth/LoginPage';
+import { SignupPage } from './common/pages/auth/SignUpPage';
 
 
 
@@ -39,11 +35,25 @@ function App() {
         <Route path="mypage/edit" element={<MyPageEdit />} />
         <Route path="review" element={<ReviewList />} />
         <Route path="signupdetail" element={<CustomerSignUpDetailPage />} />
-        <Route path="schedule/list" element={<ScheduleListPage />} />
+        <Route path="/signup-detail" element={<CustomerSignUpDetailPage />} />
+      </Route>
+
+      <Route path="/manager">
+        <Route index element={<Home />} />
+        <Route path="findrequest" element={<FindRequest />} />
+        <Route path="schedule" element={<Schedule />} />
+        <Route path="mypage" element={<ManagerMyPage />} />
+        <Route path="incomelist" element={<IncomeList />} />
+        <Route path="todaylist" element={<ScheduleList />} />
+        <Route path="profileform" element={<ProfileForm />} />
+        <Route path="policy" element={<Policy />} />
+        <Route path="profileDetail" element={<ProfileDetail />} />
+        <Route path="reviewToUser" element={<ReviewToUser />} />
       </Route>
 
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
+
     </Routes>
   );
 }
