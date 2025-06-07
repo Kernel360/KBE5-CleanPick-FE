@@ -105,6 +105,7 @@ const ProfileForm = () => {
   // 기본 정보 변경 핸들러
   const handleNameChange = (name: string) => {
     setFormData(prev => ({ ...prev, name }));
+
   };
 
   const handlePhoneChange = (phone: string) => {
@@ -312,6 +313,8 @@ const ProfileForm = () => {
       </div>
     </div>
   );
+
 };
 
 export { ProfileForm };
+

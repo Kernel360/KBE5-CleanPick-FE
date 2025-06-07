@@ -28,6 +28,7 @@ export const LoginPage: React.FC = () => {
       localStorage.setItem('userType', type);
 
       // Zustand store 업데이트
+
       await login(
         {
           ...response.data,
@@ -37,6 +38,7 @@ export const LoginPage: React.FC = () => {
       );
       registerFCMToken();
       if (type === 'customer' && response.data.userStatus === 'PENDING') {
+
         navigate('/signupdetail');
         return response.data;
       }
