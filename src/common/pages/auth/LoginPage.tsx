@@ -42,7 +42,7 @@ export const LoginPage: React.FC = () => {
       }
 
       if (type === 'manager' && response.data.userStatus === 'PENDING') {
-        navigate('/signupdetail');
+        navigate('/manager/profileform');
         return response.data;
       }
       

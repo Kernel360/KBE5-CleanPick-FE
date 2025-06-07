@@ -197,18 +197,28 @@ const ProfileForm = () => {
       const requestData = {
         name: formData.name,
         phoneNumber: formData.phone,
-        services: selectedServices.map(s => s.name),
-        activityArea: formData.activityArea,
-        workingDays: formData.workingDays,
-        introduction: formData.introduction,
-        profileImageUrl
+        mainAddress: formData.activityArea.address,
+        subAddress: formData.activityArea.detailAddress,
+        profileMessage: formData.introduction,
+        profileImageUrl,
+        latitude: formData.activityArea.latitude || 0,
+        longitude: formData.activityArea.longitude || 0,
+        availableCleans: selectedServices.map(s => s.id),
+        availableTimes: formData.workingDays.map(workingDay => ({
+          dayOfWeek: workingDay.day,
+          startTime: workingDay.startTime,
+          endTime: workingDay.endTime
+        }))
       };
+      console.log(requestData)
 
-      const method = user?.userStatus === 'PENDING' ? 'post' : 'put';
-      const response = await instance[method]('/managers/profile', requestData);
+              // 백엔드에서 status로 오는 경우를 대비한 fallback
+        const userStatus = user?.userStatus || (user as any)?.status;
+        const method = userStatus === 'PENDING' ? 'post' : 'put';
+      const response = await instance[method]('/manager', requestData);
 
       if (response.data && typeof response.data === 'object' && 'success' in response.data && response.data.success) {
-        if (user?.userStatus === 'PENDING') {
+        if (userStatus === 'PENDING') {
           updateUserStatus('ACTIVE');
         }
         await fetchProfile();
@@ -234,7 +244,10 @@ const ProfileForm = () => {
             <div className="text-center">
               <ProfileImageUpload
                 selectedFile={selectedFile}
-                onImageSelect={handleImageSelect}
+                onImageSelect={(file, presignedInfo) => {
+                  setSelectedFile(file);
+                  setPresignedUrlInfo(presignedInfo);
+                }}
               />
             </div>
 
@@ -301,4 +314,4 @@ const ProfileForm = () => {
   );
 };
 
-export default ProfileForm;
+export { ProfileForm };
