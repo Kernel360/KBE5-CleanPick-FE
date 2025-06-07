@@ -8,7 +8,9 @@ import {
   FaComments,
   FaClipboardList,
   FaChevronRight,
+  FaSignOutAlt,
 } from 'react-icons/fa';
+import useAuthStore from '@/stores/useAuthStore';
 
 const menus = [
   { icon: <FaUser />, label: '프로필 관리', href: '/manager/profileform' },
@@ -18,14 +20,23 @@ const menus = [
   { icon: <FaBell />, label: '알림 설정 (준비중)' }, // 보류
   { icon: <FaComments />, label: '고객 센터 (준비중)' }, // 보류
   { icon: <FaClipboardList />, label: '약관 및 정책', href: '/manager/policy' },
+  { icon: <FaSignOutAlt />, label: '로그아웃', action: 'logout' },
 ];
 
 const MyPageMenu = () => {
+  const handleLogout = () => {
+    // 로그아웃 처리
+    localStorage.removeItem('token'); // 토큰 제거
+    localStorage.removeItem('userType'); // 사용자 타입 제거
+    useAuthStore.getState().logout()
+    window.location.href = '/'; // 메인 페이지로 리다이렉트
+  };
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 mb-[30px]">
       {menus.map((menu, index) => {
         const content = (
-          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 ">
             <div className="flex items-center gap-3 text-gray-700 text-sm">
               <span className="text-lg">{menu.icon}</span>
               <span>{menu.label}</span>
@@ -33,6 +44,14 @@ const MyPageMenu = () => {
             <FaChevronRight size={14} className="text-gray-400" />
           </div>
         );
+
+        if (menu.action === 'logout') {
+          return (
+            <div key={index} onClick={handleLogout} className="cursor-pointer">
+              {content}
+            </div>
+          );
+        }
 
         return menu.href ? (
           <Link key={index} to={menu.href}>

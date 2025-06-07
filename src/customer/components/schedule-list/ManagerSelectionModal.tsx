@@ -196,7 +196,7 @@ export const ManagerSelectionModal: React.FC<ManagerSelectionModalProps> = ({
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
             )}
           >
-            {selectedManager ? `${selectedManager.name} 선택하기` : '매니저를 선택해주세요'}
+            {selectedManager ? `결제하기` : '매니저를 선택해주세요'}
           </Button>
         </div>
       </div>

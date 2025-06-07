@@ -14,13 +14,13 @@ interface WorkingHoursProps {
 }
 
 const DAYS_OF_WEEK = [
-  { value: 'MON', label: '월요일' },
-  { value: 'TUE', label: '화요일' },
-  { value: 'WED', label: '수요일' },
-  { value: 'THU', label: '목요일' },
-  { value: 'FRI', label: '금요일' },
-  { value: 'SAT', label: '토요일' },
-  { value: 'SUN', label: '일요일' }
+  { value: 'MONDAY', label: '월요일' },
+  { value: 'TUESDAY', label: '화요일' },
+  { value: 'WEDNESDAY', label: '수요일' },
+  { value: 'THURSDAY', label: '목요일' },
+  { value: 'FRIDAY', label: '금요일' },
+  { value: 'SATURDAY', label: '토요일' },
+  { value: 'SUNDAY', label: '일요일' }
 ];
 
 const TIME_OPTIONS = Array.from({ length: 24 }, (_, i) => {

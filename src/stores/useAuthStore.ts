@@ -26,6 +26,7 @@ interface ManagerProfile {
   name: string
   phoneNumber: string
   profileImageUrl: string | null
+  profileMessage: string | null
   mainAddress: string
   subAddress: string
   latitude?: number
@@ -61,10 +62,8 @@ const useAuthStore = create<AuthState>()(
       profile: null,
       login: async (userData, type) => {
         set({ user: userData, isAuthenticated: true, userType: type })
-        if (type === 'customer') {
-          const store = useAuthStore.getState()
-          store.fetchProfile()
-        }
+        const store = useAuthStore.getState()
+        store.fetchProfile()  
       },
       logout: () => 
         set({ user: null, isAuthenticated: false, userType: null, profile: null }),
@@ -72,8 +71,14 @@ const useAuthStore = create<AuthState>()(
         set({ userType: type }),
       fetchProfile: async () => {
         try {
-          const response = await instance.get<ApiResponse<CustomerProfile>>('/customers')
-          if (response.data.success) {
+          let response;
+          console.log("fetchProfile")
+          if(useAuthStore.getState().userType === 'customer') {
+            response = await instance.get<ApiResponse<CustomerProfile>>('/customers')
+          } else {
+            response = await instance.get<ApiResponse<ManagerProfile>>('/manager')
+          }
+          if (response.data.success) {  
             set({ profile: response.data.data })
           }
         } catch (error) {
