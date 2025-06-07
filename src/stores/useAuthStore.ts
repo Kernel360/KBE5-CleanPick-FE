@@ -11,10 +11,22 @@ interface User {
   userStatus: UserStatus
 }
 
-interface UserProfile {
+interface CustomerProfile {
   name: string
   phoneNumber: string
   profileImageUrl: string | null
+  mainAddress: string
+  subAddress: string
+  latitude?: number
+  longitude?: number
+  address?: string
+}
+
+interface ManagerProfile {
+  name: string
+  phoneNumber: string
+  profileImageUrl: string | null
+  profileMessage: string | null
   mainAddress: string
   subAddress: string
   latitude?: number
@@ -33,7 +45,7 @@ interface AuthState {
   user: User | null
   userType: UserType | null
   isAuthenticated: boolean
-  profile: UserProfile | null
+  profile: CustomerProfile | ManagerProfile | null
   login: (userData: User, type: UserType) => Promise<void>
   logout: () => void
   setUserType: (type: UserType) => void
@@ -50,10 +62,8 @@ const useAuthStore = create<AuthState>()(
       profile: null,
       login: async (userData, type) => {
         set({ user: userData, isAuthenticated: true, userType: type })
-        if (type === 'customer') {
-          const store = useAuthStore.getState()
-          await store.fetchProfile()
-        }
+        const store = useAuthStore.getState()
+        store.fetchProfile()  
       },
       logout: () => 
         set({ user: null, isAuthenticated: false, userType: null, profile: null }),
@@ -61,8 +71,14 @@ const useAuthStore = create<AuthState>()(
         set({ userType: type }),
       fetchProfile: async () => {
         try {
-          const response = await instance.get<ApiResponse<UserProfile>>('/customers')
-          if (response.data.success) {
+          let response;
+          console.log("fetchProfile")
+          if(useAuthStore.getState().userType === 'customer') {
+            response = await instance.get<ApiResponse<CustomerProfile>>('/customers')
+          } else {
+            response = await instance.get<ApiResponse<ManagerProfile>>('/manager')
+          }
+          if (response.data.success) {  
             set({ profile: response.data.data })
           }
         } catch (error) {

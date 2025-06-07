@@ -201,8 +201,8 @@ const MyPageEdit = () => {
         showBack={true}
       />
       
-      <div className="pt-[3.5rem] px-4">
-        <div className="space-y-6">
+      <div className="max-w-md mx-auto p-6 mt-[100px] mb-[50px]">
+        <div className="space-y-6 bg-white rounded-lg p-6">
           <ProfileImageUpload
             selectedFile={selectedFile}
             onImageSelect={(file, presignedInfo) => {

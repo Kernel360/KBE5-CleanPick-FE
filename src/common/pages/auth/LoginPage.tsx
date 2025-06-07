@@ -1,13 +1,14 @@
 import LoginForm from '@/common/components/auth/LoginForm';
 import instance from '@/common/api/axios';
 import { useNavigate } from 'react-router-dom';
-import HeaderNav from '@/manager/layer/HeaderNav';
+import { Header } from '@/customer/components/layout/Header';
 import useAuthStore from '@/stores/useAuthStore';
+import { registerFCMToken } from '@/common/fcm/fcmtoken-manage';
 
 interface LoginResponse {
   id: number;
   email: string;
-  status: 'PENDING' | 'ACTIVE';
+  userStatus: 'PENDING' | 'ACTIVE';
 }
 
 export const LoginPage: React.FC = () => {
@@ -25,23 +26,25 @@ export const LoginPage: React.FC = () => {
 
       localStorage.setItem('token', token);
       localStorage.setItem('userType', type);
-      
+
       // Zustand store 업데이트
-      login(
+
+      await login(
         {
           ...response.data,
-          userStatus: response.data.status,
+          userStatus: response.data.userStatus,
         },
         type
       );
-      
-      if (type === 'customer' && response.data.status === 'PENDING') {
+      registerFCMToken();
+      if (type === 'customer' && response.data.userStatus === 'PENDING') {
+
         navigate('/signupdetail');
         return response.data;
       }
 
-      if (type === 'manager' && response.data.status === 'PENDING') {
-        navigate('/signupdetail');
+      if (type === 'manager' && response.data.userStatus === 'PENDING') {
+        navigate('/manager/profileform');
         return response.data;
       }
       
@@ -56,7 +59,7 @@ export const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <HeaderNav showBack={true} title="로그인" />
+      <Header showIcons={true} title="클린픽" showBack={false} />
       <LoginForm onSubmit={handleLogin} />
     </div>
   );

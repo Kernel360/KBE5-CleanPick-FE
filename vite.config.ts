@@ -9,6 +9,7 @@ export default defineConfig({
   server: {
     host: '0.0.0.0', // ← 핵심
     port: 5137,
+    allowedHosts: ['72c4-27-35-73-73.ngrok-free.app'],
   },
 
   resolve: {

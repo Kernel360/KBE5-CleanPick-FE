@@ -10,10 +10,8 @@ export const Layout = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(user, userType);
         if (userType === 'customer' && user?.userStatus === 'PENDING' && location.pathname !== '/mypage/edit') {
             navigate('/mypage/edit');
-            console.log('redirect to mypage/edit');
         }
     }, [user, userType]);
 

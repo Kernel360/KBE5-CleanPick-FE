@@ -10,7 +10,7 @@ interface LoginFormProps {
   onSubmit: (email: string, password: string, type: 'customer' | 'manager') => Promise<{
     id: number;
     email: string;
-    status: 'PENDING' | 'ACTIVE';
+    userStatus: 'PENDING' | 'ACTIVE';
   }>;
 }
 

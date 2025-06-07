@@ -21,6 +21,8 @@ import { ProfileDetail } from './manager/pages/ProfileDetail';
 import { ReviewToUser } from './manager/pages/ReviewToUser';
 import { LoginPage } from './common/pages/auth/LoginPage';
 import { SignupPage } from './common/pages/auth/SignUpPage';
+import { ScheduleListPage } from './customer/pages/schedule-list';
+
 
 
 
@@ -35,7 +37,7 @@ function App() {
         <Route path="mypage/edit" element={<MyPageEdit />} />
         <Route path="review" element={<ReviewList />} />
         <Route path="signupdetail" element={<CustomerSignUpDetailPage />} />
-        <Route path="/signup-detail" element={<CustomerSignUpDetailPage />} />
+        <Route path="schedule/list" element={<ScheduleListPage />} />
       </Route>
 
       <Route path="/manager">

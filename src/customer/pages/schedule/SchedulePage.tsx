@@ -4,22 +4,32 @@ import { ServicePhase } from '@/customer/components/schedule/ServicePhase';
 import { SchedulePhase } from '@/customer/components/schedule/SchedulePhase';
 import { Header } from "@/customer/components/layout/Header";
 import { useNavigate, useLocation } from "react-router-dom";
-import { PaymentPhase } from '@/customer/components/schedule/PaymentPhase';  
+import { PaymentPhase } from '@/customer/components/schedule/ConfirmPhase';  
 
 export interface CleaningOption {
-    id: number,
-    label: string,
-    extra_price: number,
-    extra_time: number,
+    id: number;
+    type: string;
+    name: string;
+    extraPrice: number;
+    extraDuration: number;
 }
+
+interface AddressInfo {
+    mainAddress: string;
+    subAddress: string;
+    latitude: number;
+    longitude: number;
+  }
 
 export const SchedulePage = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const selectedOption: number = location.state?.selectedOption;
+    console.log('SchedulePage selectedOption from location.state:', selectedOption);
     const [currentPhase, setCurrentPhase] = useState(1);
     
     // 서비스 선택 단계 상태 (Phase 1)
+    const [selectedServiceId, setSelectedServiceId] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalTime, setTotalTime] = useState(0);
     const [selectedServiceType, setSelectedServiceType] = useState('');
@@ -30,8 +40,12 @@ export const SchedulePage = () => {
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
     const [selectedHour, setSelectedHour] = useState<string>('');
     const [selectedMinute, setSelectedMinute] = useState<string>('');
-    const [address, setAddress] = useState('');
-    const [detailAddress, setDetailAddress] = useState('');
+    const [addressInfo, setAddressInfo] = useState<AddressInfo>({
+        mainAddress: '',
+        subAddress: '',
+        latitude: 0,
+        longitude: 0
+    });
 
     // 결제 단계 상태 (Phase 3)
     const [paymentMethod, setPaymentMethod] = useState('');
@@ -39,8 +53,22 @@ export const SchedulePage = () => {
     // location state에서 선택된 서비스 타입 가져오기
     useEffect(() => {
         const state = location.state as { selectedService?: string; selectedOption?: number };
+        console.log('SchedulePage location state:', state);
+        
         if (state?.selectedService) {
+            // 서비스 타입에 따른 ID 매핑
+            const serviceTypeToId = {
+                'HOME': 1,
+                'OFFICE': 2,
+                'SPECIAL': 3
+            };
+            
+            const serviceId = serviceTypeToId[state.selectedService as keyof typeof serviceTypeToId];
+            console.log('Setting selectedServiceType:', state.selectedService, 'serviceId:', serviceId);
+            
             setSelectedServiceType(state.selectedService);
+            setSelectedServiceId(serviceId);
+            
             if (state.selectedOption) {
                 setSelectedItems([state.selectedOption.toString()]);
             }
@@ -70,14 +98,21 @@ export const SchedulePage = () => {
         }
     };
 
+    const onServiceTypeSelect = (type: string, id: number) => {
+        setSelectedServiceType(type);
+        setSelectedServiceId(id);
+    }
+
     // 현재 단계에 따른 컴포넌트 렌더링
     const renderPhase = () => {
         switch (currentPhase) {
             case 1:
                 return (
                     <ServicePhase
+                        selectedServiceId={selectedServiceId}
+                        setSelectedServiceId={setSelectedServiceId}
                         selectedServiceType={selectedServiceType}
-                        onServiceTypeSelect={setSelectedServiceType}
+                        onServiceTypeSelect={onServiceTypeSelect}
                         selectedItems={selectedItems}
                         onToggleItem={handleToggleItem}
                         totalPrice={totalPrice}
@@ -98,10 +133,8 @@ export const SchedulePage = () => {
                         selectedMinute={selectedMinute}
                         onHourSelect={setSelectedHour}
                         onMinuteSelect={setSelectedMinute}
-                        location={address}
-                        onLocationChange={setAddress}
-                        detailAddress={detailAddress}
-                        onDetailAddressChange={setDetailAddress}
+                        addressInfo={addressInfo}
+                        onAddressInfoChange={setAddressInfo}
                     />
                 );
             case 3:
@@ -112,11 +145,12 @@ export const SchedulePage = () => {
                         totalPrice={totalPrice}
                         serviceDate={selectedDate as Date}
                         serviceTime={`${selectedHour}:${selectedMinute}`}
-                        serviceAddress={address}
-                        serviceAddressDetail={detailAddress}
+                        addressInfo={addressInfo}
                         serviceDuration={totalTime}
                         paymentMethod={paymentMethod as 'cash' | 'card'}
                         onPaymentMethodChange={setPaymentMethod}
+                        onNext={handleNextPhase}
+                        onPrev={handlePrevPhase}
                     />
                 );
             default:
@@ -130,7 +164,7 @@ export const SchedulePage = () => {
             case 1:
                 return selectedServiceType && selectedItems.length > 0;
             case 2:
-                return selectedDate && selectedHour && selectedMinute && address && detailAddress;
+                return selectedDate && selectedHour && selectedMinute && addressInfo.mainAddress && addressInfo.subAddress;
             default:
                 return false;
         }
@@ -145,7 +179,7 @@ export const SchedulePage = () => {
                 onBackClick={currentPhase === 1 ? () => navigate(-1) : handlePrevPhase}
             />
             
-            <div className="pt-[3.5rem] pb-[140px] md:pb-[100px]">
+            <div className="pt-[1.5rem] pb-[140px] md:pb-[100px]">
                 <ProgressSteps currentStep={currentPhase} />
                 {renderPhase()}
             </div>
